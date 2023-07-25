@@ -1,0 +1,3 @@
+/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/build/CMakeFiles/edit_cache.dir
+/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/build/CMakeFiles/rebuild_cache.dir
+/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/build/CMakeFiles/Drawing.dir
