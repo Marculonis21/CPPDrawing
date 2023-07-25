@@ -2,4 +2,4 @@
 
 Testbed for different shader programs. 
 
-* Mandelbrot set - <./mandelbrot>
+* [Mandelbrot set](./mandelbrot/)
