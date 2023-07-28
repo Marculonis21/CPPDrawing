@@ -48,24 +48,13 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot
+CMAKE_SOURCE_DIR = /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/compute_test
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot/build
+CMAKE_BINARY_DIR = /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/compute_test/build
 
 #=============================================================================
 # Targets provided globally by CMake.
-
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/bin/cmake-gui -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
 
 # Special rule for the target rebuild_cache
 rebuild_cache:
@@ -78,11 +67,22 @@ rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
 
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/usr/bin/cmake-gui -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
+
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot/build/CMakeFiles /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/compute_test/build/CMakeFiles /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/compute_test/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/compute_test/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -111,17 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named Drawing
+# Target rules for targets named computeTest
 
 # Build rule for target.
-Drawing: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 Drawing
-.PHONY : Drawing
+computeTest: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 computeTest
+.PHONY : computeTest
 
 # fast build rule for target.
-Drawing/fast:
-	$(MAKE) -f CMakeFiles/Drawing.dir/build.make CMakeFiles/Drawing.dir/build
-.PHONY : Drawing/fast
+computeTest/fast:
+	$(MAKE) -f CMakeFiles/computeTest.dir/build.make CMakeFiles/computeTest.dir/build
+.PHONY : computeTest/fast
 
 src/main.o: src/main.cpp.o
 
@@ -129,7 +129,7 @@ src/main.o: src/main.cpp.o
 
 # target to build an object file
 src/main.cpp.o:
-	$(MAKE) -f CMakeFiles/Drawing.dir/build.make CMakeFiles/Drawing.dir/src/main.cpp.o
+	$(MAKE) -f CMakeFiles/computeTest.dir/build.make CMakeFiles/computeTest.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
 src/main.i: src/main.cpp.i
@@ -138,7 +138,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
-	$(MAKE) -f CMakeFiles/Drawing.dir/build.make CMakeFiles/Drawing.dir/src/main.cpp.i
+	$(MAKE) -f CMakeFiles/computeTest.dir/build.make CMakeFiles/computeTest.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
 src/main.s: src/main.cpp.s
@@ -147,7 +147,7 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
-	$(MAKE) -f CMakeFiles/Drawing.dir/build.make CMakeFiles/Drawing.dir/src/main.cpp.s
+	$(MAKE) -f CMakeFiles/computeTest.dir/build.make CMakeFiles/computeTest.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
 src/shader.o: src/shader.cpp.o
@@ -156,7 +156,7 @@ src/shader.o: src/shader.cpp.o
 
 # target to build an object file
 src/shader.cpp.o:
-	$(MAKE) -f CMakeFiles/Drawing.dir/build.make CMakeFiles/Drawing.dir/src/shader.cpp.o
+	$(MAKE) -f CMakeFiles/computeTest.dir/build.make CMakeFiles/computeTest.dir/src/shader.cpp.o
 .PHONY : src/shader.cpp.o
 
 src/shader.i: src/shader.cpp.i
@@ -165,7 +165,7 @@ src/shader.i: src/shader.cpp.i
 
 # target to preprocess a source file
 src/shader.cpp.i:
-	$(MAKE) -f CMakeFiles/Drawing.dir/build.make CMakeFiles/Drawing.dir/src/shader.cpp.i
+	$(MAKE) -f CMakeFiles/computeTest.dir/build.make CMakeFiles/computeTest.dir/src/shader.cpp.i
 .PHONY : src/shader.cpp.i
 
 src/shader.s: src/shader.cpp.s
@@ -174,8 +174,35 @@ src/shader.s: src/shader.cpp.s
 
 # target to generate assembly for a file
 src/shader.cpp.s:
-	$(MAKE) -f CMakeFiles/Drawing.dir/build.make CMakeFiles/Drawing.dir/src/shader.cpp.s
+	$(MAKE) -f CMakeFiles/computeTest.dir/build.make CMakeFiles/computeTest.dir/src/shader.cpp.s
 .PHONY : src/shader.cpp.s
+
+src/texture.o: src/texture.cpp.o
+
+.PHONY : src/texture.o
+
+# target to build an object file
+src/texture.cpp.o:
+	$(MAKE) -f CMakeFiles/computeTest.dir/build.make CMakeFiles/computeTest.dir/src/texture.cpp.o
+.PHONY : src/texture.cpp.o
+
+src/texture.i: src/texture.cpp.i
+
+.PHONY : src/texture.i
+
+# target to preprocess a source file
+src/texture.cpp.i:
+	$(MAKE) -f CMakeFiles/computeTest.dir/build.make CMakeFiles/computeTest.dir/src/texture.cpp.i
+.PHONY : src/texture.cpp.i
+
+src/texture.s: src/texture.cpp.s
+
+.PHONY : src/texture.s
+
+# target to generate assembly for a file
+src/texture.cpp.s:
+	$(MAKE) -f CMakeFiles/computeTest.dir/build.make CMakeFiles/computeTest.dir/src/texture.cpp.s
+.PHONY : src/texture.cpp.s
 
 # Help Target
 help:
@@ -183,15 +210,18 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... Drawing"
+	@echo "... edit_cache"
+	@echo "... computeTest"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
 	@echo "... src/shader.o"
 	@echo "... src/shader.i"
 	@echo "... src/shader.s"
+	@echo "... src/texture.o"
+	@echo "... src/texture.i"
+	@echo "... src/texture.s"
 .PHONY : help
 
 

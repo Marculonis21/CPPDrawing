@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/marculonis/Desktop/Projects/CPP/Opengl_drawing
+CMAKE_SOURCE_DIR = /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/build
+CMAKE_BINARY_DIR = /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/Drawing.dir/depend.make
@@ -59,29 +59,29 @@ include CMakeFiles/Drawing.dir/flags.make
 
 CMakeFiles/Drawing.dir/src/main.cpp.o: CMakeFiles/Drawing.dir/flags.make
 CMakeFiles/Drawing.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Drawing.dir/src/main.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Drawing.dir/src/main.cpp.o -c /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/src/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Drawing.dir/src/main.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Drawing.dir/src/main.cpp.o -c /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot/src/main.cpp
 
 CMakeFiles/Drawing.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Drawing.dir/src/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/src/main.cpp > CMakeFiles/Drawing.dir/src/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot/src/main.cpp > CMakeFiles/Drawing.dir/src/main.cpp.i
 
 CMakeFiles/Drawing.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Drawing.dir/src/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/src/main.cpp -o CMakeFiles/Drawing.dir/src/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot/src/main.cpp -o CMakeFiles/Drawing.dir/src/main.cpp.s
 
 CMakeFiles/Drawing.dir/src/shader.cpp.o: CMakeFiles/Drawing.dir/flags.make
 CMakeFiles/Drawing.dir/src/shader.cpp.o: ../src/shader.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Drawing.dir/src/shader.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Drawing.dir/src/shader.cpp.o -c /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/src/shader.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Drawing.dir/src/shader.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Drawing.dir/src/shader.cpp.o -c /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot/src/shader.cpp
 
 CMakeFiles/Drawing.dir/src/shader.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Drawing.dir/src/shader.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/src/shader.cpp > CMakeFiles/Drawing.dir/src/shader.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot/src/shader.cpp > CMakeFiles/Drawing.dir/src/shader.cpp.i
 
 CMakeFiles/Drawing.dir/src/shader.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Drawing.dir/src/shader.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/src/shader.cpp -o CMakeFiles/Drawing.dir/src/shader.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot/src/shader.cpp -o CMakeFiles/Drawing.dir/src/shader.cpp.s
 
 # Object files for target Drawing
 Drawing_OBJECTS = \
@@ -100,7 +100,7 @@ Drawing: /usr/lib/x86_64-linux-gnu/libGLU.so
 Drawing: /usr/lib/x86_64-linux-gnu/libGLEW.so
 Drawing: /usr/lib/x86_64-linux-gnu/libglfw.so.3.3
 Drawing: CMakeFiles/Drawing.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable Drawing"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable Drawing"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Drawing.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -113,6 +113,6 @@ CMakeFiles/Drawing.dir/clean:
 .PHONY : CMakeFiles/Drawing.dir/clean
 
 CMakeFiles/Drawing.dir/depend:
-	cd /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/marculonis/Desktop/Projects/CPP/Opengl_drawing /home/marculonis/Desktop/Projects/CPP/Opengl_drawing /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/build /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/build /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/build/CMakeFiles/Drawing.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot/build /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot/build /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot/build/CMakeFiles/Drawing.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/Drawing.dir/depend
 

@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/src/main.cpp
+/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot/src/main.cpp
 cmath
 -
 iostream
@@ -26,11 +26,15 @@ glm/gtc/matrix_transform.hpp
 glm/gtc/type_ptr.hpp
 -
 helpers/RootDir.hpp
-/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/src/helpers/RootDir.hpp
+/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot/src/helpers/RootDir.hpp
 shader.hpp
-/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/src/shader.hpp
+/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot/src/shader.hpp
 
-/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/src/shader.hpp
+/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot/src/shader.cpp
+shader.hpp
+/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot/src/shader.hpp
+
+/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot/src/shader.hpp
 iostream
 -
 fstream

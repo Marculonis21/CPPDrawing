@@ -4,8 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/src/main.cpp" "/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/build/CMakeFiles/Drawing.dir/src/main.cpp.o"
-  "/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/src/shader.cpp" "/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/build/CMakeFiles/Drawing.dir/src/shader.cpp.o"
+  "/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot/src/main.cpp" "/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot/build/CMakeFiles/Drawing.dir/src/main.cpp.o"
+  "/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot/src/shader.cpp" "/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot/build/CMakeFiles/Drawing.dir/src/shader.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
