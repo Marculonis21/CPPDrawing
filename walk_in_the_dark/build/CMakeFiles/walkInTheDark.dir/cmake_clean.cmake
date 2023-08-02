@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/walkInTheDark.dir/src/main.cpp.o"
   "CMakeFiles/walkInTheDark.dir/src/shader.cpp.o"
+  "CMakeFiles/walkInTheDark.dir/src/texture.cpp.o"
   "walkInTheDark"
   "walkInTheDark.pdb"
 )

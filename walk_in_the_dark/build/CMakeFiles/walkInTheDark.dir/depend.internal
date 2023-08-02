@@ -4,7 +4,11 @@
 CMakeFiles/walkInTheDark.dir/src/main.cpp.o
  /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/src/main.cpp
  /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/src/shader.hpp
+ /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/src/texture.hpp
  src/helpers/RootDir.hpp
 CMakeFiles/walkInTheDark.dir/src/shader.cpp.o
  /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/src/shader.cpp
  /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/src/shader.hpp
+CMakeFiles/walkInTheDark.dir/src/texture.cpp.o
+ /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/src/texture.cpp
+ /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/src/texture.hpp

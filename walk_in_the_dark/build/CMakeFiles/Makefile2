@@ -74,12 +74,12 @@ clean: CMakeFiles/walkInTheDark.dir/clean
 CMakeFiles/walkInTheDark.dir/all:
 	$(MAKE) -f CMakeFiles/walkInTheDark.dir/build.make CMakeFiles/walkInTheDark.dir/depend
 	$(MAKE) -f CMakeFiles/walkInTheDark.dir/build.make CMakeFiles/walkInTheDark.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/build/CMakeFiles --progress-num=1,2,3 "Built target walkInTheDark"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/build/CMakeFiles --progress-num=1,2,3,4 "Built target walkInTheDark"
 .PHONY : CMakeFiles/walkInTheDark.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/walkInTheDark.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/build/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/build/CMakeFiles 4
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/walkInTheDark.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/build/CMakeFiles 0
 .PHONY : CMakeFiles/walkInTheDark.dir/rule

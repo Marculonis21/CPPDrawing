@@ -43,6 +43,8 @@ helpers/RootDir.hpp
 /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/src/helpers/RootDir.hpp
 shader.hpp
 /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/src/shader.hpp
+texture.hpp
+/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/src/texture.hpp
 
 /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/src/shader.hpp
 iostream
@@ -60,6 +62,10 @@ GLFW/glfw3.h
 glm/glm.hpp
 -
 glm/gtc/type_ptr.hpp
+-
+
+/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/src/texture.hpp
+GL/glew.h
 -
 
 src/helpers/RootDir.hpp

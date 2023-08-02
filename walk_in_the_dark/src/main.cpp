@@ -19,6 +19,7 @@
 #include "helpers/RootDir.hpp"
 
 #include "shader.hpp"
+#include "texture.hpp"
  
 const uint screen_width = 1000;
 const uint screen_height = 1000;
@@ -57,43 +58,39 @@ struct Player
 {
     enum class PlayerDir
     {
-        FORWARD,
-        BACKWARD,
+        UP,
+        DOWN,
         LEFT,
         RIGHT,
     };
 
     glm::vec2 pos;
-    glm::vec2 lookDir;
 
-    Player(glm::vec2 startPos, glm::vec2 startLookDir)
+    Player(glm::vec2 startPos)
     {
         this->pos = startPos;
-        this->lookDir = glm::normalize(startLookDir);
-        this->rightDir = glm::cross(glm::vec3(lookDir.x, lookDir.y, 0), glm::vec3(0,0,1));
     }
 
     void move(PlayerDir moveDir)
     {
         switch (moveDir) 
         {
-            case PlayerDir::FORWARD:
-                pos += lookDir*speed;
+            case PlayerDir::UP:
+                pos += glm::vec2(0, -1)*speed;
                 break;
-            case PlayerDir::BACKWARD:
-                pos += -lookDir*speed;
+            case PlayerDir::DOWN:
+                pos += glm::vec2(0, 1)*speed;
                 break;
             case PlayerDir::LEFT:
-                pos += -rightDir*speed;
+                pos += glm::vec2(-1, 0)*speed;
                 break;
             case PlayerDir::RIGHT:
-                pos += rightDir*speed;
+                pos += glm::vec2(1, 0)*speed;
                 break;
         }
     }
 
 private:
-    glm::vec2 rightDir;
     const float speed = 2;
 };
 
@@ -151,25 +148,8 @@ int main()
 	glVertexArrayElementBuffer(VAO, EBO);
 
     // compute shader texture
-
-    GLuint screenTex;
-    glCreateTextures(GL_TEXTURE_2D, 1, &screenTex);
-    glTextureParameteri(screenTex, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTextureParameteri(screenTex, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTextureParameteri(screenTex, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTextureParameteri(screenTex, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-    glTextureStorage2D(screenTex, 1, GL_RGBA32F, screen_width, screen_height);
-    glBindImageTexture(0, screenTex, 0, GL_FALSE, 0, GL_READ_WRITE, GL_RGBA32F);
-
-    GLuint envMap;
-    glCreateTextures(GL_TEXTURE_2D, 1, &envMap);    
-    glTexParameteri(envMap, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(envMap, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(envMap, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(envMap, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTextureStorage2D(envMap, 1, GL_RGBA32F, screen_width, screen_height);
-    glBindImageTexture(1, envMap, 0, GL_FALSE, 0, GL_READ_WRITE, GL_RGBA32F);
+    Texture2D screenTex{screen_width, screen_height, 0, GL_RGBA32F};
+    Texture2D envTex{screen_width, screen_height, 1, GL_RGBA32F};
 
     std::string charMap[10] {"##########",
                              "#        #",
@@ -208,7 +188,7 @@ int main()
         }
     }
 
-    glTextureSubImage2D(envMap, 0, 0, 0, screen_width, screen_height, GL_RGBA, GL_UNSIGNED_BYTE, data);
+    envTex.AddData(GL_RGBA, GL_UNSIGNED_BYTE, data);
 
     std::string root{ROOT_DIR};
     auto vertexShader = root+"shaders/vertexShader.glsl";
@@ -219,8 +199,10 @@ int main()
     glCreateBuffers(1, &agentSSbo);
 
     std::vector<soundAgent> agentVector;
-    agentVector.resize(5000);
-    glNamedBufferData(agentSSbo, 500000*sizeof(soundAgent), NULL, GL_DYNAMIC_COPY);
+    const size_t TRACER_COUNT = 90;
+
+    agentVector.resize(TRACER_COUNT);
+    glNamedBufferData(agentSSbo, TRACER_COUNT*100*sizeof(soundAgent), NULL, GL_DYNAMIC_COPY);
 
     auto computeShaderPath = root+"shaders/computeShader.glsl";
     Compute computeShader(computeShaderPath.c_str());
@@ -231,14 +213,10 @@ int main()
     computeShader.set_int("screen", 0);
     computeShader.set_int("map", 1);
 
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, screenTex);
+    screenTex.Activate();
+    envTex.Activate();
 
-    glActiveTexture(GL_TEXTURE0+1);
-    glBindTexture(GL_TEXTURE_2D, envMap);
-
-    Player player{glm::vec2{150,150}, glm::vec2{0,-1}};
-    uint blank = 0;
+    Player player{glm::vec2{150,150}};
     uint soundCounter = 0;
     bool spacePressed = false;
 
@@ -259,7 +237,7 @@ int main()
             screenData[int(pos.y)][int(pos.x)][3] = (GLubyte)255;
         }
 
-        glTextureSubImage2D(screenTex, 0, 0, 0, screen_width, screen_height, GL_RGBA, GL_UNSIGNED_BYTE, screenData);
+        screenTex.AddData(GL_RGBA, GL_UNSIGNED_BYTE, screenData);
 
         countFPS();
 
@@ -271,16 +249,18 @@ int main()
         {
             player.move(Player::PlayerDir::RIGHT);
         }
-        else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) 
+
+        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) 
         {
-            player.move(Player::PlayerDir::FORWARD);
+            player.move(Player::PlayerDir::UP);
 
         }
         else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) 
         {
-            player.move(Player::PlayerDir::BACKWARD);
+            player.move(Player::PlayerDir::DOWN);
         }
-        else if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) 
+        
+        if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) 
         {
             spacePressed = true;
         }
@@ -288,10 +268,10 @@ int main()
         {
             spacePressed = false;
 
-            for (size_t i = 0; i < 5000; ++i) 
+            for (size_t i = 0; i < TRACER_COUNT; ++i) 
             {
                 float radius = 10;
-                auto circlePart = glm::pi<float>()/2500;
+                auto circlePart = glm::pi<float>()*2/TRACER_COUNT;
 
                 auto dirx = glm::cos(circlePart*i);
                 auto diry = glm::sin(circlePart*i);
@@ -300,23 +280,21 @@ int main()
                                             glm::vec4{dirx, diry, 0, 0}};
             }
 
-            glNamedBufferSubData(agentSSbo, soundCounter*5000*sizeof(soundAgent), 5000*sizeof(soundAgent), &agentVector[0]);
+            glNamedBufferSubData(agentSSbo, soundCounter*TRACER_COUNT*sizeof(soundAgent), TRACER_COUNT*sizeof(soundAgent), &agentVector[0]);
 
             soundCounter = (soundCounter + 1)%100;
             std::cout << soundCounter << std::endl;
         }
 
-
         // compute shader part
 
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 2, agentSSbo);
-        computeShader.use_shader(500000,1,1);
+        computeShader.use_shader(TRACER_COUNT*100,1,1);
         computeShader.wait();
 
         // drawing part
 
         rectShader.use_shader();
-
  
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

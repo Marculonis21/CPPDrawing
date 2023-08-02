@@ -3,8 +3,12 @@
 
 CMakeFiles/walkInTheDark.dir/src/main.cpp.o: ../src/main.cpp
 CMakeFiles/walkInTheDark.dir/src/main.cpp.o: ../src/shader.hpp
+CMakeFiles/walkInTheDark.dir/src/main.cpp.o: ../src/texture.hpp
 CMakeFiles/walkInTheDark.dir/src/main.cpp.o: src/helpers/RootDir.hpp
 
 CMakeFiles/walkInTheDark.dir/src/shader.cpp.o: ../src/shader.cpp
 CMakeFiles/walkInTheDark.dir/src/shader.cpp.o: ../src/shader.hpp
+
+CMakeFiles/walkInTheDark.dir/src/texture.cpp.o: ../src/texture.cpp
+CMakeFiles/walkInTheDark.dir/src/texture.cpp.o: ../src/texture.hpp
 
