@@ -21,8 +21,8 @@
 #include "shader.hpp"
 #include "texture.hpp"
  
-const uint screen_width = 1000;
-const uint screen_height = 1000;
+const uint screen_width = 1024;
+const uint screen_height = 1024;
  
 int num_frames{ 0 };
 float last_time{ 0.0f };
@@ -53,15 +53,12 @@ void countFPS()
     }
 }
 
-struct gravitationalObject
+struct slimeAgent
 {
-    glm::vec4 x_i; 
-    glm::vec4 x_ip1; 
-    glm::vec4 v_i; 
-    glm::vec4 v_ip1; 
-    glm::vec4 a_i; 
-    glm::vec4 a_ip1; 
+    glm::vec4 position; 
+    glm::vec4 dir;
 };
+
 
 int main()
 {
@@ -70,7 +67,7 @@ int main()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
  
-    GLFWwindow * window = glfwCreateWindow(screen_width, screen_height, "ComputeShaders", NULL, NULL);
+    GLFWwindow * window = glfwCreateWindow(screen_width, screen_height, "SLIME", NULL, NULL);
  
     if (window == nullptr)
     {
@@ -80,7 +77,7 @@ int main()
     }
  
     glfwMakeContextCurrent(window);
-    glfwSwapInterval(0);;
+    glfwSwapInterval(1);
  
     if (glewInit())
     {
@@ -109,49 +106,50 @@ int main()
 	glVertexArrayVertexBuffer(VAO, 0, VBO, 0, 5 * sizeof(GLfloat));
 	glVertexArrayElementBuffer(VAO, EBO);
 
-
     // compute shader texture
     Texture2D screenTex{screen_width, screen_height, 0, GL_RGBA32F};
 
-    GLuint objectSSbo;
-    glCreateBuffers(1, &objectSSbo);
-    std::vector<gravitationalObject> objectVector;
+    GLuint agentSSbo;
+    glCreateBuffers(1, &agentSSbo);
+    std::vector<slimeAgent> agentVector;
 
-    const int objectNumber = 1000;
-    objectVector.resize(objectNumber);
-    glNamedBufferData(objectSSbo,objectNumber*sizeof(gravitationalObject), NULL, GL_STATIC_DRAW);
-    for (int i = 0; i < objectVector.size(); ++i) 
+    const int agentNumber = 2000000;
+    /* agentVector.resize(agentNumber); */
+    glNamedBufferData(agentSSbo,agentNumber*sizeof(slimeAgent), NULL, GL_STATIC_DRAW);
+    for (int i = 0; i < agentNumber; ++i) 
     {
-        objectVector[i].x_i = glm::vec4{glm::linearRand(screen_width/4.0f, 3*screen_width/4.0f), glm::linearRand(screen_width/4.0f, 3*screen_width/4.0f), 0, 0};;
+        auto pos = glm::diskRand(500.0f);
+        auto dir = -pos;
+        agentVector.push_back(slimeAgent{glm::vec4{screen_width/2.0f+pos.x,screen_height/2.0f+pos.y,0,0}, 
+                                         glm::normalize(glm::vec4{dir.x, dir.y, 0, 0})});
     }
-
-    glNamedBufferSubData(objectSSbo, 0, objectNumber*sizeof(gravitationalObject), &objectVector[0]);
+    glNamedBufferSubData(agentSSbo, 0, agentNumber*sizeof(slimeAgent), &agentVector[0]);
 
     std::string root{ROOT_DIR};
     auto vertexShader = root+"shaders/vertexShader.glsl";
     auto fragmentShader = root+"shaders/fragmentShader.glsl";
     Shader rectShader(vertexShader.c_str(), fragmentShader.c_str());
 
-    auto computePath1 = root+"shaders/posVelShader.glsl";
-    Compute accelShader(computePath1.c_str());
+    auto moveCSPath= root+"shaders/moveCS.glsl";
+    Compute moveShader(moveCSPath.c_str());
 
-    auto computePath2 = root+"shaders/updateDrawShader.glsl";
-    Compute updateShader(computePath2.c_str());
+    auto diffuseCSPath = root+"shaders/diffuseCS.glsl";
+    Compute diffuseShader(diffuseCSPath.c_str());
+
+    auto fadeCSPath = root+"shaders/fadeCS.glsl";
+    Compute fadeShader(fadeCSPath.c_str());
 
     rectShader.set_int("screen", 0);
-    accelShader.set_int("screen", 0);
-    updateShader.set_int("screen", 0);
+    moveShader.set_int("screen", 0);
+    fadeShader.set_int("screen", 0);
+    diffuseShader.set_int("screen", 0);
 
     screenTex.Activate();
 
     bool spacePressed = false;
 
-    std::string test;
     while (!glfwWindowShouldClose(window))
     {
-        GLubyte screenData[screen_height][screen_width][4] = {};
-        screenTex.AddData(GL_RGBA, GL_UNSIGNED_BYTE, screenData);
-
         countFPS();
 
         if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) 
@@ -165,12 +163,16 @@ int main()
 
         // compute shader part
 
-        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 2, objectSSbo);
-        accelShader.use_shader(objectNumber/8,objectNumber/8,1);
-        accelShader.wait();
+        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 2, agentSSbo);
 
-        updateShader.use_shader(objectNumber,1,1);
-        updateShader.wait();
+        diffuseShader.use_shader(screen_width/8,screen_height/8,1);
+        diffuseShader.wait();
+
+        moveShader.use_shader(agentNumber,1,1);
+        moveShader.wait();
+
+        fadeShader.use_shader(screen_width/8,screen_height/8,1);
+        fadeShader.wait();
 
         // drawing part
 
@@ -186,7 +188,7 @@ int main()
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
-    glDeleteBuffers(1, &objectSSbo);
+    glDeleteBuffers(1, &agentSSbo);
  
     glfwTerminate();
     return 0;

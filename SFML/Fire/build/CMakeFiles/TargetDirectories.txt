@@ -1,0 +1,3 @@
+/home/marculonis/Desktop/Projects/CPP/SFML/Fire/build/CMakeFiles/rebuild_cache.dir
+/home/marculonis/Desktop/Projects/CPP/SFML/Fire/build/CMakeFiles/edit_cache.dir
+/home/marculonis/Desktop/Projects/CPP/SFML/Fire/build/CMakeFiles/Fire.dir

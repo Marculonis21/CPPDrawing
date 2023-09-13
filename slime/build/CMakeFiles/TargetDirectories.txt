@@ -1,0 +1,3 @@
+/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/slime/build/CMakeFiles/rebuild_cache.dir
+/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/slime/build/CMakeFiles/edit_cache.dir
+/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/slime/build/CMakeFiles/slime.dir

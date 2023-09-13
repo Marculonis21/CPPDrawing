@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/marculonis/Desktop/Projects/CPP/SFML/TEST/Boilerplate/main.cpp
+config.h
+/home/marculonis/Desktop/Projects/CPP/SFML/TEST/Boilerplate/config.h
+SFML/Window/Keyboard.hpp
+-
+iostream
+-
+SFML/Graphics.hpp
+-
+
+config.h
+

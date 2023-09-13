@@ -1,0 +1,7 @@
+/home/marculonis/Desktop/Projects/CPP/SFML/TEST/Boilerplate/build/CMakeFiles/install/strip.dir
+/home/marculonis/Desktop/Projects/CPP/SFML/TEST/Boilerplate/build/CMakeFiles/install/local.dir
+/home/marculonis/Desktop/Projects/CPP/SFML/TEST/Boilerplate/build/CMakeFiles/install.dir
+/home/marculonis/Desktop/Projects/CPP/SFML/TEST/Boilerplate/build/CMakeFiles/list_install_components.dir
+/home/marculonis/Desktop/Projects/CPP/SFML/TEST/Boilerplate/build/CMakeFiles/rebuild_cache.dir
+/home/marculonis/Desktop/Projects/CPP/SFML/TEST/Boilerplate/build/CMakeFiles/edit_cache.dir
+/home/marculonis/Desktop/Projects/CPP/SFML/TEST/Boilerplate/build/CMakeFiles/SFMLBoilerplate.dir

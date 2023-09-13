@@ -1,0 +1,3 @@
+/home/marculonis/Desktop/Projects/CPP/SFML/Cloth/build/CMakeFiles/rebuild_cache.dir
+/home/marculonis/Desktop/Projects/CPP/SFML/Cloth/build/CMakeFiles/edit_cache.dir
+/home/marculonis/Desktop/Projects/CPP/SFML/Cloth/build/CMakeFiles/Cloth.dir

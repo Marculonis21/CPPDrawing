@@ -1,0 +1,3 @@
+/home/marculonis/Desktop/Projects/CPP/SFML/Shapes/build/CMakeFiles/rebuild_cache.dir
+/home/marculonis/Desktop/Projects/CPP/SFML/Shapes/build/CMakeFiles/edit_cache.dir
+/home/marculonis/Desktop/Projects/CPP/SFML/Shapes/build/CMakeFiles/Shapes.dir
