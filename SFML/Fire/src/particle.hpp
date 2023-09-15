@@ -64,8 +64,8 @@ class Particle : public sf::Drawable
 
     void applyConstraint()
     {
-        circleConstraint(sf::Vector2f{400,400},300);
-        /* squareConstraint(sf::Vector2f{400,400},800); */
+        /* circleConstraint(sf::Vector2f{400,400},300); */
+        squareConstraint(sf::Vector2f{400,400},800);
     }
 
     float lerp(float v0, float v1, float t) 
@@ -104,7 +104,7 @@ public:
         applyConstraint();
         verletIntegration(deltaTime);
 
-        /* m_shape.setFillColor(sf::Color{(sf::Uint8)m_temp_joules, 10, 10}); */
+        m_shape.setFillColor(sf::Color{(sf::Uint8)m_temp_joules, 10, 10});
         m_shape.setPosition(m_pos);
     }
 

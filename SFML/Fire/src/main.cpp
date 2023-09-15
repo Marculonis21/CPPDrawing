@@ -1,7 +1,9 @@
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/View.hpp>
 #include <SFML/System/Clock.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -12,20 +14,34 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <string>
+
+#include "helpers/RootDir.hpp"
 
 #include "particleSim.hpp"
+#include "fps.hpp"
 
 int main(int argc, char* argv[]) {
     
     // Create a window
     sf::RenderWindow window(sf::VideoMode(800, 800), "SFML Cloth");
+    FPS fps;
+
+    sf::Text fpsText;
+    sf::Font font;
+    std::string root{ROOT_DIR};
+    auto path = root+"Simpletown.ttf";
+    font.loadFromFile(path);
+
+    fpsText.setFont(font);
+    fpsText.setPosition(sf::Vector2f{10,10});
+    fpsText.setFillColor(sf::Color::Red);
+    fpsText.setCharacterSize(24);
 
     bool LHOLD = false;
-
     ParticleSim sim;
 
     sf::Clock clock;
-    float lastTime = 0;
     sf::Time elapsed = clock.restart();
     const sf::Time update_ms = sf::seconds(1.f / 240.f);
     while (window.isOpen()) 
@@ -65,14 +81,12 @@ int main(int argc, char* argv[]) {
         }
 
         window.clear(sf::Color{55,55,55});
-
         window.draw(sim);
 
+        fps.update();
+        fpsText.setString(std::to_string(fps.getFPS()) + ", p: " + std::to_string(sim.ParticleCount()));
+        window.draw(fpsText);
         window.display();
-
-        std::cout << 1.0f/(currentTime.asSeconds() - lastTime) << std::endl;
-
-        lastTime = currentTime.asSeconds();
     }
     
     return 0;

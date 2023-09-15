@@ -4,13 +4,12 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Fire/src/main.cpp" "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Fire/build/CMakeFiles/Fire.dir/src/main.cpp.o"
+  "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/QuadTree/src/main.cpp" "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/QuadTree/build/CMakeFiles/QuadTree.dir/src/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "src"
   "../src"
   )
 

@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Fire
+CMAKE_SOURCE_DIR = /home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/QuadTree
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Fire/build
+CMAKE_BINARY_DIR = /home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/QuadTree/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Fire/build/CMakeFiles /home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Fire/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/QuadTree/build/CMakeFiles /home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/QuadTree/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Fire/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/QuadTree/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -111,17 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named Fire
+# Target rules for targets named QuadTree
 
 # Build rule for target.
-Fire: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 Fire
-.PHONY : Fire
+QuadTree: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 QuadTree
+.PHONY : QuadTree
 
 # fast build rule for target.
-Fire/fast:
-	$(MAKE) -f CMakeFiles/Fire.dir/build.make CMakeFiles/Fire.dir/build
-.PHONY : Fire/fast
+QuadTree/fast:
+	$(MAKE) -f CMakeFiles/QuadTree.dir/build.make CMakeFiles/QuadTree.dir/build
+.PHONY : QuadTree/fast
 
 src/main.o: src/main.cpp.o
 
@@ -129,7 +129,7 @@ src/main.o: src/main.cpp.o
 
 # target to build an object file
 src/main.cpp.o:
-	$(MAKE) -f CMakeFiles/Fire.dir/build.make CMakeFiles/Fire.dir/src/main.cpp.o
+	$(MAKE) -f CMakeFiles/QuadTree.dir/build.make CMakeFiles/QuadTree.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
 src/main.i: src/main.cpp.i
@@ -138,7 +138,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
-	$(MAKE) -f CMakeFiles/Fire.dir/build.make CMakeFiles/Fire.dir/src/main.cpp.i
+	$(MAKE) -f CMakeFiles/QuadTree.dir/build.make CMakeFiles/QuadTree.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
 src/main.s: src/main.cpp.s
@@ -147,7 +147,7 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
-	$(MAKE) -f CMakeFiles/Fire.dir/build.make CMakeFiles/Fire.dir/src/main.cpp.s
+	$(MAKE) -f CMakeFiles/QuadTree.dir/build.make CMakeFiles/QuadTree.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
 # Help Target
@@ -158,7 +158,7 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... Fire"
+	@echo "... QuadTree"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

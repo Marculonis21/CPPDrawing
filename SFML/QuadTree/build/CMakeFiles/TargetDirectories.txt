@@ -1,0 +1,3 @@
+/home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/QuadTree/build/CMakeFiles/rebuild_cache.dir
+/home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/QuadTree/build/CMakeFiles/edit_cache.dir
+/home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/QuadTree/build/CMakeFiles/QuadTree.dir

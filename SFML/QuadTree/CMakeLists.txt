@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 
 # Set project name and version
-project(Fire)
+project(QuadTree)
 
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 17)
@@ -16,11 +16,6 @@ file(GLOB SOURCE_FILES
 
 file(GLOB HEADER_FILES
     ${CMAKE_SOURCE_DIR}/src/*.hpp)
-
-configure_file(src/helpers/RootDir.hpp.in src/helpers/RootDir.hpp)
-include_directories(${CMAKE_BINARY_DIR}/src)
-
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 # Find SFML shared libraries
 find_package(SFML 2.5 

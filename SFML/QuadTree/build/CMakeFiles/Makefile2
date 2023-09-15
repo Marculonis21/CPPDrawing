@@ -44,16 +44,16 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Fire
+CMAKE_SOURCE_DIR = /home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/QuadTree
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Fire/build
+CMAKE_BINARY_DIR = /home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/QuadTree/build
 
 #=============================================================================
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/Fire.dir/all
+all: CMakeFiles/QuadTree.dir/all
 
 .PHONY : all
 
@@ -63,36 +63,36 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/Fire.dir/clean
+clean: CMakeFiles/QuadTree.dir/clean
 
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/Fire.dir
+# Target rules for target CMakeFiles/QuadTree.dir
 
 # All Build rule for target.
-CMakeFiles/Fire.dir/all:
-	$(MAKE) -f CMakeFiles/Fire.dir/build.make CMakeFiles/Fire.dir/depend
-	$(MAKE) -f CMakeFiles/Fire.dir/build.make CMakeFiles/Fire.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Fire/build/CMakeFiles --progress-num=1,2 "Built target Fire"
-.PHONY : CMakeFiles/Fire.dir/all
+CMakeFiles/QuadTree.dir/all:
+	$(MAKE) -f CMakeFiles/QuadTree.dir/build.make CMakeFiles/QuadTree.dir/depend
+	$(MAKE) -f CMakeFiles/QuadTree.dir/build.make CMakeFiles/QuadTree.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/QuadTree/build/CMakeFiles --progress-num=1,2 "Built target QuadTree"
+.PHONY : CMakeFiles/QuadTree.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/Fire.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Fire/build/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/Fire.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Fire/build/CMakeFiles 0
-.PHONY : CMakeFiles/Fire.dir/rule
+CMakeFiles/QuadTree.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/QuadTree/build/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/QuadTree.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/QuadTree/build/CMakeFiles 0
+.PHONY : CMakeFiles/QuadTree.dir/rule
 
 # Convenience name for target.
-Fire: CMakeFiles/Fire.dir/rule
+QuadTree: CMakeFiles/QuadTree.dir/rule
 
-.PHONY : Fire
+.PHONY : QuadTree
 
 # clean rule for target.
-CMakeFiles/Fire.dir/clean:
-	$(MAKE) -f CMakeFiles/Fire.dir/build.make CMakeFiles/Fire.dir/clean
-.PHONY : CMakeFiles/Fire.dir/clean
+CMakeFiles/QuadTree.dir/clean:
+	$(MAKE) -f CMakeFiles/QuadTree.dir/build.make CMakeFiles/QuadTree.dir/clean
+.PHONY : CMakeFiles/QuadTree.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

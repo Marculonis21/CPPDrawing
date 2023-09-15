@@ -10,47 +10,57 @@
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Mouse.hpp>
+#include <memory>
 #include <sys/types.h>
 #include <cmath>
 #include <iostream>
 #include <vector>
 
-#include "particle.hpp"
 #include <omp.h>
 #include <algorithm>
 #include <execution>
+
+#include <random>
+
+#include "particle.hpp"
+#include "quadtreeV2.hpp"
 
 class ParticleSim : public sf::Drawable
 {
     const sf::Vector2f m_gravity{0, 1000.f};
 
-    sf::CircleShape m_circleConstraint;
-
-    std::vector<Particle*> m_particles;
-
+    std::vector<std::unique_ptr<Particle>> m_particles;
 
     float length(sf::Vector2f v) 
     {
         return std::sqrt(v.x * v.x + v.y * v.y);
     }
 
+    float length_squared(sf::Vector2f v) 
+    {
+        return v.x * v.x + v.y * v.y;
+    }
+
+    std::default_random_engine engine{};
+    std::uniform_real_distribution<float> distribution{-1,1};
+
+
 public:
     ParticleSim()
     {
-        m_circleConstraint.setPointCount(100);
-        m_circleConstraint.setRadius(300);
-        m_circleConstraint.setOrigin(300,300);
-        m_circleConstraint.setPosition(400,400);
-        m_circleConstraint.setFillColor(sf::Color::Black);
     }
 
     void AddParticle()
     {
-        for (int i = 0; i < 10; ++i) 
+        for (int i = 0; i < 400; ++i) 
         {
-            m_particles.push_back(new Particle{5,sf::Color::Green, sf::Vector2f{400+i*20.0f,300}, sf::Vector2f{2,0}, 1});
+            sf::Vector2f pos{200+20.0f*(i%20), 200+20.0f*(i/20.0f)};
+            sf::Vector2f noise{distribution(engine), distribution(engine)};
+            m_particles.push_back(std::make_unique<Particle>(3,sf::Color::Green, pos+noise, sf::Vector2f{0,0}, 1));
         }
     }
+
+    unsigned int ParticleCount() {return m_particles.size();} const
 
     void MouseEvent(sf::Vector2f mousePos)
     {
@@ -65,34 +75,49 @@ public:
 
     void Update(sf::Time deltaTime)
     {
-        for(auto && p : m_particles)
+        QuadTree tree{sf::Vector2f{400,400}, 400};
+
+        for (itemID p = 0; p < m_particles.size(); p++) 
         {
-            p->ApplyForce(m_gravity);
-            p->Update(deltaTime.asSeconds());
+            m_particles[p]->ApplyForce(m_gravity);
+            m_particles[p]->Update(deltaTime.asSeconds());
+
+            tree.Insert(m_particles[p]->m_pos, p);
         }
-        SolveCollision();
+
+        SolveCollision(tree);
     }
 
-    void SolveCollision()
+    void SolveCollision(const QuadTree& tree)
     {
+        // find collisions
+
         for(auto && p : m_particles)
         {
-            for(auto && other : m_particles)
+            //find collisions
+            auto colCandidates = tree.Range(p->m_pos, p->m_radius*2.0f);
+            
+            for(auto && otherID : colCandidates)
             {
-                if (p == other) continue;
+                auto other = m_particles[otherID].get();
 
-                float dist = length(p->m_pos - other->m_pos);
+                if (p.get() == other) continue;
 
-                if (dist < p->m_radius*2)
+                float dist = length_squared(p->m_pos - other->m_pos);
+
+                // solve collisions
+                if (dist < (p->m_radius*2)*(p->m_radius*2))
                 {
-                    auto dir = (p->m_pos - other->m_pos)/dist;
-                    float delta = p->m_radius*2 - dist;
+                    float _dist = length(p->m_pos - other->m_pos);
+
+                    auto dir = (p->m_pos - other->m_pos)/_dist;
+                    float delta = p->m_radius*2 - _dist;
 
                     p->m_pos += 0.5f * dir*delta;
                     other->m_pos -= 0.5f * dir*delta;
 
-                    float temp_1 = p->m_temp_joules*0.0005f;
-                    float temp_2 = other->m_temp_joules*0.0005f;
+                    float temp_1 = p->m_temp_joules*0.1f;
+                    float temp_2 = other->m_temp_joules*0.1f;
 
                     float q1 = 1 * (temp_2 - temp_1);
                     float q2 = 1 * (temp_1 - temp_2);
@@ -106,8 +131,6 @@ public:
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
     {
-        target.draw(m_circleConstraint);
-
         for(auto && p : m_particles)
         {
             target.draw(*p);
