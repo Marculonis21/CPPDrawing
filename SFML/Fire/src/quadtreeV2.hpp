@@ -43,8 +43,6 @@ struct Box
 };
 
 
-typedef uint32_t itemID;
-
 struct ItemInfo
 {
     sf::Vector2f itemPos;

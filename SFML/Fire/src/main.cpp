@@ -39,11 +39,12 @@ int main(int argc, char* argv[]) {
     fpsText.setCharacterSize(24);
 
     bool LHOLD = false;
+    bool clearColor = false;
     ParticleSim sim;
 
     sf::Clock clock;
     sf::Time elapsed = clock.restart();
-    const sf::Time update_ms = sf::seconds(1.f / 240.f);
+    const sf::Time update_ms = sf::seconds(1.f / 60.f);
     while (window.isOpen()) 
     {
         // EVENTS
@@ -58,6 +59,11 @@ int main(int argc, char* argv[]) {
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space) 
             {
                 sim.AddParticle();
+            }
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) 
+            {
+                sim.heatEnabled = !sim.heatEnabled;
+                clearColor = !clearColor;
             }
 
             if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)  LHOLD = true;
@@ -80,11 +86,13 @@ int main(int argc, char* argv[]) {
             elapsed -= update_ms;
         }
 
-        window.clear(sf::Color{55,55,55});
+        if (clearColor) window.clear(sf::Color::Black);
+        else window.clear(sf::Color{55,55,55});
+
         window.draw(sim);
 
         fps.update();
-        fpsText.setString(std::to_string(fps.getFPS()) + ", p: " + std::to_string(sim.ParticleCount()));
+        fpsText.setString(std::to_string(fps.getFPS()) + ", p: " + std::to_string(sim.ParticleCount()) + "\n"+std::to_string(sim.errorCount));
         window.draw(fpsText);
         window.display();
     }

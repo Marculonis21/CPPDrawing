@@ -8,6 +8,8 @@
 #include <SFML/Graphics/Vertex.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <algorithm>
+#include <cstdlib>
 #include <sys/types.h>
 #include <cmath>
 
@@ -56,10 +58,10 @@ class Particle : public sf::Drawable
 
     void squareConstraint(const sf::Vector2f &cPos, float side)
     {
-        if (m_pos.x >= cPos.x + side/2 - m_radius) m_pos.x = cPos.x + side/2 - m_radius;
-        if (m_pos.x  < cPos.x - side/2 + m_radius) m_pos.x = cPos.x - side/2 + m_radius;
         if (m_pos.y >= cPos.y + side/2 - m_radius) m_pos.y = cPos.y + side/2 - m_radius;
         if (m_pos.y  < cPos.y - side/2 + m_radius) m_pos.y = cPos.y - side/2 + m_radius;
+        if (m_pos.x >= cPos.x + side/2 - m_radius) m_pos.x = cPos.x + side/2 - m_radius;
+        if (m_pos.x  < cPos.x - side/2 + m_radius) m_pos.x = cPos.x - side/2 + m_radius;
     }
 
     void applyConstraint()
@@ -71,6 +73,50 @@ class Particle : public sf::Drawable
     float lerp(float v0, float v1, float t) 
     {
         return (1 - t) * v0 + t * v1;
+    }
+
+
+    sf::Color heatColors[5] {sf::Color{0,0,0},
+                             sf::Color{100,0,0},
+                             sf::Color{255,0,0},
+                             sf::Color{255,255,50},
+                             sf::Color{255,255,255}};
+
+    float heatProgressionValue[5] {0.0f,
+                                   0.4f,
+                                   0.6f,
+                                   0.85f,
+                                   1.0f};
+
+    sf::Color colorFromTemp()
+    {
+        const float temp_min = 100;
+        const float temp_max = 2000;
+
+        float tempProgress = std::min(m_temp_joules/(temp_max - temp_min), 1.0f);
+
+        int progressIndex = -1;
+        for (int i = 0; i < 5; ++i) 
+        {
+            if (tempProgress <= heatProgressionValue[i]) 
+            {
+                progressIndex = i;
+                break;
+            }
+        }
+
+        float low = heatProgressionValue[progressIndex-1];
+        float high = heatProgressionValue[progressIndex];
+        sf::Color cA = heatColors[progressIndex-1];
+        sf::Color cB = heatColors[progressIndex];
+
+        float partProgress = (tempProgress-low)/(high-low);
+
+        sf::Uint8 r = cA.r + (cB.r - cA.r)*partProgress;
+        sf::Uint8 g = cA.g + (cB.g - cA.g)*partProgress;
+        sf::Uint8 b = cA.b + (cB.b - cA.b)*partProgress;
+
+        return sf::Color{r,g,b};
     }
 
 public:
@@ -98,13 +144,30 @@ public:
         m_shape.setPosition(m_pos);
     }
 
+    bool heatEnabled = false;
+
     void Update(float deltaTime)
     {
-        /* ApplyForce(sf::Vector2f{0,-10.0f*m_temp_joules}); */
-        applyConstraint();
-        verletIntegration(deltaTime);
+        ApplyForce(sf::Vector2f{0,-8.0f*m_temp_joules});
 
-        m_shape.setFillColor(sf::Color{(sf::Uint8)m_temp_joules, 10, 10});
+        m_temp_joules = std::max(0.0f, m_temp_joules-4.0f);
+        
+        verletIntegration(deltaTime);
+        applyConstraint();
+
+        if (heatEnabled && std::abs(m_pos.x-400) < 200 && m_pos.y >= 790) 
+        {
+            m_temp_joules+=50;
+        }
+
+        if (heatEnabled && m_pos.y >= 790) 
+        {
+            m_temp_joules+=50;
+        }
+
+
+        /* m_shape.setFillColor(sf::Color{(sf::Uint8)std::min(255.0f,m_temp_joules), 10, 10}); */
+        m_shape.setFillColor(colorFromTemp());
         m_shape.setPosition(m_pos);
     }
 
@@ -115,7 +178,7 @@ public:
 
     void Event()
     {
-        m_temp_joules = 200.0f;
+        m_temp_joules += 0.5f;
     }
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
