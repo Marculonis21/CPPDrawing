@@ -6,24 +6,26 @@
 #include <math.h>
 #include <iostream>
 
+#define SIZE 256
+
 inline int IX(int x, int y)
 {
     if (x < 0) x = 0; 
-    if (x > 256-1) x = 256-1;
+    if (x > SIZE-1) x = SIZE-1;
 
     if (y < 0) y = 0; 
-    if (y > 256-1) y = 256-1;
+    if (y > SIZE-1) y = SIZE-1;
 
-    return (x + y*256);
+    return (x + y*SIZE);
 }
 
 using vec = std::vector<float>;
 
 struct FluidRect
 {
-    static constexpr int size = 256;
+    static constexpr int size = SIZE;
     static constexpr float dt = 1.0f/60.0f;
-    static constexpr int iter = 5;
+    static constexpr int iter = 4;
 
     float diff;
     float visc;

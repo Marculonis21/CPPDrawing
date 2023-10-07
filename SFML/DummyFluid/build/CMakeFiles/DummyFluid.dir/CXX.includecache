@@ -49,6 +49,8 @@ iostream
 -
 SFML/Graphics.hpp
 -
+math.h
+-
 vector
 -
 string

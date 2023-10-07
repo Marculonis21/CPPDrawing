@@ -14,6 +14,7 @@
 #include <algorithm>
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <math.h>
 #include <vector>
 #include <string>
 
@@ -162,7 +163,7 @@ int main(int argc, char* argv[])
             float lastDens = fluidRect.s[i/4];
 
             auto col = sf::Color{sf::Uint8(dens*255), 0, 0};
-
+            
             verticies[i+0].color = col;
             verticies[i+1].color = col;
             verticies[i+2].color = col;
