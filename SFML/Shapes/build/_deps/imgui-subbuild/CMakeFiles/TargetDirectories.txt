@@ -1,0 +1,3 @@
+/home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Shapes/build/_deps/imgui-subbuild/CMakeFiles/rebuild_cache.dir
+/home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Shapes/build/_deps/imgui-subbuild/CMakeFiles/edit_cache.dir
+/home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Shapes/build/_deps/imgui-subbuild/CMakeFiles/imgui-populate.dir
