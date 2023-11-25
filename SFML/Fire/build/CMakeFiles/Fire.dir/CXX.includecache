@@ -6,10 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Fire/src/fps.hpp
-SFML/System/Clock.hpp
--
-
 /home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Fire/src/grid.hpp
 SFML/Graphics/CircleShape.hpp
 -
@@ -25,11 +21,15 @@ SFML/System/Time.hpp
 -
 SFML/System/Vector2.hpp
 -
+algorithm
+-
 cstdint
 -
 sys/types.h
 -
 memory
+-
+type_traits
 -
 utility
 -
@@ -73,12 +73,8 @@ vector
 -
 string
 -
-helpers/RootDir.hpp
-/home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Fire/src/helpers/RootDir.hpp
 particleSim.hpp
 /home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Fire/src/particleSim.hpp
-fps.hpp
-/home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Fire/src/fps.hpp
 
 /home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Fire/src/particle.hpp
 SFML/Graphics/CircleShape.hpp
@@ -149,6 +145,4 @@ particle.hpp
 /home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Fire/src/particle.hpp
 grid.hpp
 /home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Fire/src/grid.hpp
-
-src/helpers/RootDir.hpp
 

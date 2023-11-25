@@ -80,8 +80,11 @@ Fire_EXTERNAL_OBJECTS =
 Fire: CMakeFiles/Fire.dir/src/main.cpp.o
 Fire: CMakeFiles/Fire.dir/build.make
 Fire: /usr/lib/x86_64-linux-gnu/libsfml-graphics.so.2.5.1
+Fire: _deps/imgui-sfml-build/libImGui-SFML.a
 Fire: /usr/lib/x86_64-linux-gnu/libsfml-window.so.2.5.1
 Fire: /usr/lib/x86_64-linux-gnu/libsfml-system.so.2.5.1
+Fire: /usr/lib/x86_64-linux-gnu/libGL.so
+Fire: /usr/lib/x86_64-linux-gnu/libGLU.so
 Fire: CMakeFiles/Fire.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Fire/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable Fire"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Fire.dir/link.txt --verbose=$(VERBOSE)

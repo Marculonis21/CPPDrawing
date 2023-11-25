@@ -58,10 +58,12 @@ class Particle : public sf::Drawable
 
     void squareConstraint(const sf::Vector2f &cPos, float side)
     {
-        if (m_pos.y >= cPos.y + side/2 - m_radius) m_pos.y = cPos.y + side/2 - m_radius;
-        if (m_pos.y  < cPos.y - side/2 + m_radius) m_pos.y = cPos.y - side/2 + m_radius;
-        if (m_pos.x >= cPos.x + side/2 - m_radius) m_pos.x = cPos.x + side/2 - m_radius;
-        if (m_pos.x  < cPos.x - side/2 + m_radius) m_pos.x = cPos.x - side/2 + m_radius;
+        const float margin = m_radius;
+
+        if (m_pos.y >= cPos.y + side/2 - margin) m_pos.y = cPos.y + side/2 - margin;
+        if (m_pos.y  < cPos.y - side/2 + margin) m_pos.y = cPos.y - side/2 + margin;
+        if (m_pos.x >= cPos.x + side/2 - margin) m_pos.x = cPos.x + side/2 - margin;
+        if (m_pos.x  < cPos.x - side/2 + margin) m_pos.x = cPos.x - side/2 + margin;
     }
 
     void applyConstraint()
@@ -88,11 +90,11 @@ class Particle : public sf::Drawable
                                    0.85f,
                                    1.0f};
 
+    const float temp_min = 100;
+    const float temp_max = 2000;
+
     sf::Color colorFromTemp()
     {
-        const float temp_min = 100;
-        const float temp_max = 2000;
-
         float tempProgress = std::min(m_temp_joules/(temp_max - temp_min), 1.0f);
 
         int progressIndex = -1;
@@ -165,6 +167,10 @@ public:
             m_temp_joules+=50;
         }
 
+        /* float tempProgress = std::min(m_temp_joules/(2000 - 100), 1.0f); */
+        /* m_radius = lerp(2, 5, tempProgress); */
+        /* m_shape.setOrigin(m_radius, m_radius); */
+        /* m_shape.setRadius(m_radius); */
 
         /* m_shape.setFillColor(sf::Color{(sf::Uint8)std::min(255.0f,m_temp_joules), 10, 10}); */
         m_shape.setFillColor(colorFromTemp());

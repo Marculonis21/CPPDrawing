@@ -8,9 +8,11 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <algorithm>
 #include <cstdint>
 #include <sys/types.h>
 #include <memory>
+#include <type_traits>
 #include <utility>
 #include <vector>
 #include <iostream>
@@ -28,7 +30,7 @@ class Grid : public sf::Drawable
 public:
     Grid(uint cellSize, uint screenWidth, uint screenHeight)
     {
-        m_grid = itemGrid(screenHeight/cellSize, std::vector<std::vector<itemID>>(screenWidth/cellSize, std::vector<itemID>()));
+        m_grid = itemGrid((screenHeight/cellSize)+1, std::vector<std::vector<itemID>>((screenWidth/cellSize)+1, std::vector<itemID>()));
         m_cellSize = cellSize;
     }
 
@@ -53,6 +55,43 @@ public:
         int _x = pos.x/m_cellSize;
         int _y = pos.y/m_cellSize;
 
+        m_grid[_y][_x].push_back(index);
+    }
+    
+    void UpdateParticle(const sf::Vector2f& pos, const sf::Vector2f& prev_pos, itemID index)
+    {
+        int _x = pos.x/m_cellSize;
+        int _y = pos.y/m_cellSize;
+        
+        int _x_prev = prev_pos.x/m_cellSize;
+        int _y_prev = prev_pos.y/m_cellSize;
+
+        if (_x == _x_prev && _y == _y_prev) return;
+
+        /* auto g_old = m_grid[_y_prev][_x_prev]; */
+
+        auto it = std::find(m_grid[_y_prev][_x_prev].begin(), m_grid[_y_prev][_x_prev].end(), index);
+        if (it == m_grid[_y_prev][_x_prev].end()) 
+        {
+            /* printf("%.2f:%.2f %.2f:%.2f\n", _x, _y, _x_prev, _y_prev); */
+            printf("%d:%d %d:%d\n", _x, _y, _x_prev, _y_prev);
+            std::string out;
+            std::cin >> out;
+            std::cout << out << std::endl;
+            std::cout << "the fuck" << std::endl;;
+            return;
+        }
+
+        auto id = it - m_grid[_y_prev][_x_prev].begin();
+
+        /* if (id != m_grid[_y_prev][_x_prev].size()-1) */
+        /* { */
+        /*     std::swap(m_grid[_y_prev][_x_prev][id], */ 
+        /*               m_grid[_y_prev][_x_prev][m_grid[_y_prev][_x_prev].size()-1]); */
+        /* } */
+
+        m_grid[_y_prev][_x_prev].erase(it);
+        /* m_grid[_y_prev][_x_prev].pop_back(); */
         m_grid[_y][_x].push_back(index);
     }
 

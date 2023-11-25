@@ -16,27 +16,14 @@
 #include <vector>
 #include <string>
 
-#include "helpers/RootDir.hpp"
+/* #include "helpers/RootDir.hpp" */
 
 #include "particleSim.hpp"
-#include "fps.hpp"
 
 int main(int argc, char* argv[]) {
     
     // Create a window
     sf::RenderWindow window(sf::VideoMode(800, 800), "SFML Cloth");
-    FPS fps;
-
-    sf::Text fpsText;
-    sf::Font font;
-    std::string root{ROOT_DIR};
-    auto path = root+"Simpletown.ttf";
-    font.loadFromFile(path);
-
-    fpsText.setFont(font);
-    fpsText.setPosition(sf::Vector2f{10,10});
-    fpsText.setFillColor(sf::Color::Red);
-    fpsText.setCharacterSize(24);
 
     bool LHOLD = false;
     bool clearColor = false;
@@ -91,9 +78,6 @@ int main(int argc, char* argv[]) {
 
         window.draw(sim);
 
-        fps.update();
-        fpsText.setString(std::to_string(fps.getFPS()) + ", p: " + std::to_string(sim.ParticleCount()) + "\n"+std::to_string(sim.errorCount));
-        window.draw(fpsText);
         window.display();
     }
     

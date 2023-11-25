@@ -45,15 +45,30 @@ class ParticleSim : public sf::Drawable
         return v.x * v.x + v.y * v.y;
     }
 
+    void particlesToGrid()
+    {
+        for (itemID p = 0; p < m_particles.size(); p++) 
+        {
+            if (std::isnan(m_particles[p]->m_pos.y)) 
+            {
+                continue;
+            }
+            m_particleGrid.Insert(m_particles[p]->m_pos, p);
+        }
+    }
+
     std::default_random_engine engine;
     std::uniform_real_distribution<float> distribution{0,1};
 
     Grid m_particleGrid;
 
+    sf::Vector2u m_gridDims;
+
 public:
     ParticleSim() : m_particleGrid(10, 800, 800) 
     {
-        auto dims = m_particleGrid.GetDimensions();
+        m_gridDims = m_particleGrid.GetDimensions();
+        m_particleGrid.Clear();
     }
 
     int errorCount = 10;
@@ -66,6 +81,7 @@ public:
             sf::Vector2f pos{30.0f+(3*RAD)*(i%40), 200.0f+(3*RAD)*(i/40)};
             sf::Vector2f noise{distribution(engine), distribution(engine)};
             m_particles.push_back(std::make_unique<Particle>(RAD,sf::Color::Green, pos+noise, sf::Vector2f{0,0}, 1));
+            m_particleGrid.Insert(pos, m_particles.size()-1);
         }
 
     }
@@ -93,25 +109,33 @@ public:
         {
             m_particleGrid.Clear();
 
+            particlesToGrid();
+
+            ParticleCollisions();
+
             for (itemID p = 0; p < m_particles.size(); p++) 
             {
                 if (std::isnan(m_particles[p]->m_pos.y)) 
                 {
                     continue;
                 }
-
                 m_particles[p]->ApplyForce(m_gravity);
 
                 m_particles[p]->heatEnabled = heatEnabled;
                 m_particles[p]->Update(sub_dt);
-
-                m_particleGrid.Insert(m_particles[p]->m_pos, p);
             }
-            ParticleCollisions();
         }
     }
 
-    void CheckCellCellItemCollisions(std::vector<itemID> cell1, std::vector<itemID> cell2)
+    void CheckItemCellCollision(Particle* p1, const std::vector<itemID>& cell2)
+    {
+        for (auto id2 : cell2) 
+        {
+            SolveCollision(p1, m_particles[id2].get());
+        }
+    }
+
+    void CheckCellCellItemCollisions(const std::vector<itemID>& cell1, const std::vector<itemID>& cell2)
     {
         Particle* p1;
         Particle* p2;
@@ -131,27 +155,28 @@ public:
 
     void ParticleCollisions()
     {
-        auto dims = m_particleGrid.GetDimensions();
-
-        for (int y = 0; y < dims.y; ++y) 
+        for (int y = 0; y < m_gridDims.y; ++y) 
         {
-            for (int x = 0; x < dims.x; ++x) 
+            for (int x = 0; x < m_gridDims.x; ++x) 
             {
                 auto current = m_particleGrid.GetCellItems(x,y);
 
-                for (int yOff = -1; yOff < 1; ++yOff) 
+                for (auto && p1 : current) 
                 {
-                    for (int xOff = -1; xOff < 1; ++xOff) 
+                    for (int yOff = -1; yOff < 2; ++yOff) 
                     {
-                        // out of bounds
-                        if ((x+xOff < 0 || x+xOff >= dims.x) || (y+yOff < 0 || y+yOff >= dims.y)) continue;
-                        if (xOff == 0 && yOff == 0) continue; 
+                        for (int xOff = -1; xOff < 2; ++xOff) 
+                        {
+                            // out of bounds
+                            if ((x+xOff < 0 || x+xOff >= m_gridDims.x) || 
+                                (y+yOff < 0 || y+yOff >= m_gridDims.y)) continue;
 
-                        auto other = m_particleGrid.GetCellItems(x+xOff, y+yOff);
-                        current.insert(current.end(), other.begin(), other.end());
+                            auto other = m_particleGrid.GetCellItems(x+xOff, y+yOff);
+                            CheckItemCellCollision(m_particles[p1].get(), other);
+                        }
                     }
+
                 }
-                CheckCellCellItemCollisions(current,current);
             }
         }
     }
@@ -159,16 +184,14 @@ public:
     void SolveCollision(Particle* p1, Particle* p2)
     {
         float dist = length(p1->m_pos - p2->m_pos);
-        if (dist > p1->m_radius*2) return;
+
+        if (dist > p1->m_radius+p2->m_radius || dist < 0.0001f) return;
 
         auto dir = (p1->m_pos - p2->m_pos)/dist;
-        float delta = p1->m_radius*2 - dist;
+        float delta = 0.5f * (p1->m_radius+p2->m_radius - dist);
 
-        p1->m_pos += 0.5f * dir*delta;
-        p2->m_pos -= 0.5f * dir*delta;
-
-        /* std::cout << "temp1:" << p1->m_temp_joules << " temp2:" << p1->m_temp_joules << std::endl; */
-        /* if (p1->m_temp_joules == p2->m_temp_joules) return; */
+        p1->m_pos += dir*delta;
+        p2->m_pos -= dir*delta;
 
         float temp_1 = p1->m_temp_joules;
         float temp_2 = p2->m_temp_joules;

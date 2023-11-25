@@ -1,0 +1,3 @@
+/home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Fire/build/_deps/imgui-sfml-subbuild/CMakeFiles/rebuild_cache.dir
+/home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Fire/build/_deps/imgui-sfml-subbuild/CMakeFiles/edit_cache.dir
+/home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Fire/build/_deps/imgui-sfml-subbuild/CMakeFiles/imgui-sfml-populate.dir

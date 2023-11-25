@@ -11,6 +11,9 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.16.3/CMakeCCompiler.cmake"
   "CMakeFiles/3.16.3/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.16.3/CMakeSystem.cmake"
+  "_deps/imgui-sfml-src/CMakeLists.txt"
+  "_deps/imgui-sfml-src/cmake/FindImGui.cmake"
+  "../dependencies/CMakeLists.txt"
   "../src/helpers/RootDir.hpp.in"
   "/usr/lib/x86_64-linux-gnu/cmake/SFML/SFMLConfig.cmake"
   "/usr/lib/x86_64-linux-gnu/cmake/SFML/SFMLConfigDependencies.cmake"
@@ -30,6 +33,12 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/usr/share/cmake-3.16/Modules/Compiler/GNU-C.cmake"
   "/usr/share/cmake-3.16/Modules/Compiler/GNU-CXX.cmake"
   "/usr/share/cmake-3.16/Modules/Compiler/GNU.cmake"
+  "/usr/share/cmake-3.16/Modules/FetchContent.cmake"
+  "/usr/share/cmake-3.16/Modules/FetchContent/CMakeLists.cmake.in"
+  "/usr/share/cmake-3.16/Modules/FindOpenGL.cmake"
+  "/usr/share/cmake-3.16/Modules/FindPackageHandleStandardArgs.cmake"
+  "/usr/share/cmake-3.16/Modules/FindPackageMessage.cmake"
+  "/usr/share/cmake-3.16/Modules/GNUInstallDirs.cmake"
   "/usr/share/cmake-3.16/Modules/Internal/CMakeCheckCompilerFlag.cmake"
   "/usr/share/cmake-3.16/Modules/Platform/Linux-GNU-C.cmake"
   "/usr/share/cmake-3.16/Modules/Platform/Linux-GNU-CXX.cmake"
@@ -48,9 +57,12 @@ set(CMAKE_MAKEFILE_OUTPUTS
 set(CMAKE_MAKEFILE_PRODUCTS
   "src/helpers/RootDir.hpp"
   "CMakeFiles/CMakeDirectoryInformation.cmake"
+  "dependencies/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "_deps/imgui-sfml-build/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/Fire.dir/DependInfo.cmake"
+  "_deps/imgui-sfml-build/CMakeFiles/ImGui-SFML.dir/DependInfo.cmake"
   )
