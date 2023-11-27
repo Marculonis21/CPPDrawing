@@ -95,9 +95,13 @@ algorithm
 -
 cstdlib
 -
+random
+-
 sys/types.h
 -
 cmath
+-
+vector
 -
 
 /home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Fire/src/particleSim.hpp

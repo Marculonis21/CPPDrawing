@@ -78,9 +78,9 @@ public:
         const float RAD = 5;
         for (int i = 0; i < 500; ++i) 
         {
-            sf::Vector2f pos{30.0f+(3*RAD)*(i%40), 200.0f+(3*RAD)*(i/40)};
+            sf::Vector2f pos{30.0f+(3*RAD)*(i%40), 200.0f+(3*RAD)*(i/40.0f)};
             sf::Vector2f noise{distribution(engine), distribution(engine)};
-            m_particles.push_back(std::make_unique<Particle>(RAD,sf::Color::Green, pos+noise, sf::Vector2f{0,0}, 1));
+            m_particles.push_back(std::make_unique<Particle>(RAD,sf::Color::Black, pos+noise, sf::Vector2f{0,0}, 1));
             m_particleGrid.Insert(pos, m_particles.size()-1);
         }
 
@@ -122,7 +122,7 @@ public:
                 m_particles[p]->ApplyForce(m_gravity);
 
                 m_particles[p]->heatEnabled = heatEnabled;
-                m_particles[p]->Update(sub_dt);
+                m_particles[p]->Update(sub_dt, engine, distribution);
             }
         }
     }

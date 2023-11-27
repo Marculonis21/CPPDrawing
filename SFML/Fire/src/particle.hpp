@@ -10,8 +10,10 @@
 #include <SFML/System/Vector2.hpp>
 #include <algorithm>
 #include <cstdlib>
+#include <random>
 #include <sys/types.h>
 #include <cmath>
+#include <vector>
 
 class Particle : public sf::Drawable
 {
@@ -78,17 +80,17 @@ class Particle : public sf::Drawable
     }
 
 
-    sf::Color heatColors[5] {sf::Color{0,0,0},
-                             sf::Color{100,0,0},
-                             sf::Color{255,0,0},
-                             sf::Color{255,255,50},
-                             sf::Color{255,255,255}};
+    const sf::Color heatColors[5] {sf::Color{0,0,0},
+                                   sf::Color{100,0,0},
+                                   sf::Color{255,0,0},
+                                   sf::Color{255,255,50},
+                                   sf::Color{255,255,255}};
 
-    float heatProgressionValue[5] {0.0f,
-                                   0.4f,
-                                   0.6f,
-                                   0.85f,
-                                   1.0f};
+    const float heatProgressionValue[5] {0.0f,
+                                         0.4f,
+                                         0.6f,
+                                         0.85f,
+                                         1.0f};
 
     const float temp_min = 100;
     const float temp_max = 2000;
@@ -148,9 +150,10 @@ public:
 
     bool heatEnabled = false;
 
-    void Update(float deltaTime)
+    void Update(float deltaTime, std::default_random_engine &engine, std::uniform_real_distribution<float> &distribution)
     {
-        ApplyForce(sf::Vector2f{0,-8.0f*m_temp_joules});
+        float random = 2*distribution(engine)-1;
+        ApplyForce(sf::Vector2f{0,(-8.0f+random)*m_temp_joules});
 
         m_temp_joules = std::max(0.0f, m_temp_joules-4.0f);
         
