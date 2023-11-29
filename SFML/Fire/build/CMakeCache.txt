@@ -336,7 +336,7 @@ OPENGL_GLX_INCLUDE_DIR:PATH=/usr/include
 OPENGL_INCLUDE_DIR:PATH=/usr/include
 
 //Path to a library.
-OPENGL_egl_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libEGL.so
+OPENGL_egl_LIBRARY:FILEPATH=/opt/intel/oneapi/vtune/2024.0/bin64/libEGL.so
 
 //Path to a library.
 OPENGL_gl_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libGL.so

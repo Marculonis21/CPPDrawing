@@ -1,6 +1,7 @@
 #ifndef _PARTICLE_HPP
 #define _PARTICLE_HPP
 
+#include "random.hpp"
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Drawable.hpp>
@@ -10,7 +11,6 @@
 #include <SFML/System/Vector2.hpp>
 #include <algorithm>
 #include <cstdlib>
-#include <random>
 #include <sys/types.h>
 #include <cmath>
 #include <vector>
@@ -93,7 +93,7 @@ class Particle : public sf::Drawable
                                          1.0f};
 
     const float temp_min = 100;
-    const float temp_max = 2000;
+    const float temp_max = 3000;
 
     sf::Color colorFromTemp()
     {
@@ -136,26 +136,29 @@ public:
     {
         m_color = particleColor;
 
+        m_temp_joules = 0;
+
         m_pos = pos;
         m_prev_pos = pos-startVel;
         m_mass = mass;
         
         m_radius = radius;
 
-        m_shape.setOrigin(radius, radius);
-        m_shape.setRadius(radius);
-        m_shape.setFillColor(m_color);
-        m_shape.setPosition(m_pos);
+/*         m_shape.setOrigin(radius, radius); */
+/*         m_shape.setRadius(radius); */
+/*         m_shape.setFillColor(m_color); */
+/*         m_shape.setPosition(m_pos); */
     }
 
     bool heatEnabled = false;
 
-    void Update(float deltaTime, std::default_random_engine &engine, std::uniform_real_distribution<float> &distribution)
+    void Update(float deltaTime)
     {
-        float random = 2*distribution(engine)-1;
+        float random = 2*Random::random()-1;
         ApplyForce(sf::Vector2f{0,(-8.0f+random)*m_temp_joules});
 
         m_temp_joules = std::max(0.0f, m_temp_joules-4.0f);
+        /* m_temp_joules = std::min(m_temp_joules, temp_max4); */
         
         verletIntegration(deltaTime);
         applyConstraint();
@@ -176,8 +179,14 @@ public:
         /* m_shape.setRadius(m_radius); */
 
         /* m_shape.setFillColor(sf::Color{(sf::Uint8)std::min(255.0f,m_temp_joules), 10, 10}); */
-        m_shape.setFillColor(colorFromTemp());
-        m_shape.setPosition(m_pos);
+        /* m_shape.setFillColor(colorFromTemp()); */
+        /* m_shape.setFillColor(sf::Color::Red); */
+        /* m_shape.setPosition(m_pos); */
+    }
+
+    sf::Color GetColor()
+    {
+        return colorFromTemp();
     }
 
     void ApplyForce(const sf::Vector2f& accel)
@@ -187,12 +196,12 @@ public:
 
     void Event()
     {
-        m_temp_joules += 0.5f;
+        m_temp_joules *= 1.0f;
     }
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
     {
-        target.draw(m_shape, states);
+        /* target.draw(m_shape, states); */
     }
 };
 

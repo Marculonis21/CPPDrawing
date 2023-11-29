@@ -1,12 +1,14 @@
 #ifndef _PARTICLESIM_HPP
 #define _PARTICLESIM_HPP
 
-#include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/PrimitiveType.hpp>
+#include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Vertex.hpp>
+#include <SFML/Graphics/VertexArray.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Mouse.hpp>
@@ -18,20 +20,25 @@
 #include <iostream>
 #include <vector>
 
-#include <omp.h>
 #include <algorithm>
 #include <execution>
 
-#include <random>
-
 #include "particle.hpp"
 #include "grid.hpp"
+
+#include "random.hpp"
 
 /* #include "quadtreeV2.hpp" */
 
 class ParticleSim : public sf::Drawable
 {
     const sf::Vector2f m_gravity{0, 2000.f};
+
+    const float texture_size = 1024.0f;
+    const float radius       = 7.0f;
+
+    sf::VertexArray m_particle_VA;
+    sf::Texture m_particle_texture;
 
     std::vector<std::unique_ptr<Particle>> m_particles;
 
@@ -57,8 +64,6 @@ class ParticleSim : public sf::Drawable
         }
     }
 
-    std::default_random_engine engine;
-    std::uniform_real_distribution<float> distribution{0,1};
 
     Grid m_particleGrid;
 
@@ -69,9 +74,13 @@ public:
     {
         m_gridDims = m_particleGrid.GetDimensions();
         m_particleGrid.Clear();
-    }
 
-    int errorCount = 10;
+        m_particle_texture.loadFromFile("assets/circle.png");
+        m_particle_texture.generateMipmap();
+        m_particle_texture.setSmooth(true);
+
+        m_particle_VA = sf::VertexArray{sf::Quads};
+    }
 
     void AddParticle()
     {
@@ -79,11 +88,12 @@ public:
         for (int i = 0; i < 500; ++i) 
         {
             sf::Vector2f pos{30.0f+(3*RAD)*(i%40), 200.0f+(3*RAD)*(i/40.0f)};
-            sf::Vector2f noise{distribution(engine), distribution(engine)};
+            sf::Vector2f noise{Random::random(), Random::random()};
             m_particles.push_back(std::make_unique<Particle>(RAD,sf::Color::Black, pos+noise, sf::Vector2f{0,0}, 1));
             m_particleGrid.Insert(pos, m_particles.size()-1);
         }
 
+        m_particle_VA.resize(m_particles.size() * 4);
     }
 
     unsigned int ParticleCount() {return m_particles.size();} const
@@ -113,16 +123,31 @@ public:
 
             ParticleCollisions();
 
-            for (itemID p = 0; p < m_particles.size(); p++) 
+            uint idx = 0;
+            for (auto && p : m_particles) 
             {
-                if (std::isnan(m_particles[p]->m_pos.y)) 
-                {
-                    continue;
-                }
-                m_particles[p]->ApplyForce(m_gravity);
+                p->ApplyForce(m_gravity);
 
-                m_particles[p]->heatEnabled = heatEnabled;
-                m_particles[p]->Update(sub_dt, engine, distribution);
+                p->heatEnabled = heatEnabled;
+                p->Update(sub_dt);
+
+                m_particle_VA[idx + 0].position = p->m_pos + sf::Vector2f{-radius, -radius};
+                m_particle_VA[idx + 1].position = p->m_pos + sf::Vector2f{ radius, -radius};
+                m_particle_VA[idx + 2].position = p->m_pos + sf::Vector2f{ radius,  radius};
+                m_particle_VA[idx + 3].position = p->m_pos + sf::Vector2f{-radius,  radius};
+
+                m_particle_VA[idx + 0].texCoords = {10.0f        , 10.0f};
+                m_particle_VA[idx + 1].texCoords = {texture_size-10, 10.0f};
+                m_particle_VA[idx + 2].texCoords = {texture_size-10, texture_size-10};
+                m_particle_VA[idx + 3].texCoords = {10.0f        , texture_size-10};
+
+                m_particle_VA[idx + 0].color = p->GetColor();
+                m_particle_VA[idx + 1].color = p->GetColor();
+                m_particle_VA[idx + 2].color = p->GetColor();
+                m_particle_VA[idx + 3].color = p->GetColor();
+
+                idx += 4;
+
             }
         }
     }
@@ -205,11 +230,8 @@ public:
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
     {
-        for(auto && p : m_particles)
-        {
-            if (std::isnan(p->m_pos.y)) continue;
-            target.draw(*p);
-        }
+        states.texture = &m_particle_texture;
+        target.draw(&m_particle_VA[0], m_particles.size()*4, sf::Quads, states);
     }
 };
 

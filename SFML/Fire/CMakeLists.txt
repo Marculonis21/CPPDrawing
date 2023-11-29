@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
 # Set project name and version
 project(Fire)
 
-set(DCMAKE_EXPORT_COMPILE_COMMANDS TRUE)
+set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 17)
@@ -15,13 +15,15 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 add_subdirectory(dependencies)
 
+file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
+
 file(GLOB SOURCE_FILES
     ${CMAKE_SOURCE_DIR}/src/*.cpp)
 
 file(GLOB HEADER_FILES
     ${CMAKE_SOURCE_DIR}/src/*.hpp)
 
-configure_file(src/helpers/RootDir.hpp.in src/helpers/RootDir.hpp)
+# configure_file(src/helpers/RootDir.hpp.in src/helpers/RootDir.hpp)
 include_directories(${CMAKE_BINARY_DIR}/src)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
@@ -42,7 +44,4 @@ include_directories(
 
 # Link executable to required SFML libraries
 target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics ImGui-SFML::ImGui-SFML)
-
-# Install target
-# install(TARGETS SFMLBoilerplate DESTINATION bin)
 

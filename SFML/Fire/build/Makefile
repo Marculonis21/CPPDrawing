@@ -209,6 +209,33 @@ src/main.cpp.s:
 	$(MAKE) -f CMakeFiles/Fire.dir/build.make CMakeFiles/Fire.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/random.o: src/random.cpp.o
+
+.PHONY : src/random.o
+
+# target to build an object file
+src/random.cpp.o:
+	$(MAKE) -f CMakeFiles/Fire.dir/build.make CMakeFiles/Fire.dir/src/random.cpp.o
+.PHONY : src/random.cpp.o
+
+src/random.i: src/random.cpp.i
+
+.PHONY : src/random.i
+
+# target to preprocess a source file
+src/random.cpp.i:
+	$(MAKE) -f CMakeFiles/Fire.dir/build.make CMakeFiles/Fire.dir/src/random.cpp.i
+.PHONY : src/random.cpp.i
+
+src/random.s: src/random.cpp.s
+
+.PHONY : src/random.s
+
+# target to generate assembly for a file
+src/random.cpp.s:
+	$(MAKE) -f CMakeFiles/Fire.dir/build.make CMakeFiles/Fire.dir/src/random.cpp.s
+.PHONY : src/random.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -226,6 +253,9 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/random.o"
+	@echo "... src/random.i"
+	@echo "... src/random.s"
 .PHONY : help
 
 

@@ -14,7 +14,6 @@ set(CMAKE_MAKEFILE_DEPENDS
   "_deps/imgui-sfml-src/CMakeLists.txt"
   "_deps/imgui-sfml-src/cmake/FindImGui.cmake"
   "../dependencies/CMakeLists.txt"
-  "../src/helpers/RootDir.hpp.in"
   "/usr/lib/x86_64-linux-gnu/cmake/SFML/SFMLConfig.cmake"
   "/usr/lib/x86_64-linux-gnu/cmake/SFML/SFMLConfigDependencies.cmake"
   "/usr/lib/x86_64-linux-gnu/cmake/SFML/SFMLConfigVersion.cmake"
@@ -55,7 +54,6 @@ set(CMAKE_MAKEFILE_OUTPUTS
 
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
-  "src/helpers/RootDir.hpp"
   "CMakeFiles/CMakeDirectoryInformation.cmake"
   "dependencies/CMakeFiles/CMakeDirectoryInformation.cmake"
   "_deps/imgui-sfml-build/CMakeFiles/CMakeDirectoryInformation.cmake"

@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/Fire.dir/src/main.cpp.o"
+  "CMakeFiles/Fire.dir/src/random.cpp.o"
   "Fire"
   "Fire.pdb"
 )
