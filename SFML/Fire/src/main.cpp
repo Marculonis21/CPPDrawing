@@ -23,21 +23,28 @@
 
 #include <chrono>
 
+const sf::Time update_ms = sf::seconds(1.f / 60.f);
+
 int main(int argc, char* argv[]) {
     
     // Create a window
     sf::RenderWindow window(sf::VideoMode(800, 800), "SFML Cloth");
 
-    ImGui::SFML::Init(window);
+    if (!ImGui::SFML::Init(window)) std::cout << "IMGUI problem" << std::endl;
 
-    bool LHOLD = false;
-    bool clearColor = false;
     ParticleSim sim;
 
-    sf::Clock clock;
-    sf::Time elapsed = clock.restart();
-    sf::Clock deltaClock;
-    const sf::Time update_ms = sf::seconds(1.f / 60.f);
+    bool clearColor = false;
+
+    sf::Clock physicsClock;
+    sf::Time physicsTime = physicsClock.restart();
+    sf::Clock imguiClock;
+
+    /* auto simDuration = std::chrono::microseconds(0); */
+    /* auto drawDuration = std::chrono::microseconds(0); */
+    long simDuration;
+    long drawDuration;
+
     while (window.isOpen()) 
     {
         // EVENTS
@@ -60,28 +67,20 @@ int main(int argc, char* argv[]) {
                 sim.heatEnabled = !sim.heatEnabled;
                 clearColor = !clearColor;
             }
-
-            if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)  LHOLD = true;
-            if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left) LHOLD = false;
         }
 
-        ImGui::SFML::Update(window, deltaClock.restart());
+        ImGui::SFML::Update(window, imguiClock.restart());
 
-        if (LHOLD) 
-        {
-            sim.MouseEvent((sf::Vector2f)sf::Mouse::getPosition(window));
-        }
-
+        int updateCount = 0;
         auto updateTimerStart = std::chrono::steady_clock::now();
-        // LOGIC
-        auto currentTime = clock.restart();
-
-        elapsed += currentTime;
-        while (elapsed >= update_ms) 
+        // SIM
+        physicsTime += physicsClock.restart();
+        while (physicsTime >= update_ms) 
         {
             sim.Update(update_ms);
+            updateCount++;
 
-            elapsed -= update_ms;
+            physicsTime -= update_ms;
         }
         auto updateTimerEnd = std::chrono::steady_clock::now();
 
@@ -93,12 +92,15 @@ int main(int argc, char* argv[]) {
         window.draw(sim);
         auto simDrawEnd = std::chrono::steady_clock::now();
 
-        auto updateTimer = std::chrono::duration_cast<std::chrono::microseconds>(updateTimerEnd - updateTimerStart).count();
-        auto drawTimer = std::chrono::duration_cast<std::chrono::microseconds>(simDrawEnd - simDrawStart).count();
+        if (std::chrono::duration_cast<std::chrono::microseconds>(updateTimerEnd - updateTimerStart).count() > 100) 
+        {
+            simDuration = std::chrono::duration_cast<std::chrono::microseconds>(updateTimerEnd - updateTimerStart).count()/updateCount;
+        }
+        drawDuration = std::chrono::duration_cast<std::chrono::microseconds>(simDrawEnd - simDrawStart).count();
         
         ImGui::Begin("Timing");
-        ImGui::Text("Update timer: %ld", updateTimer);
-        ImGui::Text("Draw timer: %ld", drawTimer);
+        ImGui::Text("Update timer: %ld", simDuration);
+        ImGui::Text("Draw timer: %ld", drawDuration);
         ImGui::End();
 
         ImGui::SFML::Render(window);
