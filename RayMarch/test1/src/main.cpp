@@ -1,5 +1,6 @@
 #include "shader.hpp"
 #include <GLFW/glfw3.h>
+#include <glm/vec3.hpp>
 
 GLfloat vertices[] = 
 {
@@ -43,7 +44,7 @@ int main(int argc, char *argv[])
 
 
     /* Create a windowed mode window and its OpenGL context */
-    GLFWwindow* window = glfwCreateWindow(800, 800, "Hello World", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(800, 800, "GLFW Raymarcher1", NULL, NULL);
     if (!window)
     {
         std::cout << "GLFW window create fail" << std::endl;
@@ -81,7 +82,12 @@ int main(int argc, char *argv[])
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
+    glm::vec3 cameraOrigin{0,0,-3};
+
     Shader our_shader("./src/shaders/vertexShader.glsl", "./src/shaders/fragmentShader.glsl");
+    our_shader.use_shader();
+    our_shader.set_vec2("resolution", {800,800});
+    our_shader.set_vec3("cameraOrigin", cameraOrigin);
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     while (!glfwWindowShouldClose(window))
@@ -90,9 +96,8 @@ int main(int argc, char *argv[])
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // *** rendering ***
-        
         our_shader.use_shader();
-        
+
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 

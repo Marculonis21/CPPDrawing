@@ -11,6 +11,8 @@ shader.hpp
 /home/marculonis/Desktop/Projects/CPP/CPPDrawing/RayMarch/test1/src/shader.hpp
 GLFW/glfw3.h
 -
+glm/vec3.hpp
+-
 
 /home/marculonis/Desktop/Projects/CPP/CPPDrawing/RayMarch/test1/src/shader.hpp
 iostream
