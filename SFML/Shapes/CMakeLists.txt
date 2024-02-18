@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
 # Set project name and version
 project(Shapes)
 
-set(DCMAKE_EXPORT_COMPILE_COMMANDS TRUE)
+set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 17)

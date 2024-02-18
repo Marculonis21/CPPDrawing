@@ -27,6 +27,7 @@
 #include "grid.hpp"
 
 #include "random.hpp"
+#include "thread_pool.hpp"
 
 /* #include "quadtreeV2.hpp" */
 
@@ -41,6 +42,8 @@ class ParticleSim : public sf::Drawable
     sf::Texture m_particle_texture;
 
     std::vector<std::unique_ptr<Particle>> m_particles;
+
+    /* tp::ThreadPool threadPool; */
 
     float length(sf::Vector2f v) 
     {
@@ -70,7 +73,7 @@ class ParticleSim : public sf::Drawable
     sf::Vector2u m_gridDims;
 
 public:
-    ParticleSim() : m_particleGrid(10, 800, 800) 
+    ParticleSim() : m_particleGrid(10, 800, 800)
     {
         m_gridDims = m_particleGrid.GetDimensions();
         m_particleGrid.Clear();
@@ -149,6 +152,32 @@ public:
                 idx += 4;
 
             }
+            /* threadPool.dispatch(uint32_t(m_particles.size()), [&](uint32_t start, uint32_t end){ */
+            /*     for (size_t i{start}; i < end; ++i) { */
+            /*         auto p = m_particles[i].get(); */
+
+            /*         p->heatEnabled = heatEnabled; */
+
+            /*         p->ApplyForce(m_gravity); */
+            /*         p->Update(sub_dt); */
+
+            /*         /1* uint idx = i*4; *1/ */
+            /*         /1* m_particle_VA[idx + 0].position = p->m_pos + sf::Vector2f{-radius, -radius}; *1/ */
+            /*         /1* m_particle_VA[idx + 1].position = p->m_pos + sf::Vector2f{ radius, -radius}; *1/ */
+            /*         /1* m_particle_VA[idx + 2].position = p->m_pos + sf::Vector2f{ radius,  radius}; *1/ */
+            /*         /1* m_particle_VA[idx + 3].position = p->m_pos + sf::Vector2f{-radius,  radius}; *1/ */
+
+            /*         /1* m_particle_VA[idx + 0].texCoords = {10.0f        , 10.0f}; *1/ */
+            /*         /1* m_particle_VA[idx + 1].texCoords = {texture_size-10, 10.0f}; *1/ */
+            /*         /1* m_particle_VA[idx + 2].texCoords = {texture_size-10, texture_size-10}; *1/ */
+            /*         /1* m_particle_VA[idx + 3].texCoords = {10.0f        , texture_size-10}; *1/ */
+
+            /*         /1* m_particle_VA[idx + 0].color = p->GetColor(); *1/ */
+            /*         /1* m_particle_VA[idx + 1].color = p->GetColor(); *1/ */
+            /*         /1* m_particle_VA[idx + 2].color = p->GetColor(); *1/ */
+            /*         /1* m_particle_VA[idx + 3].color = p->GetColor(); *1/ */
+            /*     } */
+            /* }); */
         }
     }
 
@@ -221,6 +250,8 @@ public:
         float temp_1 = p1->m_temp_joules;
         float temp_2 = p2->m_temp_joules;
 
+        /* float q1 = 0.005f*(temp_2 - temp_1); */
+        /* float q2 = 0.005f*(temp_1 - temp_2); */
         float q1 = 0.01f*(temp_2 - temp_1);
         float q2 = 0.01f*(temp_1 - temp_2);
 
