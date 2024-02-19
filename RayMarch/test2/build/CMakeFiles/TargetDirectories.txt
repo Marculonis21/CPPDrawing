@@ -1,0 +1,4 @@
+/home/marculonis/Desktop/Projects/CPP/CPPDrawing/RayMarch/test2/build/CMakeFiles/rebuild_cache.dir
+/home/marculonis/Desktop/Projects/CPP/CPPDrawing/RayMarch/test2/build/CMakeFiles/copy_resources.dir
+/home/marculonis/Desktop/Projects/CPP/CPPDrawing/RayMarch/test2/build/CMakeFiles/edit_cache.dir
+/home/marculonis/Desktop/Projects/CPP/CPPDrawing/RayMarch/test2/build/CMakeFiles/Raymarch2.dir

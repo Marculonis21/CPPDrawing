@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/marculonis/Desktop/Projects/CPP/CPPDrawing/RayMarch/test2/src/main.cpp
+shader.hpp
+/home/marculonis/Desktop/Projects/CPP/CPPDrawing/RayMarch/test2/src/shader.hpp
+GLFW/glfw3.h
+-
+glm/fwd.hpp
+-
+glm/geometric.hpp
+-
+glm/trigonometric.hpp
+-
+glm/vec3.hpp
+-
+string
+-
+
+/home/marculonis/Desktop/Projects/CPP/CPPDrawing/RayMarch/test2/src/shader.hpp
+iostream
+-
+fstream
+-
+sstream
+-
+string
+-
+glm/glm.hpp
+-
+glm/gtc/type_ptr.hpp
+-
+GL/glew.h
+-
+GLFW/glfw3.h
+-
+
