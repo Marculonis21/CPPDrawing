@@ -10,9 +10,9 @@ uniform vec3 cameraOrigin;
 uniform vec3 cameraLookAt;
 
 const float FOV = 1;
-const int MAX_STEPS = 500;
-const float MAX_DIST = 50;
-const float EPSILON = 0.001;
+const int MAX_STEPS = 1000;
+const float MAX_DIST = 100;
+const float EPSILON = 0.0001;
 
 struct Object
 {
@@ -34,21 +34,20 @@ Object sdf(vec3 testPos)
     float sphere1r = 1;
     Object sphere1 = Object(length(sphere1p - testPos)-sphere1r, 1);
 
-    vec3 planePos = vec3(0);
-    planePos.y = sin(testPos.x) + 5*sin(0.3 * testPos.x);
-    Object plane = Object(testPos.y - planePos.y, 2.0);
+    Object plane = Object(testPos.y + sin(testPos.x), 2.0);
 
     Object result = sdfMin(sphere1, plane);
     return result;
 }
 
-vec3 calcNormal(vec3 p)
+vec3 calcNormal(vec3 p) // for function f(p)
 {
-    const float eps = 0.0001; 
-    const vec2 h = vec2(eps,0);
-    return normalize( vec3(sdf(p+h.xyy).distance - sdf(p-h.xyy).distance,
-                           sdf(p+h.yxy).distance - sdf(p-h.yxy).distance,
-                           sdf(p+h.yyx).distance - sdf(p-h.yyx).distance ) );
+    const float h = 0.1; // replace by an appropriate value
+    const vec2 k = vec2(1,-1);
+    return normalize( k.xyy*sdf( p + k.xyy*h ).distance + 
+                      k.yyx*sdf( p + k.yyx*h ).distance + 
+                      k.yxy*sdf( p + k.yxy*h ).distance + 
+                      k.xxx*sdf( p + k.xxx*h ).distance );
 }
 
 vec4 raymarch(vec3 rayStart, vec3 rayDir)
@@ -77,18 +76,28 @@ vec4 raymarch(vec3 rayStart, vec3 rayDir)
 float getLight(vec3 hitPos)
 {
     vec3 sunDir = normalize(vec3(10,-10,10));
-    float sunIntensity = 1;
+    float sunIntensity = 5;
 
+    vec3 normal = calcNormal(hitPos);
+
+    float dot = dot(normal, -sunDir);
     /* // offset by normal */
-    hitPos += calcNormal(hitPos)*0.1;
+    hitPos += normal*0.0001;
+    
+    float outValue = 0.0;
+    if(dot > 0)
+    {
+        outValue += dot;
+    }
 
     vec4 result = raymarch(hitPos, -sunDir);
     if(result.x > MAX_DIST || result.z >= MAX_STEPS)
     {
-        return min(sunIntensity * result.w/0.1, sunIntensity);
+        outValue += dot;
+        return outValue;
     }
 
-    return 0.0;
+    return outValue;
 }
 
 mat3 getCam()
@@ -115,14 +124,12 @@ vec4 render(vec2 uv)
         else if(object.y == 2.0)
             color = vec3(0,1,0);
 
-        color = mix(color, background, 1-exp(-0.001 * object.x*object.x));
+        color = mix(color, background, 1-exp(-0.0001 * object.x*object.x));
         vec3 hitPos = cameraOrigin + object.x*rayDir;
         color *= getLight(hitPos);;
-        color = pow(color, vec3(0.4545));
         return vec4(color,1.0);
     }
     return vec4(background,1);
-    /* return vec4(object.z/MAX_DIST,0,0,1); */
 }
 
 void main()
