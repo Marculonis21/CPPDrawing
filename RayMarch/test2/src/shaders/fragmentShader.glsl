@@ -9,66 +9,120 @@ uniform vec2 resolution;
 uniform vec3 cameraOrigin;
 uniform vec3 cameraLookAt;
 
-
 const float FOV = 1;
-const int MAX_STEPS = 100;
+const int MAX_STEPS = 500;
 const float MAX_DIST = 50;
-const float EPSILON = 0.0001;
+const float EPSILON = 0.001;
 
-vec2 sdf(vec3 testPos)
+struct Object
 {
-    vec3 spherePos = vec3(0,0,2);
-    float radius = 1;
-    float sphereID = 1;
-    float distance1 = length(spherePos-testPos)-radius;
+    float distance;
+    float materialID;
+};
 
-    vec3 plane = vec3(0,2,0);
-    float distance2 = plane.y-testPos.y;
-
-    return vec2(min(distance1, distance2), sphereID);
+Object sdfMin(Object obj1, Object obj2)
+{
+    if(obj1.distance < obj2.distance)
+        return obj1;
+    else
+        return obj2;
 }
 
-vec3 raymarch(vec3 rayDir)
+Object sdf(vec3 testPos)
 {
-    vec2 hit, object = vec2(0,0);
+    vec3 sphere1p = vec3(0,5,2);
+    float sphere1r = 1;
+    Object sphere1 = Object(length(sphere1p - testPos)-sphere1r, 1);
+
+    vec3 planePos = vec3(0);
+    planePos.y = sin(testPos.x) + 5*sin(0.3 * testPos.x);
+    Object plane = Object(testPos.y - planePos.y, 2.0);
+
+    Object result = sdfMin(sphere1, plane);
+    return result;
+}
+
+vec3 calcNormal(vec3 p)
+{
+    const float eps = 0.0001; 
+    const vec2 h = vec2(eps,0);
+    return normalize( vec3(sdf(p+h.xyy).distance - sdf(p-h.xyy).distance,
+                           sdf(p+h.yxy).distance - sdf(p-h.yxy).distance,
+                           sdf(p+h.yyx).distance - sdf(p-h.yyx).distance ) );
+}
+
+vec4 raymarch(vec3 rayStart, vec3 rayDir)
+{
+    Object hit, object = Object(0,0);
+    float closestDist = 99999.0;
 
     int steps;
     for(steps=0; steps < MAX_STEPS; steps++)
     {
-        vec3 testPos = cameraOrigin + object.x*rayDir;
+        vec3 testPos = rayStart + object.distance*rayDir;
         hit = sdf(testPos);
-        object.x += hit.x;
-        object.y = hit.y;
+
+        if(hit.distance < closestDist) closestDist = hit.distance;
+
+        object.distance += hit.distance;
+        object.materialID = hit.materialID;
         
-        if(abs(hit.x) < EPSILON || object.x > MAX_DIST)
+        if(abs(hit.distance) < EPSILON || object.distance > MAX_DIST)
             break;
     }
 
-    /* return object; */
-    return vec3(object, steps);
+    return vec4(object.distance, object.materialID, steps, closestDist);
+}
+
+float getLight(vec3 hitPos)
+{
+    vec3 sunDir = normalize(vec3(10,-10,10));
+    float sunIntensity = 1;
+
+    /* // offset by normal */
+    hitPos += calcNormal(hitPos)*0.1;
+
+    vec4 result = raymarch(hitPos, -sunDir);
+    if(result.x > MAX_DIST || result.z >= MAX_STEPS)
+    {
+        return min(sunIntensity * result.w/0.1, sunIntensity);
+    }
+
+    return 0.0;
 }
 
 mat3 getCam()
 {
-    vec3 camForward = normalize(cameraLookAt - cameraOrigin);
+    vec3 camForward = normalize(cameraLookAt);
     vec3 camRight = normalize(cross(camForward, vec3(0,1,0)));
-    vec3 camUp = normalize(cross(camForward, camRight));
+    vec3 camUp = normalize(cross(camForward, -camRight));
     return mat3(camRight, camUp, camForward);
 }
 
 vec4 render(vec2 uv)
 {
-    vec3 rayDir = getCam() * normalize(vec3(uv, 1));
+    vec3 rayDir = getCam() * normalize(vec3(uv, FOV));
 
-    vec3 object = raymarch(rayDir);
+    vec3 object = raymarch(cameraOrigin, rayDir).xyz;
 
-    /* if(object.x < MAX_DIST) */
-    /* { */
-    /*     vec3 color = vec3(3.0/object.x); */
-    /*     return vec4(color,1.0); */
-    /* } */
-    /* return vec4(0,0,0,1); */
-    return vec4(object.z/MAX_DIST,0,0,1);
+    vec3 background = vec3(0.1,0.1,0.1);
+    vec3 color = vec3(0,0,0);
+
+    if(object.x < MAX_DIST)
+    {
+        if(object.y == 1.0)
+            color = vec3(1,0,0);
+        else if(object.y == 2.0)
+            color = vec3(0,1,0);
+
+        color = mix(color, background, 1-exp(-0.001 * object.x*object.x));
+        vec3 hitPos = cameraOrigin + object.x*rayDir;
+        color *= getLight(hitPos);;
+        color = pow(color, vec3(0.4545));
+        return vec4(color,1.0);
+    }
+    return vec4(background,1);
+    /* return vec4(object.z/MAX_DIST,0,0,1); */
 }
 
 void main()

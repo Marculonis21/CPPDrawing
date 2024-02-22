@@ -34,32 +34,6 @@ void handleInputEvents(GLFWwindow *window)
         glfwSetWindowShouldClose(window, 1);
     }
 
-    // Camera movement
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) 
-    {
-        cameraOrigin.z += 0.01;
-    }
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) 
-    {
-        cameraOrigin.z -= 0.01;
-    }
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) 
-    {
-        cameraOrigin.x -= 0.01;
-    }
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) 
-    {
-        cameraOrigin.x += 0.01;
-    }
-    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) 
-    {
-        cameraOrigin.y += 0.01;
-    }
-    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) 
-    {
-        cameraOrigin.y -= 0.01;
-    }
-
     // Camera rotation
     double xPos;
     double yPos;
@@ -69,8 +43,8 @@ void handleInputEvents(GLFWwindow *window)
     last_mouseXPos = xPos;
     last_mouseYPos = yPos;
 
-    cameraRotation.x -= delta.x;
-    cameraRotation.y -= delta.y;
+    cameraRotation.x -= delta.x/2;
+    cameraRotation.y -= delta.y/2;
 
     auto _cameraRotation = glm::radians(cameraRotation);
 
@@ -79,7 +53,36 @@ void handleInputEvents(GLFWwindow *window)
                              glm::cos(_cameraRotation.y),
                              glm::sin(_cameraRotation.y)*glm::sin(_cameraRotation.x));
 
-    cameraLookAt += cameraOrigin;
+    cameraLookAt = glm::normalize(cameraLookAt);
+    auto camR = glm::cross(cameraLookAt, glm::vec3(0,1,0));
+    auto camU = glm::cross(cameraLookAt, -camR);
+
+    const float speed = 0.01;
+    // Camera movement
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) 
+    {
+        cameraOrigin += cameraLookAt*speed;
+    }
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) 
+    {
+        cameraOrigin -= cameraLookAt*speed;
+    }
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) 
+    {
+        cameraOrigin -= camR*speed;
+    }
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) 
+    {
+        cameraOrigin += camR*speed;
+    }
+    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) 
+    {
+        cameraOrigin += camU*speed;
+    }
+    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) 
+    {
+        cameraOrigin -= camU*speed;
+    }
 }
  
 int main(int argc, char *argv[])
