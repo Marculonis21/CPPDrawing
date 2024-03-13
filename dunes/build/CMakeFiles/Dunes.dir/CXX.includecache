@@ -43,6 +43,8 @@ glm/gtc/type_ptr.hpp
 -
 glm/gtc/random.hpp
 -
+glm/gtc/noise.hpp
+-
 shader.hpp
 /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/shader.hpp
 texture.hpp
@@ -51,6 +53,8 @@ controls.hpp
 /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/controls.hpp
 texture.hpp
 /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/texture.hpp
+texture2D.hpp
+/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/texture2D.hpp
 
 /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/shader.hpp
 iostream
@@ -71,4 +75,8 @@ glm/gtc/type_ptr.hpp
 -
 
 /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/texture.hpp
+
+/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/texture2D.hpp
+GL/glew.h
+-
 

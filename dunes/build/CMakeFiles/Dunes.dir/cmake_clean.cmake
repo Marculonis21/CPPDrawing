@@ -3,6 +3,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/Dunes.dir/src/main.cpp.o"
   "CMakeFiles/Dunes.dir/src/shader.cpp.o"
   "CMakeFiles/Dunes.dir/src/texture.cpp.o"
+  "CMakeFiles/Dunes.dir/src/texture2D.cpp.o"
   "Dunes"
   "Dunes.pdb"
 )

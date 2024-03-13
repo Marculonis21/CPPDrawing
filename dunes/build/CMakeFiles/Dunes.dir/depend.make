@@ -8,9 +8,13 @@ CMakeFiles/Dunes.dir/src/main.cpp.o: ../src/controls.hpp
 CMakeFiles/Dunes.dir/src/main.cpp.o: ../src/main.cpp
 CMakeFiles/Dunes.dir/src/main.cpp.o: ../src/shader.hpp
 CMakeFiles/Dunes.dir/src/main.cpp.o: ../src/texture.hpp
+CMakeFiles/Dunes.dir/src/main.cpp.o: ../src/texture2D.hpp
 
 CMakeFiles/Dunes.dir/src/shader.cpp.o: ../src/shader.cpp
 CMakeFiles/Dunes.dir/src/shader.cpp.o: ../src/shader.hpp
 
 CMakeFiles/Dunes.dir/src/texture.cpp.o: ../src/texture.cpp
+
+CMakeFiles/Dunes.dir/src/texture2D.cpp.o: ../src/texture2D.cpp
+CMakeFiles/Dunes.dir/src/texture2D.cpp.o: ../src/texture2D.hpp
 

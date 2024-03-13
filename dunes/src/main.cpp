@@ -15,11 +15,13 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/random.hpp>
+#include <glm/gtc/noise.hpp>
 
 #include "shader.hpp"
 #include "texture.hpp"
 #include "controls.hpp"
 #include "texture.hpp"
+#include "texture2D.hpp"
 
 const uint screen_width = 1024;
 const uint screen_height = 1024;
@@ -69,44 +71,45 @@ static std::vector<GLfloat> g_vertex_buffer_data = {
 };
 
 // Two UV coordinatesfor each vertex. They were created with Blender.
-static const GLfloat g_uv_buffer_data[] = { 
-    0.000059f, 0.000004f, 
-    0.000103f, 0.336048f, 
-    0.335973f, 0.335903f, 
-    1.000023f, 0.000013f, 
-    0.667979f, 0.335851f, 
-    0.999958f, 0.336064f, 
-    0.667979f, 0.335851f, 
-    0.336024f, 0.671877f, 
-    0.667969f, 0.671889f, 
-    1.000023f, 0.000013f, 
-    0.668104f, 0.000013f, 
-    0.667979f, 0.335851f, 
-    0.000059f, 0.000004f, 
-    0.335973f, 0.335903f, 
-    0.336098f, 0.000071f, 
-    0.667979f, 0.335851f, 
-    0.335973f, 0.335903f, 
-    0.336024f, 0.671877f, 
-    1.000004f, 0.671847f, 
-    0.999958f, 0.336064f, 
-    0.667979f, 0.335851f, 
-    0.668104f, 0.000013f, 
-    0.335973f, 0.335903f, 
-    0.667979f, 0.335851f, 
-    0.335973f, 0.335903f, 
-    0.668104f, 0.000013f, 
-    0.336098f, 0.000071f, 
-    0.000103f, 0.336048f, 
-    0.000004f, 0.671870f, 
-    0.336024f, 0.671877f, 
-    0.000103f, 0.336048f, 
-    0.336024f, 0.671877f, 
-    0.335973f, 0.335903f, 
-    0.667969f, 0.671889f, 
-    1.000004f, 0.671847f, 
-    0.667979f, 0.335851f
-};
+static std::vector<GLfloat> g_uv_buffer_data = { };
+/* static const GLfloat g_uv_buffer_data[] = { */ 
+/*     0.000059f, 0.000004f, */ 
+/*     0.000103f, 0.336048f, */ 
+/*     0.335973f, 0.335903f, */ 
+/*     1.000023f, 0.000013f, */ 
+/*     0.667979f, 0.335851f, */ 
+/*     0.999958f, 0.336064f, */ 
+/*     0.667979f, 0.335851f, */ 
+/*     0.336024f, 0.671877f, */ 
+/*     0.667969f, 0.671889f, */ 
+/*     1.000023f, 0.000013f, */ 
+/*     0.668104f, 0.000013f, */ 
+/*     0.667979f, 0.335851f, */ 
+/*     0.000059f, 0.000004f, */ 
+/*     0.335973f, 0.335903f, */ 
+/*     0.336098f, 0.000071f, */ 
+/*     0.667979f, 0.335851f, */ 
+/*     0.335973f, 0.335903f, */ 
+/*     0.336024f, 0.671877f, */ 
+/*     1.000004f, 0.671847f, */ 
+/*     0.999958f, 0.336064f, */ 
+/*     0.667979f, 0.335851f, */ 
+/*     0.668104f, 0.000013f, */ 
+/*     0.335973f, 0.335903f, */ 
+/*     0.667979f, 0.335851f, */ 
+/*     0.335973f, 0.335903f, */ 
+/*     0.668104f, 0.000013f, */ 
+/*     0.336098f, 0.000071f, */ 
+/*     0.000103f, 0.336048f, */ 
+/*     0.000004f, 0.671870f, */ 
+/*     0.336024f, 0.671877f, */ 
+/*     0.000103f, 0.336048f, */ 
+/*     0.336024f, 0.671877f, */ 
+/*     0.335973f, 0.335903f, */ 
+/*     0.667969f, 0.671889f, */ 
+/*     1.000004f, 0.671847f, */ 
+/*     0.667979f, 0.335851f */
+/* }; */
 
 void countFPS()
 {
@@ -128,6 +131,9 @@ struct slimeAgent
 
 void genQuadPlane(int xSize, int ySize, float step)
 {
+    const float max_x = step*xSize+step;
+    const float max_y = step*ySize+step;
+
     for (int y = 0; y < ySize; y++) {
         for (int x = 0; x < xSize; ++x) {
             g_vertex_buffer_data.push_back(step*x+0);
@@ -149,6 +155,25 @@ void genQuadPlane(int xSize, int ySize, float step)
             g_vertex_buffer_data.push_back(step*x+0);
             g_vertex_buffer_data.push_back(step*y+step);
             g_vertex_buffer_data.push_back(0);
+
+
+            g_uv_buffer_data.push_back((step*x+0)/max_x);
+            g_uv_buffer_data.push_back((step*y+step)/max_y);
+
+            g_uv_buffer_data.push_back((step*x+0)/max_x);
+            g_uv_buffer_data.push_back((step*y+0)/max_y);
+
+            g_uv_buffer_data.push_back((step*x+step)/max_x);
+            g_uv_buffer_data.push_back((step*y+0)/max_y);
+
+            g_uv_buffer_data.push_back((step*x+step)/max_x);
+            g_uv_buffer_data.push_back((step*y+0)/max_y);
+
+            g_uv_buffer_data.push_back((step*x+step)/max_x);
+            g_uv_buffer_data.push_back((step*y+step)/max_y);
+
+            g_uv_buffer_data.push_back((step*x+0)/max_x);
+            g_uv_buffer_data.push_back((step*y+step)/max_y);
         }
     }
 }
@@ -200,7 +225,7 @@ int main()
     glViewport(0, 0, screen_width, screen_height);
 
 	// Create and compile our GLSL program from the shaders
-	Shader showingShader = Shader( "assets/TransformVertexShader.glsl", "assets/TextureFragmentShader.glsl" );
+	Shader showingShader = Shader("assets/TransformVertexShader.glsl", "assets/TextureFragmentShader.glsl");
 
 	// Get a handle for our "MVP" uniform
 	GLuint MatrixID = glGetUniformLocation(showingShader.program_ID, "MVP");
@@ -208,13 +233,32 @@ int main()
 	/* // Load the texture */
 	/* GLuint Texture = loadDDS("assets/uvtemplate.DDS"); */
 	
-	/* // Get a handle for our "myTextureSampler" uniform */
-	/* GLuint TextureID  = glGetUniformLocation(showingShader.program_ID, "myTextureSampler"); */
-
     const int x_quad_count = 200;
     const int y_quad_count = 200;
     genQuadPlane(x_quad_count, y_quad_count,0.1);
     std::cout << g_vertex_buffer_data.size() << std::endl;
+
+    Texture2D perlinTexture(x_quad_count,y_quad_count,0, GL_RGBA32F);
+
+    GLubyte data[y_quad_count][x_quad_count][4] = {};
+    for (size_t y = 0; y < y_quad_count; ++y) 
+    {
+        for (size_t x = 0; x < x_quad_count; ++x) 
+        {
+            float value = glm::perlin(glm::vec2(x/32.f,y/32.f));
+            value = (value + 1) / 2.0f;
+            std::cout << value << std::endl;
+            data[y][x][0] = (GLubyte)(value*255);
+            data[y][x][1] = (GLubyte)(value*255);
+            data[y][x][2] = (GLubyte)(value*255);
+            data[y][x][3] = (GLubyte)(value*255);
+        }
+    }
+
+    perlinTexture.AddData(GL_RGBA, GL_UNSIGNED_BYTE, data);
+
+	// Get a handle for our "myTextureSampler" uniform
+	GLuint TextureID  = glGetUniformLocation(showingShader.program_ID, "myTextureSampler");
 
 	GLuint VertexArrayID;
 	glGenVertexArrays(1, &VertexArrayID);
@@ -225,11 +269,11 @@ int main()
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GL_FLOAT)*g_vertex_buffer_data.size(), g_vertex_buffer_data.data(), GL_STATIC_DRAW);
 
+	GLuint uvbuffer;
+	glGenBuffers(1, &uvbuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, uvbuffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GL_FLOAT)*g_uv_buffer_data.size(), g_uv_buffer_data.data(), GL_STATIC_DRAW);
 
-	/* GLuint uvbuffer; */
-	/* glGenBuffers(1, &uvbuffer); */
-	/* glBindBuffer(GL_ARRAY_BUFFER, uvbuffer); */
-	/* glBufferData(GL_ARRAY_BUFFER, sizeof(g_uv_buffer_data), g_uv_buffer_data, GL_STATIC_DRAW); */
 
     bool wireframe = false;
 
@@ -262,11 +306,12 @@ int main()
 		// in the "MVP" uniform
 		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
 
-		/* // Bind our texture in Texture Unit 0 */
+		// Bind our texture in Texture Unit 0
 		/* glActiveTexture(GL_TEXTURE0); */
-		/* glBindTexture(GL_TEXTURE_2D, Texture); */
-		/* // Set our "myTextureSampler" sampler to use Texture Unit 0 */
-		/* glUniform1i(TextureID, 0); */
+		/* glBindTexture(GL_TEXTURE_2D, Per); */
+        perlinTexture.Activate();
+		// Set our "myTextureSampler" sampler to use Texture Unit 0
+		glUniform1i(TextureID, 0);
 
 		// 1rst attribute buffer : vertices
 		glEnableVertexAttribArray(0);
@@ -280,23 +325,23 @@ int main()
 			(void*)0            // array buffer offset
 		);
 
-		/* // 2nd attribute buffer : UVs */
-		/* glEnableVertexAttribArray(1); */
-		/* glBindBuffer(GL_ARRAY_BUFFER, uvbuffer); */
-		/* glVertexAttribPointer( */
-		/* 	1,                                // attribute. No particular reason for 1, but must match the layout in the shader. */
-		/* 	2,                                // size : U+V => 2 */
-		/* 	GL_FLOAT,                         // type */
-		/* 	GL_FALSE,                         // normalized? */
-		/* 	0,                                // stride */
-		/* 	(void*)0                          // array buffer offset */
-		/* ); */
+		// 2nd attribute buffer : UVs
+		glEnableVertexAttribArray(1);
+		glBindBuffer(GL_ARRAY_BUFFER, uvbuffer);
+		glVertexAttribPointer(
+			1,                                // attribute. No particular reason for 1, but must match the layout in the shader.
+			2,                                // size : U+V => 2
+			GL_FLOAT,                         // type
+			GL_FALSE,                         // normalized?
+			0,                                // stride
+			(void*)0                          // array buffer offset
+		);
 
 		// Draw the triangle !
 		glDrawArrays(GL_TRIANGLES, 0, x_quad_count*y_quad_count*2*3); // 12*3 indices starting at 0 -> 12 triangles
 
 		glDisableVertexAttribArray(0);
-		/* glDisableVertexAttribArray(1); */
+		glDisableVertexAttribArray(1);
 
 		// Swap buffers
 		glfwSwapBuffers(window);
@@ -305,9 +350,9 @@ int main()
 
 	// Cleanup VBO and shader
 	glDeleteBuffers(1, &vertexbuffer);
-	/* glDeleteBuffers(1, &uvbuffer); */
+	glDeleteBuffers(1, &uvbuffer);
 	glDeleteProgram(showingShader.program_ID);
-	/* glDeleteTextures(1, &TextureID); */
+	glDeleteTextures(1, &TextureID);
 	glDeleteVertexArrays(1, &VertexArrayID);
  
     glfwTerminate();

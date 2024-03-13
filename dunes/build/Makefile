@@ -231,6 +231,33 @@ src/texture.cpp.s:
 	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/texture.cpp.s
 .PHONY : src/texture.cpp.s
 
+src/texture2D.o: src/texture2D.cpp.o
+
+.PHONY : src/texture2D.o
+
+# target to build an object file
+src/texture2D.cpp.o:
+	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/texture2D.cpp.o
+.PHONY : src/texture2D.cpp.o
+
+src/texture2D.i: src/texture2D.cpp.i
+
+.PHONY : src/texture2D.i
+
+# target to preprocess a source file
+src/texture2D.cpp.i:
+	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/texture2D.cpp.i
+.PHONY : src/texture2D.cpp.i
+
+src/texture2D.s: src/texture2D.cpp.s
+
+.PHONY : src/texture2D.s
+
+# target to generate assembly for a file
+src/texture2D.cpp.s:
+	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/texture2D.cpp.s
+.PHONY : src/texture2D.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -252,6 +279,9 @@ help:
 	@echo "... src/texture.o"
 	@echo "... src/texture.i"
 	@echo "... src/texture.s"
+	@echo "... src/texture2D.o"
+	@echo "... src/texture2D.i"
+	@echo "... src/texture2D.s"
 .PHONY : help
 
 
