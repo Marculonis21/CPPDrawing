@@ -1,0 +1,1 @@
+/usr/bin/c++  -O3   CMakeFiles/Dunes.dir/src/controls.cpp.o CMakeFiles/Dunes.dir/src/main.cpp.o CMakeFiles/Dunes.dir/src/shader.cpp.o CMakeFiles/Dunes.dir/src/texture.cpp.o  -o Dunes  /usr/lib/x86_64-linux-gnu/libOpenGL.so /usr/lib/x86_64-linux-gnu/libGLX.so /usr/lib/x86_64-linux-gnu/libGLU.so /usr/lib/x86_64-linux-gnu/libGLEW.so /usr/lib/x86_64-linux-gnu/libglfw.so.3.3 

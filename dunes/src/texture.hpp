@@ -1,22 +1,16 @@
-#ifndef _TEXTURE_HPP
-#define _TEXTURE_HPP
+#ifndef TEXTURE_HPP
+#define TEXTURE_HPP
 
-#include <GL/glew.h>
+// Load a .BMP file using our custom loader
+GLuint loadBMP_custom(const char * imagepath);
 
-class Texture2D
-{
-    GLuint textureID;
-    GLsizei width;
-    GLsizei height;
+//// Since GLFW 3, glfwLoadTexture2D() has been removed. You have to use another texture loading library, 
+//// or do it yourself (just like loadBMP_custom and loadDDS)
+//// Load a .TGA file using GLFW's own loader
+//GLuint loadTGA_glfw(const char * imagepath);
 
-    GLenum format;
-    GLuint bindSlot;
+// Load a .DDS file using GLFW's own loader
+GLuint loadDDS(const char * imagepath);
 
-public:
-    Texture2D(GLsizei width, GLsizei height, GLuint slot=0, GLenum format=GL_RGBA32F);
-    ~Texture2D() noexcept;
-    void AddData(GLenum pixelFormat, GLenum type, void* pixels);
-    void Activate();
-};
 
-#endif 
+#endif
