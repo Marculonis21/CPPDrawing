@@ -70,9 +70,100 @@ CMakeFiles/Dunes.dir/src/controls.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Dunes.dir/src/controls.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/controls.cpp -o CMakeFiles/Dunes.dir/src/controls.cpp.s
 
+CMakeFiles/Dunes.dir/src/imgui/imgui.cpp.o: CMakeFiles/Dunes.dir/flags.make
+CMakeFiles/Dunes.dir/src/imgui/imgui.cpp.o: ../src/imgui/imgui.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Dunes.dir/src/imgui/imgui.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Dunes.dir/src/imgui/imgui.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui.cpp
+
+CMakeFiles/Dunes.dir/src/imgui/imgui.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Dunes.dir/src/imgui/imgui.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui.cpp > CMakeFiles/Dunes.dir/src/imgui/imgui.cpp.i
+
+CMakeFiles/Dunes.dir/src/imgui/imgui.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Dunes.dir/src/imgui/imgui.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui.cpp -o CMakeFiles/Dunes.dir/src/imgui/imgui.cpp.s
+
+CMakeFiles/Dunes.dir/src/imgui/imgui_demo.cpp.o: CMakeFiles/Dunes.dir/flags.make
+CMakeFiles/Dunes.dir/src/imgui/imgui_demo.cpp.o: ../src/imgui/imgui_demo.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Dunes.dir/src/imgui/imgui_demo.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Dunes.dir/src/imgui/imgui_demo.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_demo.cpp
+
+CMakeFiles/Dunes.dir/src/imgui/imgui_demo.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Dunes.dir/src/imgui/imgui_demo.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_demo.cpp > CMakeFiles/Dunes.dir/src/imgui/imgui_demo.cpp.i
+
+CMakeFiles/Dunes.dir/src/imgui/imgui_demo.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Dunes.dir/src/imgui/imgui_demo.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_demo.cpp -o CMakeFiles/Dunes.dir/src/imgui/imgui_demo.cpp.s
+
+CMakeFiles/Dunes.dir/src/imgui/imgui_draw.cpp.o: CMakeFiles/Dunes.dir/flags.make
+CMakeFiles/Dunes.dir/src/imgui/imgui_draw.cpp.o: ../src/imgui/imgui_draw.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Dunes.dir/src/imgui/imgui_draw.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Dunes.dir/src/imgui/imgui_draw.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_draw.cpp
+
+CMakeFiles/Dunes.dir/src/imgui/imgui_draw.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Dunes.dir/src/imgui/imgui_draw.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_draw.cpp > CMakeFiles/Dunes.dir/src/imgui/imgui_draw.cpp.i
+
+CMakeFiles/Dunes.dir/src/imgui/imgui_draw.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Dunes.dir/src/imgui/imgui_draw.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_draw.cpp -o CMakeFiles/Dunes.dir/src/imgui/imgui_draw.cpp.s
+
+CMakeFiles/Dunes.dir/src/imgui/imgui_impl_glfw.cpp.o: CMakeFiles/Dunes.dir/flags.make
+CMakeFiles/Dunes.dir/src/imgui/imgui_impl_glfw.cpp.o: ../src/imgui/imgui_impl_glfw.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Dunes.dir/src/imgui/imgui_impl_glfw.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Dunes.dir/src/imgui/imgui_impl_glfw.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_impl_glfw.cpp
+
+CMakeFiles/Dunes.dir/src/imgui/imgui_impl_glfw.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Dunes.dir/src/imgui/imgui_impl_glfw.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_impl_glfw.cpp > CMakeFiles/Dunes.dir/src/imgui/imgui_impl_glfw.cpp.i
+
+CMakeFiles/Dunes.dir/src/imgui/imgui_impl_glfw.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Dunes.dir/src/imgui/imgui_impl_glfw.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_impl_glfw.cpp -o CMakeFiles/Dunes.dir/src/imgui/imgui_impl_glfw.cpp.s
+
+CMakeFiles/Dunes.dir/src/imgui/imgui_impl_opengl3.cpp.o: CMakeFiles/Dunes.dir/flags.make
+CMakeFiles/Dunes.dir/src/imgui/imgui_impl_opengl3.cpp.o: ../src/imgui/imgui_impl_opengl3.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Dunes.dir/src/imgui/imgui_impl_opengl3.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Dunes.dir/src/imgui/imgui_impl_opengl3.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_impl_opengl3.cpp
+
+CMakeFiles/Dunes.dir/src/imgui/imgui_impl_opengl3.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Dunes.dir/src/imgui/imgui_impl_opengl3.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_impl_opengl3.cpp > CMakeFiles/Dunes.dir/src/imgui/imgui_impl_opengl3.cpp.i
+
+CMakeFiles/Dunes.dir/src/imgui/imgui_impl_opengl3.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Dunes.dir/src/imgui/imgui_impl_opengl3.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_impl_opengl3.cpp -o CMakeFiles/Dunes.dir/src/imgui/imgui_impl_opengl3.cpp.s
+
+CMakeFiles/Dunes.dir/src/imgui/imgui_tables.cpp.o: CMakeFiles/Dunes.dir/flags.make
+CMakeFiles/Dunes.dir/src/imgui/imgui_tables.cpp.o: ../src/imgui/imgui_tables.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Dunes.dir/src/imgui/imgui_tables.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Dunes.dir/src/imgui/imgui_tables.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_tables.cpp
+
+CMakeFiles/Dunes.dir/src/imgui/imgui_tables.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Dunes.dir/src/imgui/imgui_tables.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_tables.cpp > CMakeFiles/Dunes.dir/src/imgui/imgui_tables.cpp.i
+
+CMakeFiles/Dunes.dir/src/imgui/imgui_tables.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Dunes.dir/src/imgui/imgui_tables.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_tables.cpp -o CMakeFiles/Dunes.dir/src/imgui/imgui_tables.cpp.s
+
+CMakeFiles/Dunes.dir/src/imgui/imgui_widgets.cpp.o: CMakeFiles/Dunes.dir/flags.make
+CMakeFiles/Dunes.dir/src/imgui/imgui_widgets.cpp.o: ../src/imgui/imgui_widgets.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/Dunes.dir/src/imgui/imgui_widgets.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Dunes.dir/src/imgui/imgui_widgets.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_widgets.cpp
+
+CMakeFiles/Dunes.dir/src/imgui/imgui_widgets.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Dunes.dir/src/imgui/imgui_widgets.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_widgets.cpp > CMakeFiles/Dunes.dir/src/imgui/imgui_widgets.cpp.i
+
+CMakeFiles/Dunes.dir/src/imgui/imgui_widgets.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Dunes.dir/src/imgui/imgui_widgets.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_widgets.cpp -o CMakeFiles/Dunes.dir/src/imgui/imgui_widgets.cpp.s
+
 CMakeFiles/Dunes.dir/src/main.cpp.o: CMakeFiles/Dunes.dir/flags.make
 CMakeFiles/Dunes.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Dunes.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/Dunes.dir/src/main.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Dunes.dir/src/main.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/main.cpp
 
 CMakeFiles/Dunes.dir/src/main.cpp.i: cmake_force
@@ -85,7 +176,7 @@ CMakeFiles/Dunes.dir/src/main.cpp.s: cmake_force
 
 CMakeFiles/Dunes.dir/src/shader.cpp.o: CMakeFiles/Dunes.dir/flags.make
 CMakeFiles/Dunes.dir/src/shader.cpp.o: ../src/shader.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Dunes.dir/src/shader.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/Dunes.dir/src/shader.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Dunes.dir/src/shader.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/shader.cpp
 
 CMakeFiles/Dunes.dir/src/shader.cpp.i: cmake_force
@@ -98,7 +189,7 @@ CMakeFiles/Dunes.dir/src/shader.cpp.s: cmake_force
 
 CMakeFiles/Dunes.dir/src/texture.cpp.o: CMakeFiles/Dunes.dir/flags.make
 CMakeFiles/Dunes.dir/src/texture.cpp.o: ../src/texture.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Dunes.dir/src/texture.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/Dunes.dir/src/texture.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Dunes.dir/src/texture.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/texture.cpp
 
 CMakeFiles/Dunes.dir/src/texture.cpp.i: cmake_force
@@ -111,7 +202,7 @@ CMakeFiles/Dunes.dir/src/texture.cpp.s: cmake_force
 
 CMakeFiles/Dunes.dir/src/texture2D.cpp.o: CMakeFiles/Dunes.dir/flags.make
 CMakeFiles/Dunes.dir/src/texture2D.cpp.o: ../src/texture2D.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Dunes.dir/src/texture2D.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/Dunes.dir/src/texture2D.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Dunes.dir/src/texture2D.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/texture2D.cpp
 
 CMakeFiles/Dunes.dir/src/texture2D.cpp.i: cmake_force
@@ -125,6 +216,13 @@ CMakeFiles/Dunes.dir/src/texture2D.cpp.s: cmake_force
 # Object files for target Dunes
 Dunes_OBJECTS = \
 "CMakeFiles/Dunes.dir/src/controls.cpp.o" \
+"CMakeFiles/Dunes.dir/src/imgui/imgui.cpp.o" \
+"CMakeFiles/Dunes.dir/src/imgui/imgui_demo.cpp.o" \
+"CMakeFiles/Dunes.dir/src/imgui/imgui_draw.cpp.o" \
+"CMakeFiles/Dunes.dir/src/imgui/imgui_impl_glfw.cpp.o" \
+"CMakeFiles/Dunes.dir/src/imgui/imgui_impl_opengl3.cpp.o" \
+"CMakeFiles/Dunes.dir/src/imgui/imgui_tables.cpp.o" \
+"CMakeFiles/Dunes.dir/src/imgui/imgui_widgets.cpp.o" \
 "CMakeFiles/Dunes.dir/src/main.cpp.o" \
 "CMakeFiles/Dunes.dir/src/shader.cpp.o" \
 "CMakeFiles/Dunes.dir/src/texture.cpp.o" \
@@ -134,6 +232,13 @@ Dunes_OBJECTS = \
 Dunes_EXTERNAL_OBJECTS =
 
 Dunes: CMakeFiles/Dunes.dir/src/controls.cpp.o
+Dunes: CMakeFiles/Dunes.dir/src/imgui/imgui.cpp.o
+Dunes: CMakeFiles/Dunes.dir/src/imgui/imgui_demo.cpp.o
+Dunes: CMakeFiles/Dunes.dir/src/imgui/imgui_draw.cpp.o
+Dunes: CMakeFiles/Dunes.dir/src/imgui/imgui_impl_glfw.cpp.o
+Dunes: CMakeFiles/Dunes.dir/src/imgui/imgui_impl_opengl3.cpp.o
+Dunes: CMakeFiles/Dunes.dir/src/imgui/imgui_tables.cpp.o
+Dunes: CMakeFiles/Dunes.dir/src/imgui/imgui_widgets.cpp.o
 Dunes: CMakeFiles/Dunes.dir/src/main.cpp.o
 Dunes: CMakeFiles/Dunes.dir/src/shader.cpp.o
 Dunes: CMakeFiles/Dunes.dir/src/texture.cpp.o
@@ -145,7 +250,7 @@ Dunes: /usr/lib/x86_64-linux-gnu/libGLU.so
 Dunes: /usr/lib/x86_64-linux-gnu/libGLEW.so
 Dunes: /usr/lib/x86_64-linux-gnu/libglfw.so.3.3
 Dunes: CMakeFiles/Dunes.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable Dunes"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX executable Dunes"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Dunes.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

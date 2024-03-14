@@ -1,3 +1,4 @@
 /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles/rebuild_cache.dir
+/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles/copy_resources.dir
 /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles/edit_cache.dir
 /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles/Dunes.dir

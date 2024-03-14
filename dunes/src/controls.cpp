@@ -33,7 +33,7 @@ float mouseSpeed = 0.005f;
 
 
 
-void computeMatricesFromInputs(GLFWwindow* window, int screen_width, int screen_height){
+void computeMatricesFromInputs(GLFWwindow* window, int screen_width, int screen_height, bool &reset){
 
 	// glfwGetTime is called only once, the first time this function is called
 	static double lastTime = glfwGetTime();
@@ -48,6 +48,11 @@ void computeMatricesFromInputs(GLFWwindow* window, int screen_width, int screen_
 
 	// Reset mouse position for next frame
 	glfwSetCursorPos(window, screen_width/2, screen_height/2);
+    if (reset){
+        reset = false;
+        return;
+    }
+
 
 	// Compute new orientation
 	horizontalAngle += mouseSpeed * float(screen_width/2 - xpos );

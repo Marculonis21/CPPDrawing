@@ -4,7 +4,52 @@
 CMakeFiles/Dunes.dir/src/controls.cpp.o: ../src/controls.cpp
 CMakeFiles/Dunes.dir/src/controls.cpp.o: ../src/controls.hpp
 
+CMakeFiles/Dunes.dir/src/imgui/imgui.cpp.o: ../src/imgui/imconfig.h
+CMakeFiles/Dunes.dir/src/imgui/imgui.cpp.o: ../src/imgui/imgui.cpp
+CMakeFiles/Dunes.dir/src/imgui/imgui.cpp.o: ../src/imgui/imgui.h
+CMakeFiles/Dunes.dir/src/imgui/imgui.cpp.o: ../src/imgui/imgui_internal.h
+CMakeFiles/Dunes.dir/src/imgui/imgui.cpp.o: ../src/imgui/imstb_textedit.h
+
+CMakeFiles/Dunes.dir/src/imgui/imgui_demo.cpp.o: ../src/imgui/imconfig.h
+CMakeFiles/Dunes.dir/src/imgui/imgui_demo.cpp.o: ../src/imgui/imgui.h
+CMakeFiles/Dunes.dir/src/imgui/imgui_demo.cpp.o: ../src/imgui/imgui_demo.cpp
+
+CMakeFiles/Dunes.dir/src/imgui/imgui_draw.cpp.o: ../src/imgui/imconfig.h
+CMakeFiles/Dunes.dir/src/imgui/imgui_draw.cpp.o: ../src/imgui/imgui.h
+CMakeFiles/Dunes.dir/src/imgui/imgui_draw.cpp.o: ../src/imgui/imgui_draw.cpp
+CMakeFiles/Dunes.dir/src/imgui/imgui_draw.cpp.o: ../src/imgui/imgui_internal.h
+CMakeFiles/Dunes.dir/src/imgui/imgui_draw.cpp.o: ../src/imgui/imstb_rectpack.h
+CMakeFiles/Dunes.dir/src/imgui/imgui_draw.cpp.o: ../src/imgui/imstb_textedit.h
+CMakeFiles/Dunes.dir/src/imgui/imgui_draw.cpp.o: ../src/imgui/imstb_truetype.h
+
+CMakeFiles/Dunes.dir/src/imgui/imgui_impl_glfw.cpp.o: ../src/imgui/imconfig.h
+CMakeFiles/Dunes.dir/src/imgui/imgui_impl_glfw.cpp.o: ../src/imgui/imgui.h
+CMakeFiles/Dunes.dir/src/imgui/imgui_impl_glfw.cpp.o: ../src/imgui/imgui_impl_glfw.cpp
+CMakeFiles/Dunes.dir/src/imgui/imgui_impl_glfw.cpp.o: ../src/imgui/imgui_impl_glfw.h
+
+CMakeFiles/Dunes.dir/src/imgui/imgui_impl_opengl3.cpp.o: ../src/imgui/imconfig.h
+CMakeFiles/Dunes.dir/src/imgui/imgui_impl_opengl3.cpp.o: ../src/imgui/imgui.h
+CMakeFiles/Dunes.dir/src/imgui/imgui_impl_opengl3.cpp.o: ../src/imgui/imgui_impl_opengl3.cpp
+CMakeFiles/Dunes.dir/src/imgui/imgui_impl_opengl3.cpp.o: ../src/imgui/imgui_impl_opengl3.h
+CMakeFiles/Dunes.dir/src/imgui/imgui_impl_opengl3.cpp.o: ../src/imgui/imgui_impl_opengl3_loader.h
+
+CMakeFiles/Dunes.dir/src/imgui/imgui_tables.cpp.o: ../src/imgui/imconfig.h
+CMakeFiles/Dunes.dir/src/imgui/imgui_tables.cpp.o: ../src/imgui/imgui.h
+CMakeFiles/Dunes.dir/src/imgui/imgui_tables.cpp.o: ../src/imgui/imgui_internal.h
+CMakeFiles/Dunes.dir/src/imgui/imgui_tables.cpp.o: ../src/imgui/imgui_tables.cpp
+CMakeFiles/Dunes.dir/src/imgui/imgui_tables.cpp.o: ../src/imgui/imstb_textedit.h
+
+CMakeFiles/Dunes.dir/src/imgui/imgui_widgets.cpp.o: ../src/imgui/imconfig.h
+CMakeFiles/Dunes.dir/src/imgui/imgui_widgets.cpp.o: ../src/imgui/imgui.h
+CMakeFiles/Dunes.dir/src/imgui/imgui_widgets.cpp.o: ../src/imgui/imgui_internal.h
+CMakeFiles/Dunes.dir/src/imgui/imgui_widgets.cpp.o: ../src/imgui/imgui_widgets.cpp
+CMakeFiles/Dunes.dir/src/imgui/imgui_widgets.cpp.o: ../src/imgui/imstb_textedit.h
+
 CMakeFiles/Dunes.dir/src/main.cpp.o: ../src/controls.hpp
+CMakeFiles/Dunes.dir/src/main.cpp.o: ../src/imgui/imconfig.h
+CMakeFiles/Dunes.dir/src/main.cpp.o: ../src/imgui/imgui.h
+CMakeFiles/Dunes.dir/src/main.cpp.o: ../src/imgui/imgui_impl_glfw.h
+CMakeFiles/Dunes.dir/src/main.cpp.o: ../src/imgui/imgui_impl_opengl3.h
 CMakeFiles/Dunes.dir/src/main.cpp.o: ../src/main.cpp
 CMakeFiles/Dunes.dir/src/main.cpp.o: ../src/shader.hpp
 CMakeFiles/Dunes.dir/src/main.cpp.o: ../src/texture.hpp

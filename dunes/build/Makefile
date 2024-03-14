@@ -111,6 +111,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named copy_resources
+
+# Build rule for target.
+copy_resources: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 copy_resources
+.PHONY : copy_resources
+
+# fast build rule for target.
+copy_resources/fast:
+	$(MAKE) -f CMakeFiles/copy_resources.dir/build.make CMakeFiles/copy_resources.dir/build
+.PHONY : copy_resources/fast
+
+#=============================================================================
 # Target rules for targets named Dunes
 
 # Build rule for target.
@@ -149,6 +162,195 @@ src/controls.s: src/controls.cpp.s
 src/controls.cpp.s:
 	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/controls.cpp.s
 .PHONY : src/controls.cpp.s
+
+src/imgui/imgui.o: src/imgui/imgui.cpp.o
+
+.PHONY : src/imgui/imgui.o
+
+# target to build an object file
+src/imgui/imgui.cpp.o:
+	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui.cpp.o
+.PHONY : src/imgui/imgui.cpp.o
+
+src/imgui/imgui.i: src/imgui/imgui.cpp.i
+
+.PHONY : src/imgui/imgui.i
+
+# target to preprocess a source file
+src/imgui/imgui.cpp.i:
+	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui.cpp.i
+.PHONY : src/imgui/imgui.cpp.i
+
+src/imgui/imgui.s: src/imgui/imgui.cpp.s
+
+.PHONY : src/imgui/imgui.s
+
+# target to generate assembly for a file
+src/imgui/imgui.cpp.s:
+	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui.cpp.s
+.PHONY : src/imgui/imgui.cpp.s
+
+src/imgui/imgui_demo.o: src/imgui/imgui_demo.cpp.o
+
+.PHONY : src/imgui/imgui_demo.o
+
+# target to build an object file
+src/imgui/imgui_demo.cpp.o:
+	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_demo.cpp.o
+.PHONY : src/imgui/imgui_demo.cpp.o
+
+src/imgui/imgui_demo.i: src/imgui/imgui_demo.cpp.i
+
+.PHONY : src/imgui/imgui_demo.i
+
+# target to preprocess a source file
+src/imgui/imgui_demo.cpp.i:
+	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_demo.cpp.i
+.PHONY : src/imgui/imgui_demo.cpp.i
+
+src/imgui/imgui_demo.s: src/imgui/imgui_demo.cpp.s
+
+.PHONY : src/imgui/imgui_demo.s
+
+# target to generate assembly for a file
+src/imgui/imgui_demo.cpp.s:
+	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_demo.cpp.s
+.PHONY : src/imgui/imgui_demo.cpp.s
+
+src/imgui/imgui_draw.o: src/imgui/imgui_draw.cpp.o
+
+.PHONY : src/imgui/imgui_draw.o
+
+# target to build an object file
+src/imgui/imgui_draw.cpp.o:
+	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_draw.cpp.o
+.PHONY : src/imgui/imgui_draw.cpp.o
+
+src/imgui/imgui_draw.i: src/imgui/imgui_draw.cpp.i
+
+.PHONY : src/imgui/imgui_draw.i
+
+# target to preprocess a source file
+src/imgui/imgui_draw.cpp.i:
+	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_draw.cpp.i
+.PHONY : src/imgui/imgui_draw.cpp.i
+
+src/imgui/imgui_draw.s: src/imgui/imgui_draw.cpp.s
+
+.PHONY : src/imgui/imgui_draw.s
+
+# target to generate assembly for a file
+src/imgui/imgui_draw.cpp.s:
+	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_draw.cpp.s
+.PHONY : src/imgui/imgui_draw.cpp.s
+
+src/imgui/imgui_impl_glfw.o: src/imgui/imgui_impl_glfw.cpp.o
+
+.PHONY : src/imgui/imgui_impl_glfw.o
+
+# target to build an object file
+src/imgui/imgui_impl_glfw.cpp.o:
+	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_impl_glfw.cpp.o
+.PHONY : src/imgui/imgui_impl_glfw.cpp.o
+
+src/imgui/imgui_impl_glfw.i: src/imgui/imgui_impl_glfw.cpp.i
+
+.PHONY : src/imgui/imgui_impl_glfw.i
+
+# target to preprocess a source file
+src/imgui/imgui_impl_glfw.cpp.i:
+	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_impl_glfw.cpp.i
+.PHONY : src/imgui/imgui_impl_glfw.cpp.i
+
+src/imgui/imgui_impl_glfw.s: src/imgui/imgui_impl_glfw.cpp.s
+
+.PHONY : src/imgui/imgui_impl_glfw.s
+
+# target to generate assembly for a file
+src/imgui/imgui_impl_glfw.cpp.s:
+	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_impl_glfw.cpp.s
+.PHONY : src/imgui/imgui_impl_glfw.cpp.s
+
+src/imgui/imgui_impl_opengl3.o: src/imgui/imgui_impl_opengl3.cpp.o
+
+.PHONY : src/imgui/imgui_impl_opengl3.o
+
+# target to build an object file
+src/imgui/imgui_impl_opengl3.cpp.o:
+	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_impl_opengl3.cpp.o
+.PHONY : src/imgui/imgui_impl_opengl3.cpp.o
+
+src/imgui/imgui_impl_opengl3.i: src/imgui/imgui_impl_opengl3.cpp.i
+
+.PHONY : src/imgui/imgui_impl_opengl3.i
+
+# target to preprocess a source file
+src/imgui/imgui_impl_opengl3.cpp.i:
+	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_impl_opengl3.cpp.i
+.PHONY : src/imgui/imgui_impl_opengl3.cpp.i
+
+src/imgui/imgui_impl_opengl3.s: src/imgui/imgui_impl_opengl3.cpp.s
+
+.PHONY : src/imgui/imgui_impl_opengl3.s
+
+# target to generate assembly for a file
+src/imgui/imgui_impl_opengl3.cpp.s:
+	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_impl_opengl3.cpp.s
+.PHONY : src/imgui/imgui_impl_opengl3.cpp.s
+
+src/imgui/imgui_tables.o: src/imgui/imgui_tables.cpp.o
+
+.PHONY : src/imgui/imgui_tables.o
+
+# target to build an object file
+src/imgui/imgui_tables.cpp.o:
+	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_tables.cpp.o
+.PHONY : src/imgui/imgui_tables.cpp.o
+
+src/imgui/imgui_tables.i: src/imgui/imgui_tables.cpp.i
+
+.PHONY : src/imgui/imgui_tables.i
+
+# target to preprocess a source file
+src/imgui/imgui_tables.cpp.i:
+	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_tables.cpp.i
+.PHONY : src/imgui/imgui_tables.cpp.i
+
+src/imgui/imgui_tables.s: src/imgui/imgui_tables.cpp.s
+
+.PHONY : src/imgui/imgui_tables.s
+
+# target to generate assembly for a file
+src/imgui/imgui_tables.cpp.s:
+	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_tables.cpp.s
+.PHONY : src/imgui/imgui_tables.cpp.s
+
+src/imgui/imgui_widgets.o: src/imgui/imgui_widgets.cpp.o
+
+.PHONY : src/imgui/imgui_widgets.o
+
+# target to build an object file
+src/imgui/imgui_widgets.cpp.o:
+	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_widgets.cpp.o
+.PHONY : src/imgui/imgui_widgets.cpp.o
+
+src/imgui/imgui_widgets.i: src/imgui/imgui_widgets.cpp.i
+
+.PHONY : src/imgui/imgui_widgets.i
+
+# target to preprocess a source file
+src/imgui/imgui_widgets.cpp.i:
+	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_widgets.cpp.i
+.PHONY : src/imgui/imgui_widgets.cpp.i
+
+src/imgui/imgui_widgets.s: src/imgui/imgui_widgets.cpp.s
+
+.PHONY : src/imgui/imgui_widgets.s
+
+# target to generate assembly for a file
+src/imgui/imgui_widgets.cpp.s:
+	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_widgets.cpp.s
+.PHONY : src/imgui/imgui_widgets.cpp.s
 
 src/main.o: src/main.cpp.o
 
@@ -265,11 +467,33 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
+	@echo "... copy_resources"
 	@echo "... edit_cache"
 	@echo "... Dunes"
 	@echo "... src/controls.o"
 	@echo "... src/controls.i"
 	@echo "... src/controls.s"
+	@echo "... src/imgui/imgui.o"
+	@echo "... src/imgui/imgui.i"
+	@echo "... src/imgui/imgui.s"
+	@echo "... src/imgui/imgui_demo.o"
+	@echo "... src/imgui/imgui_demo.i"
+	@echo "... src/imgui/imgui_demo.s"
+	@echo "... src/imgui/imgui_draw.o"
+	@echo "... src/imgui/imgui_draw.i"
+	@echo "... src/imgui/imgui_draw.s"
+	@echo "... src/imgui/imgui_impl_glfw.o"
+	@echo "... src/imgui/imgui_impl_glfw.i"
+	@echo "... src/imgui/imgui_impl_glfw.s"
+	@echo "... src/imgui/imgui_impl_opengl3.o"
+	@echo "... src/imgui/imgui_impl_opengl3.i"
+	@echo "... src/imgui/imgui_impl_opengl3.s"
+	@echo "... src/imgui/imgui_tables.o"
+	@echo "... src/imgui/imgui_tables.i"
+	@echo "... src/imgui/imgui_tables.s"
+	@echo "... src/imgui/imgui_widgets.o"
+	@echo "... src/imgui/imgui_widgets.i"
+	@echo "... src/imgui/imgui_widgets.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

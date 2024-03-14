@@ -8,7 +8,11 @@
 #include <string>
 #include <vector>
 #include <random>
- 
+
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui/imgui_impl_opengl3.h"
+
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -22,6 +26,7 @@
 #include "controls.hpp"
 #include "texture.hpp"
 #include "texture2D.hpp"
+
 
 const uint screen_width = 1024;
 const uint screen_height = 1024;
@@ -178,6 +183,34 @@ void genQuadPlane(int xSize, int ySize, float step)
     }
 }
 
+inline void perlinToTexture(int x_quad_count, int y_quad_count, Texture2D &texture,
+                            float lowf_freq=32.f, float midf_freq=8.f, float highf_freq=2.f,
+                            float lowf_stre=1.f,  float midf_stre=0.2f,float highf_stre=0.05f)
+{
+    GLubyte data[y_quad_count][x_quad_count][4] = {};
+    for (size_t y = 0; y < y_quad_count; ++y) 
+    {
+        for (size_t x = 0; x < x_quad_count; ++x) 
+        {
+            float lowf = glm::perlin(glm::vec2(x/lowf_freq,y/lowf_freq));
+            lowf = glm::pow(((lowf + 1) / 2.0f)*lowf_stre, 2.0f);
+
+            float highf = glm::perlin(glm::vec2(x/midf_freq,y/midf_freq));
+            highf = ((highf + 1) / 2.0f)*midf_stre;
+
+            float vhighf = glm::perlin(glm::vec2(x/highf_freq,y/highf_freq));
+            vhighf = ((vhighf + 1) / 2.0f)*highf_stre;
+            float value = lowf+highf+vhighf;
+
+            data[y][x][0] = (GLubyte)(value*255);
+            data[y][x][1] = (GLubyte)(value*255);
+            data[y][x][2] = (GLubyte)(value*255);
+            data[y][x][3] = (GLubyte)(value*255);
+        }
+    }
+    texture.AddData(GL_RGBA, GL_UNSIGNED_BYTE, data);
+}
+
 int main()
 {
     glfwInit();
@@ -225,7 +258,7 @@ int main()
     glViewport(0, 0, screen_width, screen_height);
 
 	// Create and compile our GLSL program from the shaders
-	Shader showingShader = Shader("assets/TransformVertexShader.glsl", "assets/TextureFragmentShader.glsl");
+	Shader showingShader = Shader("assets/shaders/TransformVertexShader.glsl", "assets/shaders/TextureFragmentShader.glsl");
 
 	// Get a handle for our "MVP" uniform
 	GLuint MatrixID = glGetUniformLocation(showingShader.program_ID, "MVP");
@@ -238,27 +271,22 @@ int main()
     genQuadPlane(x_quad_count, y_quad_count,0.1);
     std::cout << g_vertex_buffer_data.size() << std::endl;
 
+
+    float lowf_freq = 32;
+    float lowf_stre = 1;
+    float midf_freq = 8;
+    float midf_stre = 0.2;
+    float highf_freq = 2;
+    float highf_stre = 0.05;
+
     Texture2D perlinTexture(x_quad_count,y_quad_count,0, GL_RGBA32F);
 
-    GLubyte data[y_quad_count][x_quad_count][4] = {};
-    for (size_t y = 0; y < y_quad_count; ++y) 
-    {
-        for (size_t x = 0; x < x_quad_count; ++x) 
-        {
-            float value = glm::perlin(glm::vec2(x/32.f,y/32.f));
-            value = (value + 1) / 2.0f;
-            std::cout << value << std::endl;
-            data[y][x][0] = (GLubyte)(value*255);
-            data[y][x][1] = (GLubyte)(value*255);
-            data[y][x][2] = (GLubyte)(value*255);
-            data[y][x][3] = (GLubyte)(value*255);
-        }
-    }
-
-    perlinTexture.AddData(GL_RGBA, GL_UNSIGNED_BYTE, data);
+    perlinToTexture(x_quad_count, y_quad_count, perlinTexture,
+                    lowf_freq,midf_freq,highf_freq,
+                    lowf_stre,midf_stre,highf_stre);
 
 	// Get a handle for our "myTextureSampler" uniform
-	GLuint TextureID  = glGetUniformLocation(showingShader.program_ID, "myTextureSampler");
+	GLuint TextureID  = glGetUniformLocation(showingShader.program_ID, "heightMapSampler");
 
 	GLuint VertexArrayID;
 	glGenVertexArrays(1, &VertexArrayID);
@@ -274,13 +302,70 @@ int main()
 	glBindBuffer(GL_ARRAY_BUFFER, uvbuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GL_FLOAT)*g_uv_buffer_data.size(), g_uv_buffer_data.data(), GL_STATIC_DRAW);
 
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO io = ImGui::GetIO();
+    ImGui::StyleColorsDark();
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplOpenGL3_Init("#version 330");
 
     bool wireframe = false;
+    bool recenterMouse = false;
 
+    glm::mat4 MVP;
     while (glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS && glfwWindowShouldClose(window) == 0)
     {
 		// Clear the screen
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        perlinToTexture(x_quad_count, y_quad_count, perlinTexture,
+                        lowf_freq,midf_freq,highf_freq,
+                        lowf_stre,midf_stre,highf_stre);
+
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+
+        // do imgui drawing
+        ImGui::Begin("ImGui win");
+        ImGui::Text("Rendering");
+        ImGui::Checkbox("Wireframe", &wireframe);
+        ImGui::Text("PerlinNoise");
+        ImGui::PushItemWidth(ImGui::CalcItemWidth()/2);
+        ImGui::Text("highf");
+        ImGui::DragFloat("##highf_freq", &highf_freq, 0.01, 0.01);
+        ImGui::SameLine();
+        ImGui::DragFloat("##highf_stre", &highf_stre, 0.01, 0.01);
+        ImGui::PopItemWidth();
+
+
+        ImGui::PushItemWidth(ImGui::CalcItemWidth()/2);
+        ImGui::Text("midf");
+        ImGui::DragFloat("##midf_freq", &midf_freq, 0.01, 0.01);
+        ImGui::SameLine();
+        ImGui::DragFloat("##midf_stre", &midf_stre, 0.01, 0.01);
+        ImGui::PopItemWidth();
+
+        ImGui::PushItemWidth(ImGui::CalcItemWidth()/2);
+        ImGui::Text("lowf");
+        ImGui::DragFloat("##lowf_freq", &lowf_freq, 0.01, 0.01);
+        ImGui::SameLine();
+        ImGui::DragFloat("##lowf_stre", &lowf_stre, 0.01, 0.01);
+        ImGui::PopItemWidth();
+
+        ImGui::End();
+
+        if(glfwGetKey(window, GLFW_KEY_SPACE ) == GLFW_PRESS)
+        {
+            recenterMouse = true;
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        }
+        else
+        {
+            // Hide the mouse and enable unlimited mouvement
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        }
+
 
         if (wireframe) {
             glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
@@ -296,11 +381,14 @@ int main()
         showingShader.use_shader();
 
 		// Compute the MVP matrix from keyboard and mouse input
-		computeMatricesFromInputs(window, screen_width, screen_height);
-		glm::mat4 ProjectionMatrix = getProjectionMatrix();
-		glm::mat4 ViewMatrix = getViewMatrix();
-		glm::mat4 ModelMatrix = glm::mat4(1.0);
-		glm::mat4 MVP = ProjectionMatrix * ViewMatrix * ModelMatrix;
+        if(glfwGetKey(window, GLFW_KEY_SPACE ) != GLFW_PRESS)
+        {
+            computeMatricesFromInputs(window, screen_width, screen_height, recenterMouse);
+            glm::mat4 ProjectionMatrix = getProjectionMatrix();
+            glm::mat4 ViewMatrix = getViewMatrix();
+            glm::mat4 ModelMatrix = glm::mat4(1.0);
+            MVP = ProjectionMatrix * ViewMatrix * ModelMatrix;
+        }
 
 		// Send our transformation to the currently bound shader, 
 		// in the "MVP" uniform
@@ -343,10 +431,18 @@ int main()
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
 
+
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
 		// Swap buffers
 		glfwSwapBuffers(window);
 		glfwPollEvents();
     }
+
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
 
 	// Cleanup VBO and shader
 	glDeleteBuffers(1, &vertexbuffer);

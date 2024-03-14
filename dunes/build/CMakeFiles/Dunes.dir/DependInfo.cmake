@@ -5,6 +5,13 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/controls.cpp" "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles/Dunes.dir/src/controls.cpp.o"
+  "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui.cpp" "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles/Dunes.dir/src/imgui/imgui.cpp.o"
+  "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_demo.cpp" "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles/Dunes.dir/src/imgui/imgui_demo.cpp.o"
+  "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_draw.cpp" "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles/Dunes.dir/src/imgui/imgui_draw.cpp.o"
+  "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_impl_glfw.cpp" "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles/Dunes.dir/src/imgui/imgui_impl_glfw.cpp.o"
+  "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_impl_opengl3.cpp" "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles/Dunes.dir/src/imgui/imgui_impl_opengl3.cpp.o"
+  "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_tables.cpp" "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles/Dunes.dir/src/imgui/imgui_tables.cpp.o"
+  "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_widgets.cpp" "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles/Dunes.dir/src/imgui/imgui_widgets.cpp.o"
   "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/main.cpp" "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles/Dunes.dir/src/main.cpp.o"
   "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/shader.cpp" "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles/Dunes.dir/src/shader.cpp.o"
   "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/texture.cpp" "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles/Dunes.dir/src/texture.cpp.o"

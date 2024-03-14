@@ -1,0 +1,62 @@
+[
+{
+  "directory": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build",
+  "command": "/usr/bin/c++   -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/src -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src  -O3 -lpthread   -std=c++17 -o CMakeFiles/Dunes.dir/src/controls.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/controls.cpp",
+  "file": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/controls.cpp"
+},
+{
+  "directory": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build",
+  "command": "/usr/bin/c++   -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/src -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src  -O3 -lpthread   -std=c++17 -o CMakeFiles/Dunes.dir/src/imgui/imgui.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui.cpp",
+  "file": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui.cpp"
+},
+{
+  "directory": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build",
+  "command": "/usr/bin/c++   -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/src -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src  -O3 -lpthread   -std=c++17 -o CMakeFiles/Dunes.dir/src/imgui/imgui_demo.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_demo.cpp",
+  "file": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_demo.cpp"
+},
+{
+  "directory": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build",
+  "command": "/usr/bin/c++   -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/src -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src  -O3 -lpthread   -std=c++17 -o CMakeFiles/Dunes.dir/src/imgui/imgui_draw.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_draw.cpp",
+  "file": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_draw.cpp"
+},
+{
+  "directory": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build",
+  "command": "/usr/bin/c++   -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/src -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src  -O3 -lpthread   -std=c++17 -o CMakeFiles/Dunes.dir/src/imgui/imgui_impl_glfw.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_impl_glfw.cpp",
+  "file": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_impl_glfw.cpp"
+},
+{
+  "directory": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build",
+  "command": "/usr/bin/c++   -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/src -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src  -O3 -lpthread   -std=c++17 -o CMakeFiles/Dunes.dir/src/imgui/imgui_impl_opengl3.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_impl_opengl3.cpp",
+  "file": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_impl_opengl3.cpp"
+},
+{
+  "directory": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build",
+  "command": "/usr/bin/c++   -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/src -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src  -O3 -lpthread   -std=c++17 -o CMakeFiles/Dunes.dir/src/imgui/imgui_tables.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_tables.cpp",
+  "file": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_tables.cpp"
+},
+{
+  "directory": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build",
+  "command": "/usr/bin/c++   -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/src -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src  -O3 -lpthread   -std=c++17 -o CMakeFiles/Dunes.dir/src/imgui/imgui_widgets.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_widgets.cpp",
+  "file": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_widgets.cpp"
+},
+{
+  "directory": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build",
+  "command": "/usr/bin/c++   -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/src -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src  -O3 -lpthread   -std=c++17 -o CMakeFiles/Dunes.dir/src/main.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/main.cpp",
+  "file": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/main.cpp"
+},
+{
+  "directory": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build",
+  "command": "/usr/bin/c++   -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/src -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src  -O3 -lpthread   -std=c++17 -o CMakeFiles/Dunes.dir/src/shader.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/shader.cpp",
+  "file": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/shader.cpp"
+},
+{
+  "directory": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build",
+  "command": "/usr/bin/c++   -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/src -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src  -O3 -lpthread   -std=c++17 -o CMakeFiles/Dunes.dir/src/texture.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/texture.cpp",
+  "file": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/texture.cpp"
+},
+{
+  "directory": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build",
+  "command": "/usr/bin/c++   -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/src -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src  -O3 -lpthread   -std=c++17 -o CMakeFiles/Dunes.dir/src/texture2D.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/texture2D.cpp",
+  "file": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/texture2D.cpp"
+}
+]

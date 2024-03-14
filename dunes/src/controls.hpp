@@ -3,7 +3,7 @@
 
 #include <glm/glm.hpp>
 
-void computeMatricesFromInputs(GLFWwindow* window, int screen_width, int screen_height);
+void computeMatricesFromInputs(GLFWwindow* window, int screen_width, int screen_height, bool &reset);
 glm::mat4 getViewMatrix();
 glm::mat4 getProjectionMatrix();
 
