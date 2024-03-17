@@ -6,21 +6,29 @@ layout(location = 1) in vec2 vertexUV;
 
 // Output data ; will be interpolated for each fragment.
 out vec2 UV;
+out vec3 POS;
 
 // Values that stay constant for the whole mesh.
 uniform sampler2D heightMapSampler;
+uniform sampler2D albedoSampler;
 uniform mat4 MVP;
+
+float get_height(vec2 v_UV)
+{
+    float height = texture(heightMapSampler, v_UV).r;
+    /* height *= 3; */
+
+    return height;
+}
 
 void main(){
 
-	// Output position of the vertex, in clip space : MVP * position
-    /* vec3 offset = vec3(0,0,1)*sin(vertexPosition_modelspace.x*3); */
-    vec3 offset = vec3(0,0,1)*texture(heightMapSampler, vertexUV).r;
-    offset.z *= 3;
+    vec3 vertex = vec3(0,1,0)*get_height(vertexUV);
 
-	gl_Position =  MVP * vec4(vertexPosition_modelspace+offset,1);
-	
-	// UV of the vertex. No special space for this one.
+	gl_Position =  MVP * vec4(vertexPosition_modelspace + vertex,1);
+    
+    POS = vertexPosition_modelspace + vertex;
+
 	UV = vertexUV;
 }
 

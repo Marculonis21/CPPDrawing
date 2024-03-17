@@ -142,52 +142,55 @@ void genQuadPlane(int xSize, int ySize, float step)
     for (int y = 0; y < ySize; y++) {
         for (int x = 0; x < xSize; ++x) {
             g_vertex_buffer_data.push_back(step*x+0);
+            g_vertex_buffer_data.push_back(0);
             g_vertex_buffer_data.push_back(step*y+step);
-            g_vertex_buffer_data.push_back(0);
-            g_vertex_buffer_data.push_back(step*x+0);
-            g_vertex_buffer_data.push_back(step*y+0);
-            g_vertex_buffer_data.push_back(0);
             g_vertex_buffer_data.push_back(step*x+step);
-            g_vertex_buffer_data.push_back(step*y+0);
             g_vertex_buffer_data.push_back(0);
+            g_vertex_buffer_data.push_back(step*y+0);
+            g_vertex_buffer_data.push_back(step*x+0);
+            g_vertex_buffer_data.push_back(0);
+            g_vertex_buffer_data.push_back(step*y+0);
 
             g_vertex_buffer_data.push_back(step*x+step);
+            g_vertex_buffer_data.push_back(0);
             g_vertex_buffer_data.push_back(step*y+0);
-            g_vertex_buffer_data.push_back(0);
-            g_vertex_buffer_data.push_back(step*x+step);
-            g_vertex_buffer_data.push_back(step*y+step);
-            g_vertex_buffer_data.push_back(0);
             g_vertex_buffer_data.push_back(step*x+0);
-            g_vertex_buffer_data.push_back(step*y+step);
             g_vertex_buffer_data.push_back(0);
+            g_vertex_buffer_data.push_back(step*y+step);
+            g_vertex_buffer_data.push_back(step*x+step);
+            g_vertex_buffer_data.push_back(0);
+            g_vertex_buffer_data.push_back(step*y+step);
 
 
             g_uv_buffer_data.push_back((step*x+0)/max_x);
             g_uv_buffer_data.push_back((step*y+step)/max_y);
 
+            g_uv_buffer_data.push_back((step*x+step)/max_x);
+            g_uv_buffer_data.push_back((step*y+0)/max_y);
+
             g_uv_buffer_data.push_back((step*x+0)/max_x);
             g_uv_buffer_data.push_back((step*y+0)/max_y);
 
-            g_uv_buffer_data.push_back((step*x+step)/max_x);
-            g_uv_buffer_data.push_back((step*y+0)/max_y);
 
             g_uv_buffer_data.push_back((step*x+step)/max_x);
             g_uv_buffer_data.push_back((step*y+0)/max_y);
 
-            g_uv_buffer_data.push_back((step*x+step)/max_x);
+            g_uv_buffer_data.push_back((step*x+0)/max_x);
             g_uv_buffer_data.push_back((step*y+step)/max_y);
 
-            g_uv_buffer_data.push_back((step*x+0)/max_x);
+            g_uv_buffer_data.push_back((step*x+step)/max_x);
             g_uv_buffer_data.push_back((step*y+step)/max_y);
         }
     }
 }
 
-inline void perlinToTexture(int x_quad_count, int y_quad_count, Texture2D &texture,
+inline void perlinToTexture(int x_quad_count, int y_quad_count, Texture2D &heightTexture, Texture2D &albedoTexture,
                             float lowf_freq=32.f, float midf_freq=8.f, float highf_freq=2.f,
-                            float lowf_stre=1.f,  float midf_stre=0.2f,float highf_stre=0.05f)
+                            float lowf_stre=1.f,  float midf_stre=0.2f,float highf_stre=0.05f,
+                            float sandLevel=0.11, float grassLevel=0.6)
 {
     GLubyte data[y_quad_count][x_quad_count][4] = {};
+    GLubyte colorData[y_quad_count][x_quad_count][4] = {};
     for (size_t y = 0; y < y_quad_count; ++y) 
     {
         for (size_t x = 0; x < x_quad_count; ++x) 
@@ -202,13 +205,40 @@ inline void perlinToTexture(int x_quad_count, int y_quad_count, Texture2D &textu
             vhighf = ((vhighf + 1) / 2.0f)*highf_stre;
             float value = lowf+highf+vhighf;
 
+            value = glm::clamp(value-0.1f, 0.0f, 1.0f);
+
             data[y][x][0] = (GLubyte)(value*255);
             data[y][x][1] = (GLubyte)(value*255);
             data[y][x][2] = (GLubyte)(value*255);
             data[y][x][3] = (GLubyte)(value*255);
+
+            if (value == 0.0f) {
+                colorData[y][x][0] = (GLubyte)0;
+                colorData[y][x][1] = (GLubyte)0;
+                colorData[y][x][2] = (GLubyte)200;
+            }
+            else if (value < sandLevel) {
+                colorData[y][x][0] = (GLubyte)255;
+                colorData[y][x][1] = (GLubyte)250;
+                colorData[y][x][2] = (GLubyte)212;
+            }
+            else if (value < grassLevel) {
+                colorData[y][x][0] = (GLubyte)112;
+                colorData[y][x][1] = (GLubyte)192;
+                colorData[y][x][2] = (GLubyte)72;
+            }
+            else {
+                colorData[y][x][0] = (GLubyte)85;
+                colorData[y][x][1] = (GLubyte)89;
+                colorData[y][x][2] = (GLubyte)92;
+            }
+
+            colorData[y][x][3] = (GLubyte)(255);
         }
     }
-    texture.AddData(GL_RGBA, GL_UNSIGNED_BYTE, data);
+
+    heightTexture.AddData(GL_RGBA, GL_UNSIGNED_BYTE, data);
+    albedoTexture.AddData(GL_RGBA, GL_UNSIGNED_BYTE, colorData);
 }
 
 int main()
@@ -266,11 +296,11 @@ int main()
 	/* // Load the texture */
 	/* GLuint Texture = loadDDS("assets/uvtemplate.DDS"); */
 	
-    const int x_quad_count = 200;
-    const int y_quad_count = 200;
-    genQuadPlane(x_quad_count, y_quad_count,0.1);
+    const int x_quad_count = 400;
+    const int y_quad_count = 400;
+    const float adj_step = 0.025;
+    genQuadPlane(x_quad_count, y_quad_count,adj_step);
     std::cout << g_vertex_buffer_data.size() << std::endl;
-
 
     float lowf_freq = 32;
     float lowf_stre = 1;
@@ -279,14 +309,19 @@ int main()
     float highf_freq = 2;
     float highf_stre = 0.05;
 
-    Texture2D perlinTexture(x_quad_count,y_quad_count,0, GL_RGBA32F);
+    float sandLevel = 0.1;
+    float grassLevel= 0.6;
 
-    perlinToTexture(x_quad_count, y_quad_count, perlinTexture,
+    Texture2D perlinTexture(x_quad_count,y_quad_count,0, GL_RGBA32F);
+    Texture2D albedoTexture(x_quad_count,y_quad_count,1, GL_RGBA32F);
+
+    perlinToTexture(x_quad_count, y_quad_count, perlinTexture, albedoTexture,
                     lowf_freq,midf_freq,highf_freq,
-                    lowf_stre,midf_stre,highf_stre);
+                    lowf_stre,midf_stre,highf_stre, sandLevel, grassLevel);
 
 	// Get a handle for our "myTextureSampler" uniform
-	GLuint TextureID  = glGetUniformLocation(showingShader.program_ID, "heightMapSampler");
+	/* GLuint TextureID  = glGetUniformLocation(showingShader.program_ID, "heightMapSampler"); */
+	/* GLuint AlbedoTextureID = glGetUniformLocation(showingShader.program_ID, "albedoSampler"); */
 
 	GLuint VertexArrayID;
 	glGenVertexArrays(1, &VertexArrayID);
@@ -318,9 +353,9 @@ int main()
 		// Clear the screen
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        perlinToTexture(x_quad_count, y_quad_count, perlinTexture,
+        perlinToTexture(x_quad_count, y_quad_count, perlinTexture, albedoTexture,
                         lowf_freq,midf_freq,highf_freq,
-                        lowf_stre,midf_stre,highf_stre);
+                        lowf_stre,midf_stre,highf_stre, sandLevel, grassLevel);
 
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
@@ -351,6 +386,14 @@ int main()
         ImGui::DragFloat("##lowf_freq", &lowf_freq, 0.01, 0.01);
         ImGui::SameLine();
         ImGui::DragFloat("##lowf_stre", &lowf_stre, 0.01, 0.01);
+        ImGui::PopItemWidth();
+
+        ImGui::Text("Levels");
+        ImGui::PushItemWidth(ImGui::CalcItemWidth()/2);
+        ImGui::Text("Sand");
+        ImGui::DragFloat("##sand", &sandLevel, 0.01, 0);
+        ImGui::Text("Grass");
+        ImGui::DragFloat("##grass", &grassLevel, 0.01, 0);
         ImGui::PopItemWidth();
 
         ImGui::End();
@@ -395,11 +438,13 @@ int main()
 		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
 
 		// Bind our texture in Texture Unit 0
-		/* glActiveTexture(GL_TEXTURE0); */
-		/* glBindTexture(GL_TEXTURE_2D, Per); */
+        
+        showingShader.set_int("heightMapSampler",0);
+        showingShader.set_int("albedoSampler",1);
+
         perlinTexture.Activate();
-		// Set our "myTextureSampler" sampler to use Texture Unit 0
-		glUniform1i(TextureID, 0);
+        albedoTexture.Activate();
+
 
 		// 1rst attribute buffer : vertices
 		glEnableVertexAttribArray(0);
@@ -431,7 +476,6 @@ int main()
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
 
-
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
@@ -448,7 +492,8 @@ int main()
 	glDeleteBuffers(1, &vertexbuffer);
 	glDeleteBuffers(1, &uvbuffer);
 	glDeleteProgram(showingShader.program_ID);
-	glDeleteTextures(1, &TextureID);
+	/* glDeleteTextures(1, &TextureID); */
+	/* glDeleteTextures(1, &AlbedoTextureID); */
 	glDeleteVertexArrays(1, &VertexArrayID);
  
     glfwTerminate();
