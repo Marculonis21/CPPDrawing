@@ -21,6 +21,19 @@ float get_height(vec2 uv)
     return texture(heightMapSampler, uv).r;
 }
 
+vec3 get_normal(vec2 uv)
+{
+    vec3 vertex = vec3(uv.x, 0, uv.y);
+    vec3 UP    = vec3(uv.x, 0, uv.y+0.01);
+    vec3 RIGHT = vec3(uv.x+0.01, 0, uv.y);
+
+    vertex.y = get_height(vertex.xz);
+    UP.y = get_height(UP.xz);
+    RIGHT.y = get_height(RIGHT.xz);
+
+    return normalize(cross(RIGHT-vertex,UP-vertex));
+}
+
 const vec3 sunPosition = vec3(0,1,0);
 void main(){
 
@@ -29,7 +42,7 @@ void main(){
     
     vec3 dir = normalize(sunPosition - POS);
     float step = 0.05;
-    for (int i = 2; i < 100; i++)
+    for (int i = 5; i < 100; i++)
     {
         vec3 pos = POS + (dir*i*step);
 
@@ -39,4 +52,9 @@ void main(){
             break;
         }
     }
+
+    /* color = get_normal(POS.xz/10.0); */
+
+    color *= max(dot(dir, -get_normal(POS.xz/10.0)), 0.8);
+
 }
