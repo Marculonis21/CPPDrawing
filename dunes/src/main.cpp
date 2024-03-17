@@ -28,7 +28,7 @@
 #include "texture2D.hpp"
 
 
-const uint screen_width = 1024;
+const uint screen_width = 1920;
 const uint screen_height = 1024;
  
 int num_frames{ 0 };
@@ -196,10 +196,10 @@ inline void perlinToTexture(int x_quad_count, int y_quad_count, Texture2D &heigh
         for (size_t x = 0; x < x_quad_count; ++x) 
         {
             float lowf = glm::perlin(glm::vec2(x/lowf_freq,y/lowf_freq));
-            lowf = glm::pow(((lowf + 1) / 2.0f)*lowf_stre, 2.0f);
+            lowf = glm::pow(((lowf + 1) / 2.0f)*lowf_stre, 3.0f);
 
             float highf = glm::perlin(glm::vec2(x/midf_freq,y/midf_freq));
-            highf = ((highf + 1) / 2.0f)*midf_stre;
+            highf = glm::pow(((highf + 1) / 2.0f)*midf_stre, 3.0f);
 
             float vhighf = glm::perlin(glm::vec2(x/highf_freq,y/highf_freq));
             vhighf = ((vhighf + 1) / 2.0f)*highf_stre;
@@ -215,7 +215,7 @@ inline void perlinToTexture(int x_quad_count, int y_quad_count, Texture2D &heigh
             if (value == 0.0f) {
                 colorData[y][x][0] = (GLubyte)0;
                 colorData[y][x][1] = (GLubyte)0;
-                colorData[y][x][2] = (GLubyte)200;
+                colorData[y][x][2] = (GLubyte)150;
             }
             else if (value < sandLevel) {
                 colorData[y][x][0] = (GLubyte)255;
@@ -275,7 +275,7 @@ int main()
     glfwSetCursorPos(window, screen_width/2, screen_height/2);
 
 	// Dark blue background
-	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+	glClearColor(0.1f, 0.1f, 0.1f, 0.0f);
 
 	// Enable depth test
 	glEnable(GL_DEPTH_TEST);
@@ -296,18 +296,18 @@ int main()
 	/* // Load the texture */
 	/* GLuint Texture = loadDDS("assets/uvtemplate.DDS"); */
 	
-    const int x_quad_count = 400;
-    const int y_quad_count = 400;
-    const float adj_step = 0.025;
+    const int x_quad_count = 1000;
+    const int y_quad_count = 1000;
+    const float adj_step = 0.01;
     genQuadPlane(x_quad_count, y_quad_count,adj_step);
     std::cout << g_vertex_buffer_data.size() << std::endl;
 
-    float lowf_freq = 32;
-    float lowf_stre = 1;
-    float midf_freq = 8;
-    float midf_stre = 0.2;
-    float highf_freq = 2;
-    float highf_stre = 0.05;
+    float lowf_freq = 200;
+    float lowf_stre = 1.05;
+    float midf_freq = 40;
+    float midf_stre = 0.5;
+    float highf_freq = 4;
+    float highf_stre = -0.01;
 
     float sandLevel = 0.1;
     float grassLevel= 0.6;
@@ -352,10 +352,6 @@ int main()
     {
 		// Clear the screen
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        perlinToTexture(x_quad_count, y_quad_count, perlinTexture, albedoTexture,
-                        lowf_freq,midf_freq,highf_freq,
-                        lowf_stre,midf_stre,highf_stre, sandLevel, grassLevel);
 
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
@@ -431,6 +427,12 @@ int main()
             glm::mat4 ViewMatrix = getViewMatrix();
             glm::mat4 ModelMatrix = glm::mat4(1.0);
             MVP = ProjectionMatrix * ViewMatrix * ModelMatrix;
+        }
+        else
+        {
+            perlinToTexture(x_quad_count, y_quad_count, perlinTexture, albedoTexture,
+                            lowf_freq,midf_freq,highf_freq,
+                            lowf_stre,midf_stre,highf_stre, sandLevel, grassLevel);
         }
 
 		// Send our transformation to the currently bound shader, 
