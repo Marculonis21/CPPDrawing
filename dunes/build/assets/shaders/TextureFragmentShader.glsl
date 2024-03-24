@@ -5,6 +5,7 @@ in vec2 UV;
 in vec3 POS;
 
 // Ouput data
+flat in vec3 COLOR;
 out vec3 color;
 
 // Values that stay constant for the whole mesh.
@@ -36,22 +37,22 @@ vec3 get_normal(vec2 uv)
 
 const vec3 sunPosition = vec3(0,1,0);
 void main(){
-
 	// Output color = color of the texture at the specified UV
-    color = texture(albedoSampler, UV).rgb;
+    /* color = texture(albedoSampler, UV).rgb; */
+    color = COLOR;
 
-    vec3 dir = normalize(sunPosition - POS);
-    float step = 0.05;
-    for (int i = 5; i < 100; i++)
-    {
-        vec3 pos = POS + (dir*i*step);
+    /* vec3 dir = normalize(sunPosition - POS); */
+    /* float step = 0.05; */
+    /* for (int i = 5; i < 100; i++) */
+    /* { */
+    /*     vec3 pos = POS + (dir*i*step); */
 
-        if(get_height(pos.xz/10.0) > pos.y)
-        {
-            color = color * (1.0-((100-i)/150.0));
-            break;
-        }
-    }
+    /*     if(get_height(pos.xz/10.0) > pos.y) */
+    /*     { */
+    /*         color = color * (1.0-((100-i)/150.0)); */
+    /*         break; */
+    /*     } */
+    /* } */
 
-    color *= max(dot(dir, -get_normal(POS.xz/10.0)), 0.9);
+    /* color *= max(dot(dir, -get_normal(POS.xz/10.0)), 0.9); */
 }

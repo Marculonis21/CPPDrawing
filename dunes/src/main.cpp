@@ -27,7 +27,9 @@
 #include "texture.hpp"
 #include "texture2D.hpp"
 
-const uint screen_width = 1024;
+extern glm::vec3 position;
+
+const uint screen_width = 1920;
 const uint screen_height = 1024;
  
 int num_frames{ 0 };
@@ -192,9 +194,11 @@ int main()
 
     mainShader.addShader("assets/shaders/TransformVertexShader.glsl", GL_VERTEX_SHADER);
     mainShader.addShader("assets/shaders/TextureFragmentShader.glsl", GL_FRAGMENT_SHADER);
-    /* mainShader.addShader("assets/shaders/tesc.glsl", GL_TESS_CONTROL_SHADER); */
-    /* mainShader.addShader("assets/shaders/tese.glsl", GL_TESS_EVALUATION_SHADER); */
+    mainShader.addShader("assets/shaders/tesc.glsl", GL_TESS_CONTROL_SHADER);
+    mainShader.addShader("assets/shaders/tese.glsl", GL_TESS_EVALUATION_SHADER);
     mainShader.linkProgram();
+
+    glPatchParameteri(GL_PATCH_VERTICES, 4);
 
 	// Get a handle for our "MVP" uniform
 	GLuint MatrixID = glGetUniformLocation(mainShader.program_ID, "MVP");
@@ -206,10 +210,10 @@ int main()
     /* const int y_quad_count = 1000; */
     /* const float adj_step = 0.01; */
     /* const float perlin_adj = 1; */
-    const int x_quad_count = 50;
-    const int y_quad_count = 50;
-    const float adj_step = 0.2;
-    const float perlin_adj = 20;
+    const int x_quad_count = 10;
+    const int y_quad_count = 10;
+    const float adj_step = 1;
+    const float perlin_adj = 100;
 
     genQuadPlane(x_quad_count, y_quad_count,adj_step);
     std::cout << g_vertex_buffer_data.size() << std::endl;
@@ -224,12 +228,15 @@ int main()
     float sandLevel = 0.03;
     float grassLevel= 0.55;
 
-    Texture2D perlinTexture(x_quad_count,y_quad_count,0, GL_RGBA32F);
-    Texture2D albedoTexture(x_quad_count,y_quad_count,1, GL_RGBA32F);
+    Texture2D perlinTexture(1000,1000,0, GL_RGBA32F);
+    Texture2D albedoTexture(1000,1000,1, GL_RGBA32F);
 
-    perlinToTexture(x_quad_count, y_quad_count, perlin_adj, perlinTexture, albedoTexture,
+    perlinToTexture(1000,1000, 1, perlinTexture, albedoTexture,
                     lowf_freq,midf_freq,highf_freq,
                     lowf_stre,midf_stre,highf_stre, sandLevel, grassLevel);
+    /* perlinToTexture(x_quad_count, y_quad_count, perlin_adj, perlinTexture, albedoTexture, */
+    /*                 lowf_freq,midf_freq,highf_freq, */
+    /*                 lowf_stre,midf_stre,highf_stre, sandLevel, grassLevel); */
 
 
     GLuint arrayObj;
@@ -397,6 +404,7 @@ int main()
         
         mainShader.set_int("heightMapSampler",0);
         mainShader.set_int("albedoSampler",1);
+        mainShader.set_vec3("cameraPos", position);
 
         perlinTexture.Activate();
         albedoTexture.Activate();
