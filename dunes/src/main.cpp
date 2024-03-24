@@ -57,64 +57,28 @@ void genQuadPlane(int xSize, int ySize, float step)
         }
     }
 
-    for (int y = 0; y < ySize-1; y++) {
-        for (int x = 0; x < xSize-1; ++x) {
-            g_index_buffer_data.push_back(y*xSize + xSize+x);
-            g_index_buffer_data.push_back(y*xSize + x+1);
-            g_index_buffer_data.push_back(y*xSize + x);
+    // TRIANGLES
+    /* for (int y = 0; y < ySize-1; y++) { */
+    /*     for (int x = 0; x < xSize-1; ++x) { */
+    /*         g_index_buffer_data.push_back(y*xSize + xSize+x); */
+    /*         g_index_buffer_data.push_back(y*xSize + x+1); */
+    /*         g_index_buffer_data.push_back(y*xSize + x); */
 
-            g_index_buffer_data.push_back(y*xSize + xSize+x);
-            g_index_buffer_data.push_back(y*xSize + xSize+x+1);
-            g_index_buffer_data.push_back(y*xSize + x+1);
-        }
-    }
-
-    /* g_index_buffer_data.push_back(0); */
-    /* g_index_buffer_data.push_back(1); */
-    /* g_index_buffer_data.push_back(xSize); */
-
-
-    /* for (int y = 0; y < ySize; y++) { */
-    /*     for (int x = 0; x < xSize; ++x) { */
-    /*         g_vertex_buffer_data.push_back(step*x+0); */
-    /*         g_vertex_buffer_data.push_back(0); */
-    /*         g_vertex_buffer_data.push_back(step*y+step); */
-    /*         g_vertex_buffer_data.push_back(step*x+step); */
-    /*         g_vertex_buffer_data.push_back(0); */
-    /*         g_vertex_buffer_data.push_back(step*y+0); */
-    /*         g_vertex_buffer_data.push_back(step*x+0); */
-    /*         g_vertex_buffer_data.push_back(0); */
-    /*         g_vertex_buffer_data.push_back(step*y+0); */
-
-    /*         g_vertex_buffer_data.push_back(step*x+step); */
-    /*         g_vertex_buffer_data.push_back(0); */
-    /*         g_vertex_buffer_data.push_back(step*y+0); */
-    /*         g_vertex_buffer_data.push_back(step*x+0); */
-    /*         g_vertex_buffer_data.push_back(0); */
-    /*         g_vertex_buffer_data.push_back(step*y+step); */
-    /*         g_vertex_buffer_data.push_back(step*x+step); */
-    /*         g_vertex_buffer_data.push_back(0); */
-    /*         g_vertex_buffer_data.push_back(step*y+step); */
-
-    /*         g_uv_buffer_data.push_back((step*x+0)/max_x); */
-    /*         g_uv_buffer_data.push_back((step*y+step)/max_y); */
-
-    /*         g_uv_buffer_data.push_back((step*x+step)/max_x); */
-    /*         g_uv_buffer_data.push_back((step*y+0)/max_y); */
-
-    /*         g_uv_buffer_data.push_back((step*x+0)/max_x); */
-    /*         g_uv_buffer_data.push_back((step*y+0)/max_y); */
-
-    /*         g_uv_buffer_data.push_back((step*x+step)/max_x); */
-    /*         g_uv_buffer_data.push_back((step*y+0)/max_y); */
-
-    /*         g_uv_buffer_data.push_back((step*x+0)/max_x); */
-    /*         g_uv_buffer_data.push_back((step*y+step)/max_y); */
-
-    /*         g_uv_buffer_data.push_back((step*x+step)/max_x); */
-    /*         g_uv_buffer_data.push_back((step*y+step)/max_y); */
+    /*         g_index_buffer_data.push_back(y*xSize + xSize+x); */
+    /*         g_index_buffer_data.push_back(y*xSize + xSize+x+1); */
+    /*         g_index_buffer_data.push_back(y*xSize + x+1); */
     /*     } */
     /* } */
+
+    // PATCHES
+    for (int y = 0; y < ySize-1; y++) {
+        for (int x = 0; x < xSize-1; ++x) {
+            g_index_buffer_data.push_back((y+1)*xSize + x);
+            g_index_buffer_data.push_back((y+1)*xSize + x+1);
+            g_index_buffer_data.push_back(y*xSize     + x+1);
+            g_index_buffer_data.push_back(y*xSize     + x);
+        }
+    }
 }
 
 inline void perlinToTexture(int x_quad_count, int y_quad_count, float scale, Texture2D &heightTexture, Texture2D &albedoTexture,
@@ -223,10 +187,17 @@ int main()
     glViewport(0, 0, screen_width, screen_height);
 
 	// Create and compile our GLSL program from the shaders
-	Shader showingShader = Shader("assets/shaders/TransformVertexShader.glsl", "assets/shaders/TextureFragmentShader.glsl");
+	/* Shader showingShader = Shader("assets/shaders/TransformVertexShader.glsl", "assets/shaders/TextureFragmentShader.glsl"); */
+	Shader mainShader = Shader();
+
+    mainShader.addShader("assets/shaders/TransformVertexShader.glsl", GL_VERTEX_SHADER);
+    mainShader.addShader("assets/shaders/TextureFragmentShader.glsl", GL_FRAGMENT_SHADER);
+    /* mainShader.addShader("assets/shaders/tesc.glsl", GL_TESS_CONTROL_SHADER); */
+    /* mainShader.addShader("assets/shaders/tese.glsl", GL_TESS_EVALUATION_SHADER); */
+    mainShader.linkProgram();
 
 	// Get a handle for our "MVP" uniform
-	GLuint MatrixID = glGetUniformLocation(showingShader.program_ID, "MVP");
+	GLuint MatrixID = glGetUniformLocation(mainShader.program_ID, "MVP");
 
 	/* // Load the texture */
 	/* GLuint Texture = loadDDS("assets/uvtemplate.DDS"); */
@@ -260,9 +231,6 @@ int main()
                     lowf_freq,midf_freq,highf_freq,
                     lowf_stre,midf_stre,highf_stre, sandLevel, grassLevel);
 
-	// Get a handle for our "myTextureSampler" uniform
-	/* GLuint TextureID  = glGetUniformLocation(showingShader.program_ID, "heightMapSampler"); */
-	/* GLuint AlbedoTextureID = glGetUniformLocation(showingShader.program_ID, "albedoSampler"); */
 
     GLuint arrayObj;
     glCreateVertexArrays(1, &arrayObj);
@@ -403,7 +371,7 @@ int main()
         if(glfwGetKey(window, GLFW_KEY_F2) == GLFW_PRESS) wireframe = true;
 
 		// Use our shader
-        showingShader.use_shader();
+        mainShader.useShader();
 
 		// Compute the MVP matrix from keyboard and mouse input
         if(glfwGetKey(window, GLFW_KEY_SPACE ) != GLFW_PRESS)
@@ -427,8 +395,8 @@ int main()
 
 		// Bind our texture in Texture Unit 0
         
-        showingShader.set_int("heightMapSampler",0);
-        showingShader.set_int("albedoSampler",1);
+        mainShader.set_int("heightMapSampler",0);
+        mainShader.set_int("albedoSampler",1);
 
         perlinTexture.Activate();
         albedoTexture.Activate();
@@ -436,7 +404,8 @@ int main()
 		// Draw the triangle !
 		/* glDrawArrays(GL_TRIANGLES, 0, x_quad_count*y_quad_count*2*3); // 12*3 indices starting at 0 -> 12 triangles */
 		/* glDrawArrays(GL_POINTS, 0, x_quad_count*y_quad_count*2*3); // 12*3 indices starting at 0 -> 12 triangles */
-		glDrawElements(GL_TRIANGLES, g_index_buffer_data.size(), GL_UNSIGNED_INT, 0); 
+		/* glDrawElements(GL_TRIANGLES, g_index_buffer_data.size(), GL_UNSIGNED_INT, 0); */ 
+		glDrawElements(GL_PATCHES, g_index_buffer_data.size(), GL_UNSIGNED_INT, 0); 
 
 		/* glDisableVertexAttribArray(0); */
 		/* glDisableVertexAttribArray(1); */
@@ -456,9 +425,6 @@ int main()
 	// Cleanup VBO and shader
 	glDeleteBuffers(1, &vertexBuffer);
 	glDeleteBuffers(1, &uvbuffer);
-	glDeleteProgram(showingShader.program_ID);
-	/* glDeleteTextures(1, &TextureID); */
-	/* glDeleteTextures(1, &AlbedoTextureID); */
 	glDeleteVertexArrays(1, &arrayObj);
  
     glfwTerminate();

@@ -1,35 +1,70 @@
 #include "shader.hpp"
+#include <stdexcept>
 
-Shader::Shader(const char * vertex_shader_path, const char * fragment_shader_path)
+Shader::Shader()
 {
-    program_ID = glCreateProgram();
- 
-    add_shader(program_ID, vertex_shader_path, GL_VERTEX_SHADER);
-    add_shader(program_ID, fragment_shader_path, GL_FRAGMENT_SHADER);
- 
-    glLinkProgram(program_ID);
- 
-    int success;
-    char error_message[512];
-    glGetProgramiv(program_ID, GL_LINK_STATUS, &success);
-    if (!success)
-    {
-        glGetProgramInfoLog(program_ID, 512, nullptr, error_message);
-        std::cout << "Error linking shader program: " << error_message << "\n";
-    }
+    this->program_ID = glCreateProgram();
 }
 
 Shader::~Shader()
 {
-    if (program_ID != 0)
-    {
-        glDeleteProgram(program_ID);
-        program_ID = 0;
+    for (int i = 0; i < shaders.size(); ++i) {
+        glDeleteShader(shaders[i]);
     }
+    glDeleteProgram(program_ID);
 }
 
-void Shader::use_shader()
+bool Shader::checkShaderCode(GLuint shader, const std::string & shaderPath)
 {
+    int success;
+    glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+    if (!success)
+    {
+        char error_message[512];
+
+        glGetShaderInfoLog(shader, 512, nullptr, error_message);
+        std::cout << "Error compiling shader: " << error_message << "\n";
+        std::cout << "Shader location: " << shaderPath << "\n";
+        return false;
+    }
+    return true;
+}
+
+void Shader::addShader(const char *shaderPath, GLenum shaderType)
+{
+    if (linked) {
+        throw std::invalid_argument("Adding to shader after linking not possible!");
+    }
+
+    std::string shaderCode = read_shader_file(shaderPath);
+    const GLchar *code[1] {shaderCode.c_str()}; 
+
+    GLuint shader = glCreateShader(shaderType);
+    glShaderSource(shader, 1, code, NULL);
+    glCompileShader(shader);
+
+    if (!checkShaderCode(shader, shaderPath)) 
+    {
+        throw std::invalid_argument("Encountered incorrect shader code");
+    }
+
+    glAttachShader(program_ID, shader);
+    shaders.push_back(shader);
+}
+
+void Shader::linkProgram()
+{
+    linked = true;
+
+    glLinkProgram(program_ID);
+}
+
+void Shader::useShader()
+{
+    if (!linked) {
+        throw std::invalid_argument("Shader not linked before use");
+    }
+
     glUseProgram(program_ID);
 }
 
@@ -58,7 +93,7 @@ void Shader::add_shader(unsigned int program, const char * shader_path, GLenum s
 {
     std::string shader_string = read_shader_file(shader_path);
  
-    const GLchar * code[1];
+    const GLchar *code[1];
     code[0] = shader_string.c_str();
  
     GLint code_length[1];
@@ -123,6 +158,7 @@ Compute::Compute(const char * compute_shader_path)
     }
 }
 
+
 void Compute::add_shader(unsigned int shader, const char * shader_path)
 {
     std::string shader_string = read_shader_file(shader_path);
@@ -184,7 +220,7 @@ Compute::~Compute()
 {
     if (computeProgram != 0)
     {
-        glDeleteProgram(computeProgram );
+        glDeleteProgram(computeProgram);
         computeProgram = 0;
     }
 }
