@@ -36,7 +36,7 @@ float last_time{ 0.0f };
 // Our vertices. Tree consecutive floats give a 3D vertex; Three consecutive vertices give a triangle.
 // A cube has 6 faces with 2 triangles each, so this makes 6*2=12 triangles, and 12*3 vertices
 static std::vector<GLfloat> g_vertex_buffer_data = {};
-/* static std::vector<GLuint> g_index_buffer_data = {}; */
+static std::vector<GLuint> g_index_buffer_data = { };
 
 // Two UV coordinatesfor each vertex. They were created with Blender.
 static std::vector<GLfloat> g_uv_buffer_data = {};
@@ -48,48 +48,76 @@ void genQuadPlane(int xSize, int ySize, float step)
 
     for (int y = 0; y < ySize; y++) {
         for (int x = 0; x < xSize; ++x) {
-            g_vertex_buffer_data.push_back(step*x+0);
+            g_vertex_buffer_data.push_back(step*x);
             g_vertex_buffer_data.push_back(0);
-            g_vertex_buffer_data.push_back(step*y+step);
-            g_vertex_buffer_data.push_back(step*x+step);
-            g_vertex_buffer_data.push_back(0);
-            g_vertex_buffer_data.push_back(step*y+0);
-            g_vertex_buffer_data.push_back(step*x+0);
-            g_vertex_buffer_data.push_back(0);
-            g_vertex_buffer_data.push_back(step*y+0);
-
-            g_vertex_buffer_data.push_back(step*x+step);
-            g_vertex_buffer_data.push_back(0);
-            g_vertex_buffer_data.push_back(step*y+0);
-            g_vertex_buffer_data.push_back(step*x+0);
-            g_vertex_buffer_data.push_back(0);
-            g_vertex_buffer_data.push_back(step*y+step);
-            g_vertex_buffer_data.push_back(step*x+step);
-            g_vertex_buffer_data.push_back(0);
-            g_vertex_buffer_data.push_back(step*y+step);
+            g_vertex_buffer_data.push_back(step*y);
 
             g_uv_buffer_data.push_back((step*x+0)/max_x);
-            g_uv_buffer_data.push_back((step*y+step)/max_y);
-
-            g_uv_buffer_data.push_back((step*x+step)/max_x);
-            g_uv_buffer_data.push_back((step*y+0)/max_y);
-
-            g_uv_buffer_data.push_back((step*x+0)/max_x);
-            g_uv_buffer_data.push_back((step*y+0)/max_y);
-
-            g_uv_buffer_data.push_back((step*x+step)/max_x);
-            g_uv_buffer_data.push_back((step*y+0)/max_y);
-
-            g_uv_buffer_data.push_back((step*x+0)/max_x);
-            g_uv_buffer_data.push_back((step*y+step)/max_y);
-
-            g_uv_buffer_data.push_back((step*x+step)/max_x);
             g_uv_buffer_data.push_back((step*y+step)/max_y);
         }
     }
+
+    for (int y = 0; y < ySize-1; y++) {
+        for (int x = 0; x < xSize-1; ++x) {
+            g_index_buffer_data.push_back(y*xSize + xSize+x);
+            g_index_buffer_data.push_back(y*xSize + x+1);
+            g_index_buffer_data.push_back(y*xSize + x);
+
+            g_index_buffer_data.push_back(y*xSize + xSize+x);
+            g_index_buffer_data.push_back(y*xSize + xSize+x+1);
+            g_index_buffer_data.push_back(y*xSize + x+1);
+        }
+    }
+
+    /* g_index_buffer_data.push_back(0); */
+    /* g_index_buffer_data.push_back(1); */
+    /* g_index_buffer_data.push_back(xSize); */
+
+
+    /* for (int y = 0; y < ySize; y++) { */
+    /*     for (int x = 0; x < xSize; ++x) { */
+    /*         g_vertex_buffer_data.push_back(step*x+0); */
+    /*         g_vertex_buffer_data.push_back(0); */
+    /*         g_vertex_buffer_data.push_back(step*y+step); */
+    /*         g_vertex_buffer_data.push_back(step*x+step); */
+    /*         g_vertex_buffer_data.push_back(0); */
+    /*         g_vertex_buffer_data.push_back(step*y+0); */
+    /*         g_vertex_buffer_data.push_back(step*x+0); */
+    /*         g_vertex_buffer_data.push_back(0); */
+    /*         g_vertex_buffer_data.push_back(step*y+0); */
+
+    /*         g_vertex_buffer_data.push_back(step*x+step); */
+    /*         g_vertex_buffer_data.push_back(0); */
+    /*         g_vertex_buffer_data.push_back(step*y+0); */
+    /*         g_vertex_buffer_data.push_back(step*x+0); */
+    /*         g_vertex_buffer_data.push_back(0); */
+    /*         g_vertex_buffer_data.push_back(step*y+step); */
+    /*         g_vertex_buffer_data.push_back(step*x+step); */
+    /*         g_vertex_buffer_data.push_back(0); */
+    /*         g_vertex_buffer_data.push_back(step*y+step); */
+
+    /*         g_uv_buffer_data.push_back((step*x+0)/max_x); */
+    /*         g_uv_buffer_data.push_back((step*y+step)/max_y); */
+
+    /*         g_uv_buffer_data.push_back((step*x+step)/max_x); */
+    /*         g_uv_buffer_data.push_back((step*y+0)/max_y); */
+
+    /*         g_uv_buffer_data.push_back((step*x+0)/max_x); */
+    /*         g_uv_buffer_data.push_back((step*y+0)/max_y); */
+
+    /*         g_uv_buffer_data.push_back((step*x+step)/max_x); */
+    /*         g_uv_buffer_data.push_back((step*y+0)/max_y); */
+
+    /*         g_uv_buffer_data.push_back((step*x+0)/max_x); */
+    /*         g_uv_buffer_data.push_back((step*y+step)/max_y); */
+
+    /*         g_uv_buffer_data.push_back((step*x+step)/max_x); */
+    /*         g_uv_buffer_data.push_back((step*y+step)/max_y); */
+    /*     } */
+    /* } */
 }
 
-inline void perlinToTexture(int x_quad_count, int y_quad_count, Texture2D &heightTexture, Texture2D &albedoTexture,
+inline void perlinToTexture(int x_quad_count, int y_quad_count, float scale, Texture2D &heightTexture, Texture2D &albedoTexture,
                             float lowf_freq=32.f, float midf_freq=8.f, float highf_freq=2.f,
                             float lowf_stre=1.f,  float midf_stre=0.2f,float highf_stre=0.05f,
                             float sandLevel=0.11, float grassLevel=0.6)
@@ -100,13 +128,15 @@ inline void perlinToTexture(int x_quad_count, int y_quad_count, Texture2D &heigh
     {
         for (size_t x = 0; x < x_quad_count; ++x) 
         {
-            float lowf = glm::perlin(glm::vec2(x/lowf_freq,y/lowf_freq));
+            float _x = x*scale;
+            float _y = y*scale;
+            float lowf = glm::perlin(glm::vec2(_x/lowf_freq,_y/lowf_freq));
             lowf = glm::pow(((lowf + 1) / 2.0f)*lowf_stre, 3.0f);
 
-            float highf = glm::perlin(glm::vec2(x/midf_freq,y/midf_freq));
+            float highf = glm::perlin(glm::vec2(_x/midf_freq,_y/midf_freq));
             highf = glm::pow(((highf + 1) / 2.0f)*midf_stre, 3.0f);
 
-            float vhighf = glm::perlin(glm::vec2(x/highf_freq,y/highf_freq));
+            float vhighf = glm::perlin(glm::vec2(_x/highf_freq,_y/highf_freq));
             vhighf = ((vhighf + 1) / 2.0f)*highf_stre;
             float value = lowf+highf+vhighf;
 
@@ -163,7 +193,7 @@ int main()
     }
  
     glfwMakeContextCurrent(window);
-    glfwSwapInterval(1);
+    glfwSwapInterval(1); // VSYNC
  
     if (glewInit())
     {
@@ -201,9 +231,15 @@ int main()
 	/* // Load the texture */
 	/* GLuint Texture = loadDDS("assets/uvtemplate.DDS"); */
 	
-    const int x_quad_count = 1000;
-    const int y_quad_count = 1000;
-    const float adj_step = 0.01;
+    /* const int x_quad_count = 1000; */
+    /* const int y_quad_count = 1000; */
+    /* const float adj_step = 0.01; */
+    /* const float perlin_adj = 1; */
+    const int x_quad_count = 50;
+    const int y_quad_count = 50;
+    const float adj_step = 0.2;
+    const float perlin_adj = 20;
+
     genQuadPlane(x_quad_count, y_quad_count,adj_step);
     std::cout << g_vertex_buffer_data.size() << std::endl;
 
@@ -220,13 +256,17 @@ int main()
     Texture2D perlinTexture(x_quad_count,y_quad_count,0, GL_RGBA32F);
     Texture2D albedoTexture(x_quad_count,y_quad_count,1, GL_RGBA32F);
 
-    perlinToTexture(x_quad_count, y_quad_count, perlinTexture, albedoTexture,
+    perlinToTexture(x_quad_count, y_quad_count, perlin_adj, perlinTexture, albedoTexture,
                     lowf_freq,midf_freq,highf_freq,
                     lowf_stre,midf_stre,highf_stre, sandLevel, grassLevel);
 
 	// Get a handle for our "myTextureSampler" uniform
 	/* GLuint TextureID  = glGetUniformLocation(showingShader.program_ID, "heightMapSampler"); */
 	/* GLuint AlbedoTextureID = glGetUniformLocation(showingShader.program_ID, "albedoSampler"); */
+
+    GLuint arrayObj;
+    glCreateVertexArrays(1, &arrayObj);
+	glBindVertexArray(arrayObj);
 
 	GLuint vertexBuffer;
     glCreateBuffers(1, &vertexBuffer);
@@ -236,13 +276,34 @@ int main()
     glCreateBuffers(1, &uvbuffer);
     glNamedBufferStorage(uvbuffer, sizeof(GL_FLOAT)*g_uv_buffer_data.size(), g_uv_buffer_data.data(), GL_MAP_READ_BIT);
 
-	/* GLuint indexBuffer; */
-    /* glCreateBuffers(1, &indexBuffer); */
-    /* glNamedBufferStorage(indexBuffer, sizeof(GL_UNSIGNED_INT)*g_index_buffer_data.size(), g_index_buffer_data.data(), GL_MAP_READ_BIT); */
+	GLuint indexBuffer;
+    glCreateBuffers(1, &indexBuffer);
+    glNamedBufferStorage(indexBuffer, sizeof(GL_UNSIGNED_INT)*g_index_buffer_data.size(), g_index_buffer_data.data(), GL_MAP_READ_BIT);
+    glVertexArrayElementBuffer(arrayObj, indexBuffer);
 
-    GLuint arrayObj;
-    glCreateVertexArrays(1, &arrayObj);
-	glBindVertexArray(arrayObj);
+    // 1rst attribute buffer : vertices
+    glEnableVertexAttribArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+    glVertexAttribPointer(
+        0,                  // attribute. No particular reason for 0, but must match the layout in the shader.
+        3,                  // size
+        GL_FLOAT,           // type
+        GL_FALSE,           // normalized?
+        0,                  // stride
+        (void*)0            // array buffer offset
+    );
+
+    // 2nd attribute buffer : UVs
+    glEnableVertexAttribArray(1);
+    glBindBuffer(GL_ARRAY_BUFFER, uvbuffer);
+    glVertexAttribPointer(
+        1,                                // attribute. No particular reason for 1, but must match the layout in the shader.
+        2,                                // size : U+V => 2
+        GL_FLOAT,                         // type
+        GL_FALSE,                         // normalized?
+        0,                                // stride
+        (void*)0                          // array buffer offset
+    );
 
 
     IMGUI_CHECKVERSION();
@@ -250,7 +311,7 @@ int main()
     ImGuiIO io = ImGui::GetIO();
     ImGui::StyleColorsDark();
     ImGui_ImplGlfw_InitForOpenGL(window, true);
-    ImGui_ImplOpenGL3_Init("#version 330");
+    ImGui_ImplOpenGL3_Init("#version 450");
 
     bool wireframe = false;
     bool recenterMouse = false;
@@ -355,7 +416,7 @@ int main()
         }
         else
         {
-            perlinToTexture(x_quad_count, y_quad_count, perlinTexture, albedoTexture,
+            perlinToTexture(x_quad_count, y_quad_count, perlin_adj, perlinTexture, albedoTexture,
                             lowf_freq,midf_freq,highf_freq,
                             lowf_stre,midf_stre,highf_stre, sandLevel, grassLevel);
         }
@@ -372,35 +433,13 @@ int main()
         perlinTexture.Activate();
         albedoTexture.Activate();
 
-		// 1rst attribute buffer : vertices
-		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-		glVertexAttribPointer(
-			0,                  // attribute. No particular reason for 0, but must match the layout in the shader.
-			3,                  // size
-			GL_FLOAT,           // type
-			GL_FALSE,           // normalized?
-			0,                  // stride
-			(void*)0            // array buffer offset
-		);
-
-		// 2nd attribute buffer : UVs
-		glEnableVertexAttribArray(1);
-		glBindBuffer(GL_ARRAY_BUFFER, uvbuffer);
-		glVertexAttribPointer(
-			1,                                // attribute. No particular reason for 1, but must match the layout in the shader.
-			2,                                // size : U+V => 2
-			GL_FLOAT,                         // type
-			GL_FALSE,                         // normalized?
-			0,                                // stride
-			(void*)0                          // array buffer offset
-		);
-
 		// Draw the triangle !
-		glDrawArrays(GL_TRIANGLES, 0, x_quad_count*y_quad_count*2*3); // 12*3 indices starting at 0 -> 12 triangles
+		/* glDrawArrays(GL_TRIANGLES, 0, x_quad_count*y_quad_count*2*3); // 12*3 indices starting at 0 -> 12 triangles */
+		/* glDrawArrays(GL_POINTS, 0, x_quad_count*y_quad_count*2*3); // 12*3 indices starting at 0 -> 12 triangles */
+		glDrawElements(GL_TRIANGLES, g_index_buffer_data.size(), GL_UNSIGNED_INT, 0); 
 
-		glDisableVertexAttribArray(0);
-		glDisableVertexAttribArray(1);
+		/* glDisableVertexAttribArray(0); */
+		/* glDisableVertexAttribArray(1); */
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
