@@ -1,4 +1,4 @@
-#version 330 core
+#version 450 core
 
 // Interpolated values from the vertex shaders
 in vec2 UV;
@@ -39,7 +39,7 @@ void main(){
 
 	// Output color = color of the texture at the specified UV
     color = texture(albedoSampler, UV).rgb;
-    
+
     vec3 dir = normalize(sunPosition - POS);
     float step = 0.05;
     for (int i = 5; i < 100; i++)
@@ -53,8 +53,5 @@ void main(){
         }
     }
 
-    /* color = get_normal(POS.xz/10.0); */
-
-    color *= max(dot(dir, -get_normal(POS.xz/10.0)), 0.8);
-
+    color *= max(dot(dir, -get_normal(POS.xz/10.0)), 0.9);
 }

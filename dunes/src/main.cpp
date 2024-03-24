@@ -27,8 +27,7 @@
 #include "texture.hpp"
 #include "texture2D.hpp"
 
-
-const uint screen_width = 1920;
+const uint screen_width = 1024;
 const uint screen_height = 1024;
  
 int num_frames{ 0 };
@@ -36,103 +35,11 @@ float last_time{ 0.0f };
  
 // Our vertices. Tree consecutive floats give a 3D vertex; Three consecutive vertices give a triangle.
 // A cube has 6 faces with 2 triangles each, so this makes 6*2=12 triangles, and 12*3 vertices
-static std::vector<GLfloat> g_vertex_buffer_data = { 
-    /* 0, 1, 0, */
-    /* 0, 0, 0, */
-    /* 1, 0, 0, */
-    /* 1, 0, 0, */
-    /* 1, 1, 0, */
-    /* 0, 1, 0, */
-    /* 1.0f,-1.0f, 1.0f, */
-    /* -1.0f,-1.0f,-1.0f, */
-    /* 1.0f,-1.0f,-1.0f, */
-    /* 1.0f, 1.0f,-1.0f, */
-    /* 1.0f,-1.0f,-1.0f, */
-    /* -1.0f,-1.0f,-1.0f, */
-    /* -1.0f,-1.0f,-1.0f, */
-    /* -1.0f, 1.0f, 1.0f, */
-    /* -1.0f, 1.0f,-1.0f, */
-    /* 1.0f,-1.0f, 1.0f, */
-    /* -1.0f,-1.0f, 1.0f, */
-    /* -1.0f,-1.0f,-1.0f, */
-    /* -1.0f, 1.0f, 1.0f, */
-    /* -1.0f,-1.0f, 1.0f, */
-    /* 1.0f,-1.0f, 1.0f, */
-    /* 1.0f, 1.0f, 1.0f, */
-    /* 1.0f,-1.0f,-1.0f, */
-    /* 1.0f, 1.0f,-1.0f, */
-    /* 1.0f,-1.0f,-1.0f, */
-    /* 1.0f, 1.0f, 1.0f, */
-    /* 1.0f,-1.0f, 1.0f, */
-    /* 1.0f, 1.0f, 1.0f, */
-    /* 1.0f, 1.0f,-1.0f, */
-    /* -1.0f, 1.0f,-1.0f, */
-    /* 1.0f, 1.0f, 1.0f, */
-    /* -1.0f, 1.0f,-1.0f, */
-    /* -1.0f, 1.0f, 1.0f, */
-    /* 1.0f, 1.0f, 1.0f, */
-    /* -1.0f, 1.0f, 1.0f, */
-    /* 1.0f,-1.0f, 1.0f */
-};
+static std::vector<GLfloat> g_vertex_buffer_data = {};
+/* static std::vector<GLuint> g_index_buffer_data = {}; */
 
 // Two UV coordinatesfor each vertex. They were created with Blender.
-static std::vector<GLfloat> g_uv_buffer_data = { };
-/* static const GLfloat g_uv_buffer_data[] = { */ 
-/*     0.000059f, 0.000004f, */ 
-/*     0.000103f, 0.336048f, */ 
-/*     0.335973f, 0.335903f, */ 
-/*     1.000023f, 0.000013f, */ 
-/*     0.667979f, 0.335851f, */ 
-/*     0.999958f, 0.336064f, */ 
-/*     0.667979f, 0.335851f, */ 
-/*     0.336024f, 0.671877f, */ 
-/*     0.667969f, 0.671889f, */ 
-/*     1.000023f, 0.000013f, */ 
-/*     0.668104f, 0.000013f, */ 
-/*     0.667979f, 0.335851f, */ 
-/*     0.000059f, 0.000004f, */ 
-/*     0.335973f, 0.335903f, */ 
-/*     0.336098f, 0.000071f, */ 
-/*     0.667979f, 0.335851f, */ 
-/*     0.335973f, 0.335903f, */ 
-/*     0.336024f, 0.671877f, */ 
-/*     1.000004f, 0.671847f, */ 
-/*     0.999958f, 0.336064f, */ 
-/*     0.667979f, 0.335851f, */ 
-/*     0.668104f, 0.000013f, */ 
-/*     0.335973f, 0.335903f, */ 
-/*     0.667979f, 0.335851f, */ 
-/*     0.335973f, 0.335903f, */ 
-/*     0.668104f, 0.000013f, */ 
-/*     0.336098f, 0.000071f, */ 
-/*     0.000103f, 0.336048f, */ 
-/*     0.000004f, 0.671870f, */ 
-/*     0.336024f, 0.671877f, */ 
-/*     0.000103f, 0.336048f, */ 
-/*     0.336024f, 0.671877f, */ 
-/*     0.335973f, 0.335903f, */ 
-/*     0.667969f, 0.671889f, */ 
-/*     1.000004f, 0.671847f, */ 
-/*     0.667979f, 0.335851f */
-/* }; */
-
-void countFPS()
-{
-    double current_time = glfwGetTime();
-    num_frames++;
-    if (current_time - last_time >= 1.0)
-    {
-        std::cout << 1000.0 / num_frames << "ms / frame\n";
-        num_frames = 0;
-        last_time += 1.0;
-    }
-}
-
-struct slimeAgent
-{
-    glm::vec4 position; 
-    glm::vec4 dir;
-};
+static std::vector<GLfloat> g_uv_buffer_data = {};
 
 void genQuadPlane(int xSize, int ySize, float step)
 {
@@ -161,7 +68,6 @@ void genQuadPlane(int xSize, int ySize, float step)
             g_vertex_buffer_data.push_back(0);
             g_vertex_buffer_data.push_back(step*y+step);
 
-
             g_uv_buffer_data.push_back((step*x+0)/max_x);
             g_uv_buffer_data.push_back((step*y+step)/max_y);
 
@@ -170,7 +76,6 @@ void genQuadPlane(int xSize, int ySize, float step)
 
             g_uv_buffer_data.push_back((step*x+0)/max_x);
             g_uv_buffer_data.push_back((step*y+0)/max_y);
-
 
             g_uv_buffer_data.push_back((step*x+step)/max_x);
             g_uv_buffer_data.push_back((step*y+0)/max_y);
@@ -309,8 +214,8 @@ int main()
     float highf_freq = 4;
     float highf_stre = -0.01;
 
-    float sandLevel = 0.1;
-    float grassLevel= 0.6;
+    float sandLevel = 0.03;
+    float grassLevel= 0.55;
 
     Texture2D perlinTexture(x_quad_count,y_quad_count,0, GL_RGBA32F);
     Texture2D albedoTexture(x_quad_count,y_quad_count,1, GL_RGBA32F);
@@ -323,19 +228,22 @@ int main()
 	/* GLuint TextureID  = glGetUniformLocation(showingShader.program_ID, "heightMapSampler"); */
 	/* GLuint AlbedoTextureID = glGetUniformLocation(showingShader.program_ID, "albedoSampler"); */
 
-	GLuint VertexArrayID;
-	glGenVertexArrays(1, &VertexArrayID);
-	glBindVertexArray(VertexArrayID);
-
-	GLuint vertexbuffer;
-	glGenBuffers(1, &vertexbuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(GL_FLOAT)*g_vertex_buffer_data.size(), g_vertex_buffer_data.data(), GL_STATIC_DRAW);
+	GLuint vertexBuffer;
+    glCreateBuffers(1, &vertexBuffer);
+    glNamedBufferStorage(vertexBuffer, sizeof(GL_FLOAT)*g_vertex_buffer_data.size(), g_vertex_buffer_data.data(), GL_MAP_READ_BIT);
 
 	GLuint uvbuffer;
-	glGenBuffers(1, &uvbuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, uvbuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(GL_FLOAT)*g_uv_buffer_data.size(), g_uv_buffer_data.data(), GL_STATIC_DRAW);
+    glCreateBuffers(1, &uvbuffer);
+    glNamedBufferStorage(uvbuffer, sizeof(GL_FLOAT)*g_uv_buffer_data.size(), g_uv_buffer_data.data(), GL_MAP_READ_BIT);
+
+	/* GLuint indexBuffer; */
+    /* glCreateBuffers(1, &indexBuffer); */
+    /* glNamedBufferStorage(indexBuffer, sizeof(GL_UNSIGNED_INT)*g_index_buffer_data.size(), g_index_buffer_data.data(), GL_MAP_READ_BIT); */
+
+    GLuint arrayObj;
+    glCreateVertexArrays(1, &arrayObj);
+	glBindVertexArray(arrayObj);
+
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -348,8 +256,25 @@ int main()
     bool recenterMouse = false;
 
     glm::mat4 MVP;
+
+    double lastSplit = 0;
+    std::string fpsText = "";
+    double lastTime = glfwGetTime();
+    int nbFrames = 0;
+
     while (glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS && glfwWindowShouldClose(window) == 0)
     {
+        // Measure speed
+        double currentTime = glfwGetTime();
+        nbFrames++;
+        if ( currentTime - lastTime >= 1.0 ){ // If last prinf() was more than 1 sec ago
+            // printf and reset timer
+            lastSplit = 1000.0/double(nbFrames);
+            fpsText = "Speed: " + std::to_string(lastSplit);
+            nbFrames = 0;
+            lastTime += 1.0;
+        }
+
 		// Clear the screen
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -360,6 +285,7 @@ int main()
         // do imgui drawing
         ImGui::Begin("ImGui win");
         ImGui::Text("Rendering");
+        ImGui::Text("%s", fpsText.data());
         ImGui::Checkbox("Wireframe", &wireframe);
         ImGui::Text("PerlinNoise");
         ImGui::PushItemWidth(ImGui::CalcItemWidth()/2);
@@ -368,7 +294,6 @@ int main()
         ImGui::SameLine();
         ImGui::DragFloat("##highf_stre", &highf_stre, 0.01, 0.01);
         ImGui::PopItemWidth();
-
 
         ImGui::PushItemWidth(ImGui::CalcItemWidth()/2);
         ImGui::Text("midf");
@@ -447,10 +372,9 @@ int main()
         perlinTexture.Activate();
         albedoTexture.Activate();
 
-
 		// 1rst attribute buffer : vertices
 		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+		glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 		glVertexAttribPointer(
 			0,                  // attribute. No particular reason for 0, but must match the layout in the shader.
 			3,                  // size
@@ -491,12 +415,12 @@ int main()
     ImGui::DestroyContext();
 
 	// Cleanup VBO and shader
-	glDeleteBuffers(1, &vertexbuffer);
+	glDeleteBuffers(1, &vertexBuffer);
 	glDeleteBuffers(1, &uvbuffer);
 	glDeleteProgram(showingShader.program_ID);
 	/* glDeleteTextures(1, &TextureID); */
 	/* glDeleteTextures(1, &AlbedoTextureID); */
-	glDeleteVertexArrays(1, &VertexArrayID);
+	glDeleteVertexArrays(1, &arrayObj);
  
     glfwTerminate();
     return 0;
