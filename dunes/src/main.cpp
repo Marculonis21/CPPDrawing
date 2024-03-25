@@ -29,7 +29,7 @@
 
 extern glm::vec3 position;
 
-const uint screen_width = 1920;
+const uint screen_width = 1024;
 const uint screen_height = 1024;
  
 int num_frames{ 0 };
