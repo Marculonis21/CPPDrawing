@@ -21,7 +21,7 @@ Mesh::~Mesh()
 
 void Mesh::genQuadPlane()
 {
-    const float max = quadSize*count+quadSize;
+    const float max = quadSize*count;
 
     for (size_t y = 0; y < count+1; y++) {
         for (size_t x = 0; x < count+1; ++x) {
@@ -29,8 +29,8 @@ void Mesh::genQuadPlane()
             g_vertex_buffer_data.push_back(0);
             g_vertex_buffer_data.push_back(quadSize*y);
 
-            g_uv_buffer_data.push_back((quadSize*x+0)    /max);
-            g_uv_buffer_data.push_back((quadSize*y+quadSize)/max);
+            g_uv_buffer_data.push_back((quadSize*x)/max);
+            g_uv_buffer_data.push_back((quadSize*y)/max);
         }
     }
 
@@ -49,7 +49,7 @@ void Mesh::genQuadPlane()
 
         for (int y = 0; y < count; y++) {
             for (int x = 0; x < count; ++x) {
-                g_index_buffer_data.push_back(y*(count+1) + (count+1)+x);
+                g_index_buffer_data.push_back(y*(count+1)+(count+1)+x);
                 g_index_buffer_data.push_back(y*(count+1)+ x+1);
                 g_index_buffer_data.push_back(y*(count+1)+ x);
 

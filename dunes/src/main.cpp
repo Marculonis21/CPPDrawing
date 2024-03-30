@@ -54,7 +54,7 @@ inline void perlinToTexture(int x_quad_count, int y_quad_count, float scale, Tex
 
             float value = 0;
 
-            const int octaves = 3;
+            const int octaves = 5;
             float amplitude = 1;
             float frequency = 200;
             float totalAmplitude = 0;
@@ -70,7 +70,6 @@ inline void perlinToTexture(int x_quad_count, int y_quad_count, float scale, Tex
             value = value/glm::pow(totalAmplitude,1.5);
 
             float waterLevel = 0.4f;
-            /* value = glm::clamp(value-waterLevel, 0.0f, 1.0f); */
 
             data.push_back((GLubyte)(value*255));
             data.push_back((GLubyte)(value*255));
@@ -142,7 +141,6 @@ int main()
 	// Enable depth test
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS); 
-	glEnable(GL_CULL_FACE);
     glViewport(0, 0, screen_width, screen_height);
 
     glEnable( GL_BLEND );  
@@ -164,7 +162,7 @@ int main()
     glPatchParameteri(GL_PATCH_VERTICES, 4);
 
     Mesh  terrain(10, 1, true);
-    Mesh seaLevel(2, 5, false);
+    Mesh seaLevel(1, 10, false);
 
     float sandLevel  = 0.03;
     float grassLevel = 0.55;
@@ -274,6 +272,7 @@ int main()
 
         terrain.activate();
 
+	    glEnable(GL_CULL_FACE);
 		glDrawElements(GL_PATCHES, terrain.indexCount, GL_UNSIGNED_INT, 0); 
 
         seaShader.useShader();
@@ -283,11 +282,12 @@ int main()
         sunPosition = glm::vec3(_sun[0], _sun[1], _sun[2]);
         seaShader.set_vec3("sunPosition", sunPosition);
         seaShader.set_float("seaLevel", 0.4);
+        seaShader.set_vec3("cameraPos", position);
 
         seaLevel.activate();
 
+        glDisable(GL_CULL_FACE);
 		glDrawElements(GL_TRIANGLES, seaLevel.indexCount, GL_UNSIGNED_INT, 0); 
-
 
         /* seaLevel.activate(); */
 		/* glDrawElements(GL_PATCHES, seaLevel.indexCount, GL_UNSIGNED_INT, 0); */ 

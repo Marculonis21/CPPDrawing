@@ -27,10 +27,10 @@ void main()
     float dist2 = length(vec4(cameraPos,1) - c3);
     float dist3 = length(vec4(cameraPos,1) - c4);
 
-    int tes0 = int(mix(1024.0, 2.0, clamp(dist0/9.0, 0.0, 1.0)));
-    int tes1 = int(mix(1024.0, 2.0, clamp(dist1/9.0, 0.0, 1.0)));
-    int tes2 = int(mix(1024.0, 2.0, clamp(dist2/9.0, 0.0, 1.0)));
-    int tes3 = int(mix(1024.0, 2.0, clamp(dist3/9.0, 0.0, 1.0)));
+    int tes0 = int(mix(256.0, 2.0, clamp(dist0/20.0, 0.0, 1.0)));
+    int tes1 = int(mix(256.0, 2.0, clamp(dist1/20.0, 0.0, 1.0)));
+    int tes2 = int(mix(256.0, 2.0, clamp(dist2/20.0, 0.0, 1.0)));
+    int tes3 = int(mix(256.0, 2.0, clamp(dist3/20.0, 0.0, 1.0)));
 
     gl_TessLevelOuter[0] = tes0;
     gl_TessLevelOuter[1] = tes1;
