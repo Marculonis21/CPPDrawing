@@ -52,9 +52,13 @@ CMakeFiles/Dunes.dir/src/main.cpp.o
  /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_impl_glfw.h
  /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_impl_opengl3.h
  /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/main.cpp
+ /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/mesh.hpp
  /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/shader.hpp
  /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/texture.hpp
  /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/texture2D.hpp
+CMakeFiles/Dunes.dir/src/mesh.cpp.o
+ /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/mesh.cpp
+ /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/mesh.hpp
 CMakeFiles/Dunes.dir/src/shader.cpp.o
  /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/shader.cpp
  /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/shader.hpp

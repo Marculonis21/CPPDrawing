@@ -1,5 +1,6 @@
 #include <cmath>
 #include <glm/common.hpp>
+#include <glm/exponential.hpp>
 #include <glm/ext/scalar_constants.hpp>
 #include <glm/fwd.hpp>
 #include <glm/geometric.hpp>
@@ -26,6 +27,7 @@
 #include "controls.hpp"
 #include "texture.hpp"
 #include "texture2D.hpp"
+#include "mesh.hpp"
 
 extern glm::vec3 position;
 
@@ -34,112 +36,76 @@ const uint screen_height = 1024;
  
 int num_frames{ 0 };
 float last_time{ 0.0f };
- 
-// Our vertices. Tree consecutive floats give a 3D vertex; Three consecutive vertices give a triangle.
-// A cube has 6 faces with 2 triangles each, so this makes 6*2=12 triangles, and 12*3 vertices
-static std::vector<GLfloat> g_vertex_buffer_data = {};
-static std::vector<GLuint> g_index_buffer_data = { };
 
-// Two UV coordinatesfor each vertex. They were created with Blender.
-static std::vector<GLfloat> g_uv_buffer_data = {};
-
-void genQuadPlane(int xSize, int ySize, float step)
-{
-    const float max_x = step*xSize+step;
-    const float max_y = step*ySize+step;
-
-    for (int y = 0; y < ySize; y++) {
-        for (int x = 0; x < xSize; ++x) {
-            g_vertex_buffer_data.push_back(step*x);
-            g_vertex_buffer_data.push_back(0);
-            g_vertex_buffer_data.push_back(step*y);
-
-            g_uv_buffer_data.push_back((step*x+0)/max_x);
-            g_uv_buffer_data.push_back((step*y+step)/max_y);
-        }
-    }
-
-    // TRIANGLES
-    /* for (int y = 0; y < ySize-1; y++) { */
-    /*     for (int x = 0; x < xSize-1; ++x) { */
-    /*         g_index_buffer_data.push_back(y*xSize + xSize+x); */
-    /*         g_index_buffer_data.push_back(y*xSize + x+1); */
-    /*         g_index_buffer_data.push_back(y*xSize + x); */
-
-    /*         g_index_buffer_data.push_back(y*xSize + xSize+x); */
-    /*         g_index_buffer_data.push_back(y*xSize + xSize+x+1); */
-    /*         g_index_buffer_data.push_back(y*xSize + x+1); */
-    /*     } */
-    /* } */
-
-    // PATCHES
-    for (int y = 0; y < ySize-1; y++) {
-        for (int x = 0; x < xSize-1; ++x) {
-            g_index_buffer_data.push_back((y+1)*xSize + x);
-            g_index_buffer_data.push_back((y+1)*xSize + x+1);
-            g_index_buffer_data.push_back(y*xSize     + x+1);
-            g_index_buffer_data.push_back(y*xSize     + x);
-        }
-    }
-}
 
 inline void perlinToTexture(int x_quad_count, int y_quad_count, float scale, Texture2D &heightTexture, Texture2D &albedoTexture,
-                            float lowf_freq=32.f, float midf_freq=8.f, float highf_freq=2.f,
-                            float lowf_stre=1.f,  float midf_stre=0.2f,float highf_stre=0.05f,
                             float sandLevel=0.11, float grassLevel=0.6)
 {
-    GLubyte data[y_quad_count][x_quad_count][4] = {};
-    GLubyte colorData[y_quad_count][x_quad_count][4] = {};
+    std::cout << "data created" << std::endl;
+    std::vector<GLubyte> data;
+    std::vector<GLubyte> colorData;
+
     for (size_t y = 0; y < y_quad_count; ++y) 
     {
         for (size_t x = 0; x < x_quad_count; ++x) 
         {
             float _x = x*scale;
             float _y = y*scale;
-            float lowf = glm::perlin(glm::vec2(_x/lowf_freq,_y/lowf_freq));
-            lowf = glm::pow(((lowf + 1) / 2.0f)*lowf_stre, 3.0f);
 
-            float highf = glm::perlin(glm::vec2(_x/midf_freq,_y/midf_freq));
-            highf = glm::pow(((highf + 1) / 2.0f)*midf_stre, 3.0f);
+            float value = 0;
 
-            float vhighf = glm::perlin(glm::vec2(_x/highf_freq,_y/highf_freq));
-            vhighf = ((vhighf + 1) / 2.0f)*highf_stre;
-            float value = lowf+highf+vhighf;
+            const int octaves = 3;
+            float amplitude = 1;
+            float frequency = 200;
+            float totalAmplitude = 0;
+            for (float i = 0; i < octaves; ++i)  {
+                value += ((glm::perlin(glm::vec2(_x/frequency, _y/frequency))+1)/2)*amplitude;
 
-            value = glm::clamp(value-0.1f, 0.0f, 1.0f);
-
-            data[y][x][0] = (GLubyte)(value*255);
-            data[y][x][1] = (GLubyte)(value*255);
-            data[y][x][2] = (GLubyte)(value*255);
-            data[y][x][3] = (GLubyte)(value*255);
-
-            if (value == 0.0f) {
-                colorData[y][x][0] = (GLubyte)0;
-                colorData[y][x][1] = (GLubyte)0;
-                colorData[y][x][2] = (GLubyte)150;
+                totalAmplitude += amplitude;
+                amplitude *= 0.5;
+                frequency /= 2.0;
             }
-            else if (value < sandLevel) {
-                colorData[y][x][0] = (GLubyte)255;
-                colorData[y][x][1] = (GLubyte)250;
-                colorData[y][x][2] = (GLubyte)212;
+
+            value = glm::pow(value, 1.5);
+            value = value/glm::pow(totalAmplitude,1.5);
+
+            float waterLevel = 0.4f;
+            /* value = glm::clamp(value-waterLevel, 0.0f, 1.0f); */
+
+            data.push_back((GLubyte)(value*255));
+            data.push_back((GLubyte)(value*255));
+            data.push_back((GLubyte)(value*255));
+            data.push_back((GLubyte)(value*255));
+
+            value -= waterLevel;
+
+            /* if (value  0.0f) { */
+            /*     colorData.push_back((GLubyte)0); */
+            /*     colorData.push_back((GLubyte)0); */
+            /*     colorData.push_back((GLubyte)150); */
+            /* } */
+            if (value < sandLevel) {
+                colorData.push_back((GLubyte)255);
+                colorData.push_back((GLubyte)250);
+                colorData.push_back((GLubyte)212);
             }
-            else if (value < grassLevel) {
-                colorData[y][x][0] = (GLubyte)112;
-                colorData[y][x][1] = (GLubyte)192;
-                colorData[y][x][2] = (GLubyte)72;
+            else if (value < grassLevel-waterLevel) {
+                colorData.push_back((GLubyte)112);
+                colorData.push_back((GLubyte)192);
+                colorData.push_back((GLubyte)72);
             }
             else {
-                colorData[y][x][0] = (GLubyte)85;
-                colorData[y][x][1] = (GLubyte)89;
-                colorData[y][x][2] = (GLubyte)92;
+                colorData.push_back((GLubyte)85);
+                colorData.push_back((GLubyte)89);
+                colorData.push_back((GLubyte)92);
             }
 
-            colorData[y][x][3] = (GLubyte)(255);
+            colorData.push_back((GLubyte)(255));
         }
     }
 
-    heightTexture.AddData(GL_RGBA, GL_UNSIGNED_BYTE, data);
-    albedoTexture.AddData(GL_RGBA, GL_UNSIGNED_BYTE, colorData);
+    heightTexture.AddData(GL_RGBA, GL_UNSIGNED_BYTE, data.data());
+    albedoTexture.AddData(GL_RGBA, GL_UNSIGNED_BYTE, colorData.data());
 }
 
 int main()
@@ -166,12 +132,7 @@ int main()
         std::cout << "Failed initializing GLEW\n";
     }
 
-	// Ensure we can capture the escape key being pressed below
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
-    // Hide the mouse and enable unlimited mouvement
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    
-    // Set the mouse at the center of the screen
     glfwPollEvents();
     glfwSetCursorPos(window, screen_width/2, screen_height/2);
 
@@ -180,106 +141,39 @@ int main()
 
 	// Enable depth test
 	glEnable(GL_DEPTH_TEST);
-	// Accept fragment if it closer to the camera than the former one
 	glDepthFunc(GL_LESS); 
-
-	// Cull triangles which normal is not towards the camera
 	glEnable(GL_CULL_FACE);
- 
     glViewport(0, 0, screen_width, screen_height);
 
-	// Create and compile our GLSL program from the shaders
-	/* Shader showingShader = Shader("assets/shaders/TransformVertexShader.glsl", "assets/shaders/TextureFragmentShader.glsl"); */
-	Shader mainShader = Shader();
+    glEnable( GL_BLEND );  
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
 
+	Shader mainShader;
     mainShader.addShader("assets/shaders/TransformVertexShader.glsl", GL_VERTEX_SHADER);
     mainShader.addShader("assets/shaders/TextureFragmentShader.glsl", GL_FRAGMENT_SHADER);
     mainShader.addShader("assets/shaders/tesc.glsl", GL_TESS_CONTROL_SHADER);
     mainShader.addShader("assets/shaders/tese.glsl", GL_TESS_EVALUATION_SHADER);
     mainShader.linkProgram();
 
+	Shader seaShader;
+    seaShader.addShader("assets/shaders/seaVertexShader.glsl", GL_VERTEX_SHADER);
+    seaShader.addShader("assets/shaders/seaFragmentShader.glsl", GL_FRAGMENT_SHADER);
+    seaShader.linkProgram();
+
+    // Tesselation
     glPatchParameteri(GL_PATCH_VERTICES, 4);
 
-	// Get a handle for our "MVP" uniform
-	GLuint MatrixID = glGetUniformLocation(mainShader.program_ID, "MVP");
+    Mesh  terrain(10, 1, true);
+    Mesh seaLevel(2, 5, false);
 
-	/* // Load the texture */
-	/* GLuint Texture = loadDDS("assets/uvtemplate.DDS"); */
-	
-    /* const int x_quad_count = 1000; */
-    /* const int y_quad_count = 1000; */
-    /* const float adj_step = 0.01; */
-    /* const float perlin_adj = 1; */
-    const int x_quad_count = 10;
-    const int y_quad_count = 10;
-    const float adj_step = 1;
-    const float perlin_adj = 100;
-
-    genQuadPlane(x_quad_count, y_quad_count,adj_step);
-    std::cout << g_vertex_buffer_data.size() << std::endl;
-
-    float lowf_freq = 200;
-    float lowf_stre = 1.05;
-    float midf_freq = 40;
-    float midf_stre = 0.5;
-    float highf_freq = 4;
-    float highf_stre = -0.01;
-
-    float sandLevel = 0.03;
-    float grassLevel= 0.55;
-
+    float sandLevel  = 0.03;
+    float grassLevel = 0.55;
     Texture2D perlinTexture(1000,1000,0, GL_RGBA32F);
     Texture2D albedoTexture(1000,1000,1, GL_RGBA32F);
 
-    perlinToTexture(1000,1000, 1, perlinTexture, albedoTexture,
-                    lowf_freq,midf_freq,highf_freq,
-                    lowf_stre,midf_stre,highf_stre, sandLevel, grassLevel);
-    /* perlinToTexture(x_quad_count, y_quad_count, perlin_adj, perlinTexture, albedoTexture, */
-    /*                 lowf_freq,midf_freq,highf_freq, */
-    /*                 lowf_stre,midf_stre,highf_stre, sandLevel, grassLevel); */
+    perlinToTexture(1000,1000, 1, perlinTexture, albedoTexture, sandLevel, grassLevel);
 
-
-    GLuint arrayObj;
-    glCreateVertexArrays(1, &arrayObj);
-	glBindVertexArray(arrayObj);
-
-	GLuint vertexBuffer;
-    glCreateBuffers(1, &vertexBuffer);
-    glNamedBufferStorage(vertexBuffer, sizeof(GL_FLOAT)*g_vertex_buffer_data.size(), g_vertex_buffer_data.data(), GL_MAP_READ_BIT);
-
-	GLuint uvbuffer;
-    glCreateBuffers(1, &uvbuffer);
-    glNamedBufferStorage(uvbuffer, sizeof(GL_FLOAT)*g_uv_buffer_data.size(), g_uv_buffer_data.data(), GL_MAP_READ_BIT);
-
-	GLuint indexBuffer;
-    glCreateBuffers(1, &indexBuffer);
-    glNamedBufferStorage(indexBuffer, sizeof(GL_UNSIGNED_INT)*g_index_buffer_data.size(), g_index_buffer_data.data(), GL_MAP_READ_BIT);
-    glVertexArrayElementBuffer(arrayObj, indexBuffer);
-
-    // 1rst attribute buffer : vertices
-    glEnableVertexAttribArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-    glVertexAttribPointer(
-        0,                  // attribute. No particular reason for 0, but must match the layout in the shader.
-        3,                  // size
-        GL_FLOAT,           // type
-        GL_FALSE,           // normalized?
-        0,                  // stride
-        (void*)0            // array buffer offset
-    );
-
-    // 2nd attribute buffer : UVs
-    glEnableVertexAttribArray(1);
-    glBindBuffer(GL_ARRAY_BUFFER, uvbuffer);
-    glVertexAttribPointer(
-        1,                                // attribute. No particular reason for 1, but must match the layout in the shader.
-        2,                                // size : U+V => 2
-        GL_FLOAT,                         // type
-        GL_FALSE,                         // normalized?
-        0,                                // stride
-        (void*)0                          // array buffer offset
-    );
-
+    std::cout << "perlin done" << std::endl;
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -289,7 +183,7 @@ int main()
     ImGui_ImplOpenGL3_Init("#version 450");
 
     bool wireframe = false;
-    bool recenterMouse = false;
+    bool showMouse = false;
 
     glm::mat4 MVP;
 
@@ -297,6 +191,13 @@ int main()
     std::string fpsText = "";
     double lastTime = glfwGetTime();
     int nbFrames = 0;
+
+    float _sun[3];
+    glm::vec3 sunPosition(-50,100,-50);
+    _sun[0] = sunPosition.x;
+    _sun[1] = sunPosition.y;
+    _sun[2] = sunPosition.z;
+
 
     while (glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS && glfwWindowShouldClose(window) == 0)
     {
@@ -320,30 +221,10 @@ int main()
 
         // do imgui drawing
         ImGui::Begin("ImGui win");
+        ImGui::Text("X:%s, Y:%s, Z:%s", std::to_string(position.x).data(), std::to_string(position.y).data(), std::to_string(position.z).data());
         ImGui::Text("Rendering");
         ImGui::Text("%s", fpsText.data());
         ImGui::Checkbox("Wireframe", &wireframe);
-        ImGui::Text("PerlinNoise");
-        ImGui::PushItemWidth(ImGui::CalcItemWidth()/2);
-        ImGui::Text("highf");
-        ImGui::DragFloat("##highf_freq", &highf_freq, 0.01, 0.01);
-        ImGui::SameLine();
-        ImGui::DragFloat("##highf_stre", &highf_stre, 0.01, 0.01);
-        ImGui::PopItemWidth();
-
-        ImGui::PushItemWidth(ImGui::CalcItemWidth()/2);
-        ImGui::Text("midf");
-        ImGui::DragFloat("##midf_freq", &midf_freq, 0.01, 0.01);
-        ImGui::SameLine();
-        ImGui::DragFloat("##midf_stre", &midf_stre, 0.01, 0.01);
-        ImGui::PopItemWidth();
-
-        ImGui::PushItemWidth(ImGui::CalcItemWidth()/2);
-        ImGui::Text("lowf");
-        ImGui::DragFloat("##lowf_freq", &lowf_freq, 0.01, 0.01);
-        ImGui::SameLine();
-        ImGui::DragFloat("##lowf_stre", &lowf_stre, 0.01, 0.01);
-        ImGui::PopItemWidth();
 
         ImGui::Text("Levels");
         ImGui::PushItemWidth(ImGui::CalcItemWidth()/2);
@@ -353,70 +234,63 @@ int main()
         ImGui::DragFloat("##grass", &grassLevel, 0.01, 0);
         ImGui::PopItemWidth();
 
+        ImGui::DragFloat3("sunPosition:", _sun);
+
         ImGui::End();
 
-        if(glfwGetKey(window, GLFW_KEY_SPACE ) == GLFW_PRESS)
-        {
-            recenterMouse = true;
-            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        if(glfwGetKey(window, GLFW_KEY_SPACE ) == GLFW_PRESS) { 
+	        glfwSetCursorPos(window, screen_width/2, screen_height/2);
+            showMouse = !showMouse;
         }
-        else
-        {
-            // Hide the mouse and enable unlimited mouvement
-            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-        }
-
-
-        if (wireframe) {
-            glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-        }
-        else {
-            glPolygonMode( GL_FRONT_AND_BACK,GL_FILL );
-        }
-
+        
         if(glfwGetKey(window, GLFW_KEY_F1) == GLFW_PRESS) wireframe = false;
         if(glfwGetKey(window, GLFW_KEY_F2) == GLFW_PRESS) wireframe = true;
 
-		// Use our shader
-        mainShader.useShader();
+        glfwSetInputMode(window, GLFW_CURSOR, showMouse ? GLFW_CURSOR_NORMAL : GLFW_CURSOR_DISABLED);
+        glPolygonMode( GL_FRONT_AND_BACK, wireframe ? GL_LINE : GL_FILL);
 
-		// Compute the MVP matrix from keyboard and mouse input
-        if(glfwGetKey(window, GLFW_KEY_SPACE ) != GLFW_PRESS)
+        if(!showMouse)
         {
-            computeMatricesFromInputs(window, screen_width, screen_height, recenterMouse);
+            computeMatricesFromInputs(window, screen_width, screen_height);
             glm::mat4 ProjectionMatrix = getProjectionMatrix();
             glm::mat4 ViewMatrix = getViewMatrix();
             glm::mat4 ModelMatrix = glm::mat4(1.0);
             MVP = ProjectionMatrix * ViewMatrix * ModelMatrix;
         }
-        else
-        {
-            perlinToTexture(x_quad_count, y_quad_count, perlin_adj, perlinTexture, albedoTexture,
-                            lowf_freq,midf_freq,highf_freq,
-                            lowf_stre,midf_stre,highf_stre, sandLevel, grassLevel);
-        }
-
-		// Send our transformation to the currently bound shader, 
-		// in the "MVP" uniform
-		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
-
-		// Bind our texture in Texture Unit 0
-        
-        mainShader.set_int("heightMapSampler",0);
-        mainShader.set_int("albedoSampler",1);
-        mainShader.set_vec3("cameraPos", position);
 
         perlinTexture.Activate();
         albedoTexture.Activate();
 
-		// Draw the triangle !
-		/* glDrawArrays(GL_TRIANGLES, 0, x_quad_count*y_quad_count*2*3); // 12*3 indices starting at 0 -> 12 triangles */
-		/* glDrawArrays(GL_POINTS, 0, x_quad_count*y_quad_count*2*3); // 12*3 indices starting at 0 -> 12 triangles */
-		/* glDrawElements(GL_TRIANGLES, g_index_buffer_data.size(), GL_UNSIGNED_INT, 0); */ 
-		glDrawElements(GL_PATCHES, g_index_buffer_data.size(), GL_UNSIGNED_INT, 0); 
+		// Use our shader
+        mainShader.useShader();
 
-		/* glDisableVertexAttribArray(0); */
-		/* glDisableVertexAttribArray(1); */
+        mainShader.set_mat4("MVP", MVP);
+        mainShader.set_int("heightMapSampler",0);
+        mainShader.set_int("albedoSampler",1);
+        mainShader.set_vec3("cameraPos", position);
+        sunPosition = glm::vec3(_sun[0], _sun[1], _sun[2]);
+        mainShader.set_vec3("sunPosition", sunPosition);
+        mainShader.set_float("seaLevel", 0.4);
+
+        terrain.activate();
+
+		glDrawElements(GL_PATCHES, terrain.indexCount, GL_UNSIGNED_INT, 0); 
+
+        seaShader.useShader();
+        seaShader.set_mat4("MVP", MVP);
+        seaShader.set_int("heightMapSampler",0);
+        seaShader.set_int("albedoSampler",1);
+        sunPosition = glm::vec3(_sun[0], _sun[1], _sun[2]);
+        seaShader.set_vec3("sunPosition", sunPosition);
+        seaShader.set_float("seaLevel", 0.4);
+
+        seaLevel.activate();
+
+		glDrawElements(GL_TRIANGLES, seaLevel.indexCount, GL_UNSIGNED_INT, 0); 
+
+
+        /* seaLevel.activate(); */
+		/* glDrawElements(GL_PATCHES, seaLevel.indexCount, GL_UNSIGNED_INT, 0); */ 
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -430,11 +304,6 @@ int main()
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
 
-	// Cleanup VBO and shader
-	glDeleteBuffers(1, &vertexBuffer);
-	glDeleteBuffers(1, &uvbuffer);
-	glDeleteVertexArrays(1, &arrayObj);
- 
     glfwTerminate();
     return 0;
 }

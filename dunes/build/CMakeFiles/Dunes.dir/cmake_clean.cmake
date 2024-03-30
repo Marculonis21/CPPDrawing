@@ -8,6 +8,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/Dunes.dir/src/imgui/imgui_tables.cpp.o"
   "CMakeFiles/Dunes.dir/src/imgui/imgui_widgets.cpp.o"
   "CMakeFiles/Dunes.dir/src/main.cpp.o"
+  "CMakeFiles/Dunes.dir/src/mesh.cpp.o"
   "CMakeFiles/Dunes.dir/src/shader.cpp.o"
   "CMakeFiles/Dunes.dir/src/texture.cpp.o"
   "CMakeFiles/Dunes.dir/src/texture2D.cpp.o"

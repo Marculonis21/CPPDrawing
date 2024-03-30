@@ -13,6 +13,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_tables.cpp" "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles/Dunes.dir/src/imgui/imgui_tables.cpp.o"
   "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/imgui/imgui_widgets.cpp" "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles/Dunes.dir/src/imgui/imgui_widgets.cpp.o"
   "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/main.cpp" "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles/Dunes.dir/src/main.cpp.o"
+  "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/mesh.cpp" "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles/Dunes.dir/src/mesh.cpp.o"
   "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/shader.cpp" "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles/Dunes.dir/src/shader.cpp.o"
   "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/texture.cpp" "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles/Dunes.dir/src/texture.cpp.o"
   "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/texture2D.cpp" "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles/Dunes.dir/src/texture2D.cpp.o"

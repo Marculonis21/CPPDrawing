@@ -41,7 +41,7 @@ void main()
     vec4 rightPos = pos1 + v * (pos2 - pos1);
     vec4 _pos = leftPos + u * (rightPos - leftPos);
 
-    gl_Position = MVP * vec4(_pos.xyz + vec3(0,1,0)*get_height(texCoord), 1);
+    gl_Position = MVP * vec4(_pos.xyz + vec3(0,2,0)*get_height(texCoord), 1);
 
     UV = texCoord;
     POS = gl_Position.xyz;

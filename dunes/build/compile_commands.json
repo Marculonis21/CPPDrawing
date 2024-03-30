@@ -46,6 +46,11 @@
 },
 {
   "directory": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build",
+  "command": "/usr/bin/c++   -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/src -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src  -O3 -lpthread   -std=c++17 -o CMakeFiles/Dunes.dir/src/mesh.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/mesh.cpp",
+  "file": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/mesh.cpp"
+},
+{
+  "directory": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build",
   "command": "/usr/bin/c++   -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/src -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src  -O3 -lpthread   -std=c++17 -o CMakeFiles/Dunes.dir/src/shader.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/shader.cpp",
   "file": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src/shader.cpp"
 },

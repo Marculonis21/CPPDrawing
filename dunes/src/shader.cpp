@@ -138,6 +138,11 @@ void Shader::set_vec4(const std::string & name, glm::vec4 vec) const
     glUniform4f(glGetUniformLocation(program_ID, name.c_str()), vec.x, vec.y, vec.z, vec.w);
 }
 
+void Shader::set_mat4(const std::string & name, glm::mat4 mat) const
+{
+    glUniformMatrix4fv(glGetUniformLocation(program_ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
+}
+
 Compute::Compute(const char * compute_shader_path)
 {
     GLuint computeShader = glCreateShader(GL_COMPUTE_SHADER);

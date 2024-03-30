@@ -51,9 +51,13 @@ CMakeFiles/Dunes.dir/src/main.cpp.o: ../src/imgui/imgui.h
 CMakeFiles/Dunes.dir/src/main.cpp.o: ../src/imgui/imgui_impl_glfw.h
 CMakeFiles/Dunes.dir/src/main.cpp.o: ../src/imgui/imgui_impl_opengl3.h
 CMakeFiles/Dunes.dir/src/main.cpp.o: ../src/main.cpp
+CMakeFiles/Dunes.dir/src/main.cpp.o: ../src/mesh.hpp
 CMakeFiles/Dunes.dir/src/main.cpp.o: ../src/shader.hpp
 CMakeFiles/Dunes.dir/src/main.cpp.o: ../src/texture.hpp
 CMakeFiles/Dunes.dir/src/main.cpp.o: ../src/texture2D.hpp
+
+CMakeFiles/Dunes.dir/src/mesh.cpp.o: ../src/mesh.cpp
+CMakeFiles/Dunes.dir/src/mesh.cpp.o: ../src/mesh.hpp
 
 CMakeFiles/Dunes.dir/src/shader.cpp.o: ../src/shader.cpp
 CMakeFiles/Dunes.dir/src/shader.cpp.o: ../src/shader.hpp
