@@ -3,6 +3,7 @@
 // Interpolated values from the vertex shaders
 in vec2 UV;
 in vec3 vertexPos;
+in vec3 normal;
 
 // Ouput data
 out vec4 color;
@@ -62,20 +63,20 @@ vec4 get_reflection(vec3 startPos, vec3 dir)
         }
     }
 
-    return vec4(0.2,0.2,1,1);
+    return vec4(0.2,0.2,0.5,1);
 }
 
 void main(){
 
-    vec3 POS = vec3(UV.x, 0.4, UV.y);
+    vec3 POS = vec3(UV.x, seaLevel, UV.y);
 
-    /* vec3 cam = vec3(cameraPos.x/10, cameraPos.y, cameraPos.z/10); */
-    vec3 camReflect = reflect(vertexPos-cameraPos,vec3(0,1,0));
+    vec3 camDir = normalize(vertexPos-cameraPos);
+    vec3 camReflect = reflect(camDir,normal);
 
     camReflect.y *= 4;
     camReflect = normalize(camReflect);
+
     color = get_reflection(POS, camReflect);
-    color.a = 0.25;
+    color.a = clamp(1-dot(-camDir,normal),0,1);
     color = get_shadows(color, POS);
-    /* color = vec4(camReflect,1); */
 }

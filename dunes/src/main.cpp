@@ -162,7 +162,7 @@ int main()
     glPatchParameteri(GL_PATCH_VERTICES, 4);
 
     Mesh  terrain(10, 1, true);
-    Mesh seaLevel(1, 10, false);
+    Mesh seaLevel(100, 0.1, false);
 
     float sandLevel  = 0.03;
     float grassLevel = 0.55;
@@ -269,6 +269,7 @@ int main()
         sunPosition = glm::vec3(_sun[0], _sun[1], _sun[2]);
         mainShader.set_vec3("sunPosition", sunPosition);
         mainShader.set_float("seaLevel", 0.4);
+        mainShader.set_vec3("origin", glm::vec3(0,0,0));
 
         terrain.activate();
 
@@ -283,6 +284,7 @@ int main()
         seaShader.set_vec3("sunPosition", sunPosition);
         seaShader.set_float("seaLevel", 0.4);
         seaShader.set_vec3("cameraPos", position);
+        seaShader.set_float("time", currentTime);
 
         seaLevel.activate();
 

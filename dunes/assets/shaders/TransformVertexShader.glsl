@@ -12,6 +12,7 @@ out vec2 UV;
 /* uniform sampler2D heightMapSampler; */
 /* uniform sampler2D albedoSampler; */
 /* uniform mat4 MVP; */
+uniform vec3 origin;
 
 /* float get_height(vec2 v_UV) */
 /* { */
@@ -25,7 +26,7 @@ void main(){
 
     /* vec3 vertex = vec3(0,1,0)*get_height(vertexUV); */
 
-	gl_Position =  vec4(vertexPosition_modelspace,1);
+	gl_Position =  vec4(origin + vertexPosition_modelspace,1);
     
     /* POS = vertexPosition_modelspace + vertex; */
     /* POS = vertexPosition_modelspace; */
