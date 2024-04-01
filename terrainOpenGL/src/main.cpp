@@ -39,7 +39,7 @@ float last_time{ 0.0f };
 
 
 inline void perlinToTexture(int x_quad_count, int y_quad_count, float scale, Texture2D &heightTexture, Texture2D &albedoTexture,
-                            float sandLevel=0.11, float grassLevel=0.6)
+                            float sandLevel=0.11, float grassLevel=0.6, float waterLevel=0.4)
 {
     std::cout << "data created" << std::endl;
     std::vector<GLubyte> data;
@@ -69,7 +69,6 @@ inline void perlinToTexture(int x_quad_count, int y_quad_count, float scale, Tex
             value = glm::pow(value, 1.5);
             value = value/glm::pow(totalAmplitude,1.5);
 
-            float waterLevel = 0.4f;
 
             data.push_back((GLubyte)(value*255));
             data.push_back((GLubyte)(value*255));
@@ -166,10 +165,11 @@ int main()
 
     float sandLevel  = 0.03;
     float grassLevel = 0.55;
+    float waterLevel = 0.4;
     Texture2D perlinTexture(1000,1000,0, GL_RGBA32F);
     Texture2D albedoTexture(1000,1000,1, GL_RGBA32F);
 
-    perlinToTexture(1000,1000, 1, perlinTexture, albedoTexture, sandLevel, grassLevel);
+    perlinToTexture(1000,1000, 1, perlinTexture, albedoTexture, sandLevel, grassLevel, waterLevel);
 
     std::cout << "perlin done" << std::endl;
 
@@ -195,7 +195,6 @@ int main()
     _sun[0] = sunPosition.x;
     _sun[1] = sunPosition.y;
     _sun[2] = sunPosition.z;
-
 
     while (glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS && glfwWindowShouldClose(window) == 0)
     {
@@ -268,7 +267,7 @@ int main()
         mainShader.set_vec3("cameraPos", position);
         sunPosition = glm::vec3(_sun[0], _sun[1], _sun[2]);
         mainShader.set_vec3("sunPosition", sunPosition);
-        mainShader.set_float("seaLevel", 0.4);
+        mainShader.set_float("seaLevel", waterLevel);
         mainShader.set_vec3("origin", glm::vec3(0,0,0));
 
         terrain.activate();
@@ -282,7 +281,7 @@ int main()
         seaShader.set_int("albedoSampler",1);
         sunPosition = glm::vec3(_sun[0], _sun[1], _sun[2]);
         seaShader.set_vec3("sunPosition", sunPosition);
-        seaShader.set_float("seaLevel", 0.4);
+        seaShader.set_float("seaLevel", waterLevel);
         seaShader.set_vec3("cameraPos", position);
         seaShader.set_float("time", currentTime);
 
@@ -290,9 +289,6 @@ int main()
 
         glDisable(GL_CULL_FACE);
 		glDrawElements(GL_TRIANGLES, seaLevel.indexCount, GL_UNSIGNED_INT, 0); 
-
-        /* seaLevel.activate(); */
-		/* glDrawElements(GL_PATCHES, seaLevel.indexCount, GL_UNSIGNED_INT, 0); */ 
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
