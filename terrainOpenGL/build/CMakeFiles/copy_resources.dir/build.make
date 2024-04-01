@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes
+CMAKE_SOURCE_DIR = /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build
+CMAKE_BINARY_DIR = /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build
 
 # Utility rule file for copy_resources.
 
@@ -54,8 +54,8 @@ CMAKE_BINARY_DIR = /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build
 include CMakeFiles/copy_resources.dir/progress.make
 
 CMakeFiles/copy_resources:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Copying shaders to binary dir"
-	/usr/bin/cmake -E copy_directory /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/assets/shaders /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/assets/shaders
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Copying shaders to binary dir"
+	/usr/bin/cmake -E copy_directory /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/assets/shaders /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/assets/shaders
 
 copy_resources: CMakeFiles/copy_resources
 copy_resources: CMakeFiles/copy_resources.dir/build.make
@@ -72,6 +72,6 @@ CMakeFiles/copy_resources.dir/clean:
 .PHONY : CMakeFiles/copy_resources.dir/clean
 
 CMakeFiles/copy_resources.dir/depend:
-	cd /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles/copy_resources.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/CMakeFiles/copy_resources.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/copy_resources.dir/depend
 

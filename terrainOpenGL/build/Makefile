@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes
+CMAKE_SOURCE_DIR = /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build
+CMAKE_BINARY_DIR = /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/CMakeFiles /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -124,17 +124,17 @@ copy_resources/fast:
 .PHONY : copy_resources/fast
 
 #=============================================================================
-# Target rules for targets named Dunes
+# Target rules for targets named Terrain
 
 # Build rule for target.
-Dunes: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 Dunes
-.PHONY : Dunes
+Terrain: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 Terrain
+.PHONY : Terrain
 
 # fast build rule for target.
-Dunes/fast:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/build
-.PHONY : Dunes/fast
+Terrain/fast:
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/build
+.PHONY : Terrain/fast
 
 src/controls.o: src/controls.cpp.o
 
@@ -142,7 +142,7 @@ src/controls.o: src/controls.cpp.o
 
 # target to build an object file
 src/controls.cpp.o:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/controls.cpp.o
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/controls.cpp.o
 .PHONY : src/controls.cpp.o
 
 src/controls.i: src/controls.cpp.i
@@ -151,7 +151,7 @@ src/controls.i: src/controls.cpp.i
 
 # target to preprocess a source file
 src/controls.cpp.i:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/controls.cpp.i
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/controls.cpp.i
 .PHONY : src/controls.cpp.i
 
 src/controls.s: src/controls.cpp.s
@@ -160,7 +160,7 @@ src/controls.s: src/controls.cpp.s
 
 # target to generate assembly for a file
 src/controls.cpp.s:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/controls.cpp.s
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/controls.cpp.s
 .PHONY : src/controls.cpp.s
 
 src/imgui/imgui.o: src/imgui/imgui.cpp.o
@@ -169,7 +169,7 @@ src/imgui/imgui.o: src/imgui/imgui.cpp.o
 
 # target to build an object file
 src/imgui/imgui.cpp.o:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui.cpp.o
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/imgui/imgui.cpp.o
 .PHONY : src/imgui/imgui.cpp.o
 
 src/imgui/imgui.i: src/imgui/imgui.cpp.i
@@ -178,7 +178,7 @@ src/imgui/imgui.i: src/imgui/imgui.cpp.i
 
 # target to preprocess a source file
 src/imgui/imgui.cpp.i:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui.cpp.i
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/imgui/imgui.cpp.i
 .PHONY : src/imgui/imgui.cpp.i
 
 src/imgui/imgui.s: src/imgui/imgui.cpp.s
@@ -187,7 +187,7 @@ src/imgui/imgui.s: src/imgui/imgui.cpp.s
 
 # target to generate assembly for a file
 src/imgui/imgui.cpp.s:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui.cpp.s
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/imgui/imgui.cpp.s
 .PHONY : src/imgui/imgui.cpp.s
 
 src/imgui/imgui_demo.o: src/imgui/imgui_demo.cpp.o
@@ -196,7 +196,7 @@ src/imgui/imgui_demo.o: src/imgui/imgui_demo.cpp.o
 
 # target to build an object file
 src/imgui/imgui_demo.cpp.o:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_demo.cpp.o
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/imgui/imgui_demo.cpp.o
 .PHONY : src/imgui/imgui_demo.cpp.o
 
 src/imgui/imgui_demo.i: src/imgui/imgui_demo.cpp.i
@@ -205,7 +205,7 @@ src/imgui/imgui_demo.i: src/imgui/imgui_demo.cpp.i
 
 # target to preprocess a source file
 src/imgui/imgui_demo.cpp.i:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_demo.cpp.i
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/imgui/imgui_demo.cpp.i
 .PHONY : src/imgui/imgui_demo.cpp.i
 
 src/imgui/imgui_demo.s: src/imgui/imgui_demo.cpp.s
@@ -214,7 +214,7 @@ src/imgui/imgui_demo.s: src/imgui/imgui_demo.cpp.s
 
 # target to generate assembly for a file
 src/imgui/imgui_demo.cpp.s:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_demo.cpp.s
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/imgui/imgui_demo.cpp.s
 .PHONY : src/imgui/imgui_demo.cpp.s
 
 src/imgui/imgui_draw.o: src/imgui/imgui_draw.cpp.o
@@ -223,7 +223,7 @@ src/imgui/imgui_draw.o: src/imgui/imgui_draw.cpp.o
 
 # target to build an object file
 src/imgui/imgui_draw.cpp.o:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_draw.cpp.o
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/imgui/imgui_draw.cpp.o
 .PHONY : src/imgui/imgui_draw.cpp.o
 
 src/imgui/imgui_draw.i: src/imgui/imgui_draw.cpp.i
@@ -232,7 +232,7 @@ src/imgui/imgui_draw.i: src/imgui/imgui_draw.cpp.i
 
 # target to preprocess a source file
 src/imgui/imgui_draw.cpp.i:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_draw.cpp.i
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/imgui/imgui_draw.cpp.i
 .PHONY : src/imgui/imgui_draw.cpp.i
 
 src/imgui/imgui_draw.s: src/imgui/imgui_draw.cpp.s
@@ -241,7 +241,7 @@ src/imgui/imgui_draw.s: src/imgui/imgui_draw.cpp.s
 
 # target to generate assembly for a file
 src/imgui/imgui_draw.cpp.s:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_draw.cpp.s
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/imgui/imgui_draw.cpp.s
 .PHONY : src/imgui/imgui_draw.cpp.s
 
 src/imgui/imgui_impl_glfw.o: src/imgui/imgui_impl_glfw.cpp.o
@@ -250,7 +250,7 @@ src/imgui/imgui_impl_glfw.o: src/imgui/imgui_impl_glfw.cpp.o
 
 # target to build an object file
 src/imgui/imgui_impl_glfw.cpp.o:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_impl_glfw.cpp.o
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/imgui/imgui_impl_glfw.cpp.o
 .PHONY : src/imgui/imgui_impl_glfw.cpp.o
 
 src/imgui/imgui_impl_glfw.i: src/imgui/imgui_impl_glfw.cpp.i
@@ -259,7 +259,7 @@ src/imgui/imgui_impl_glfw.i: src/imgui/imgui_impl_glfw.cpp.i
 
 # target to preprocess a source file
 src/imgui/imgui_impl_glfw.cpp.i:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_impl_glfw.cpp.i
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/imgui/imgui_impl_glfw.cpp.i
 .PHONY : src/imgui/imgui_impl_glfw.cpp.i
 
 src/imgui/imgui_impl_glfw.s: src/imgui/imgui_impl_glfw.cpp.s
@@ -268,7 +268,7 @@ src/imgui/imgui_impl_glfw.s: src/imgui/imgui_impl_glfw.cpp.s
 
 # target to generate assembly for a file
 src/imgui/imgui_impl_glfw.cpp.s:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_impl_glfw.cpp.s
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/imgui/imgui_impl_glfw.cpp.s
 .PHONY : src/imgui/imgui_impl_glfw.cpp.s
 
 src/imgui/imgui_impl_opengl3.o: src/imgui/imgui_impl_opengl3.cpp.o
@@ -277,7 +277,7 @@ src/imgui/imgui_impl_opengl3.o: src/imgui/imgui_impl_opengl3.cpp.o
 
 # target to build an object file
 src/imgui/imgui_impl_opengl3.cpp.o:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_impl_opengl3.cpp.o
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/imgui/imgui_impl_opengl3.cpp.o
 .PHONY : src/imgui/imgui_impl_opengl3.cpp.o
 
 src/imgui/imgui_impl_opengl3.i: src/imgui/imgui_impl_opengl3.cpp.i
@@ -286,7 +286,7 @@ src/imgui/imgui_impl_opengl3.i: src/imgui/imgui_impl_opengl3.cpp.i
 
 # target to preprocess a source file
 src/imgui/imgui_impl_opengl3.cpp.i:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_impl_opengl3.cpp.i
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/imgui/imgui_impl_opengl3.cpp.i
 .PHONY : src/imgui/imgui_impl_opengl3.cpp.i
 
 src/imgui/imgui_impl_opengl3.s: src/imgui/imgui_impl_opengl3.cpp.s
@@ -295,7 +295,7 @@ src/imgui/imgui_impl_opengl3.s: src/imgui/imgui_impl_opengl3.cpp.s
 
 # target to generate assembly for a file
 src/imgui/imgui_impl_opengl3.cpp.s:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_impl_opengl3.cpp.s
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/imgui/imgui_impl_opengl3.cpp.s
 .PHONY : src/imgui/imgui_impl_opengl3.cpp.s
 
 src/imgui/imgui_tables.o: src/imgui/imgui_tables.cpp.o
@@ -304,7 +304,7 @@ src/imgui/imgui_tables.o: src/imgui/imgui_tables.cpp.o
 
 # target to build an object file
 src/imgui/imgui_tables.cpp.o:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_tables.cpp.o
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/imgui/imgui_tables.cpp.o
 .PHONY : src/imgui/imgui_tables.cpp.o
 
 src/imgui/imgui_tables.i: src/imgui/imgui_tables.cpp.i
@@ -313,7 +313,7 @@ src/imgui/imgui_tables.i: src/imgui/imgui_tables.cpp.i
 
 # target to preprocess a source file
 src/imgui/imgui_tables.cpp.i:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_tables.cpp.i
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/imgui/imgui_tables.cpp.i
 .PHONY : src/imgui/imgui_tables.cpp.i
 
 src/imgui/imgui_tables.s: src/imgui/imgui_tables.cpp.s
@@ -322,7 +322,7 @@ src/imgui/imgui_tables.s: src/imgui/imgui_tables.cpp.s
 
 # target to generate assembly for a file
 src/imgui/imgui_tables.cpp.s:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_tables.cpp.s
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/imgui/imgui_tables.cpp.s
 .PHONY : src/imgui/imgui_tables.cpp.s
 
 src/imgui/imgui_widgets.o: src/imgui/imgui_widgets.cpp.o
@@ -331,7 +331,7 @@ src/imgui/imgui_widgets.o: src/imgui/imgui_widgets.cpp.o
 
 # target to build an object file
 src/imgui/imgui_widgets.cpp.o:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_widgets.cpp.o
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/imgui/imgui_widgets.cpp.o
 .PHONY : src/imgui/imgui_widgets.cpp.o
 
 src/imgui/imgui_widgets.i: src/imgui/imgui_widgets.cpp.i
@@ -340,7 +340,7 @@ src/imgui/imgui_widgets.i: src/imgui/imgui_widgets.cpp.i
 
 # target to preprocess a source file
 src/imgui/imgui_widgets.cpp.i:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_widgets.cpp.i
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/imgui/imgui_widgets.cpp.i
 .PHONY : src/imgui/imgui_widgets.cpp.i
 
 src/imgui/imgui_widgets.s: src/imgui/imgui_widgets.cpp.s
@@ -349,7 +349,7 @@ src/imgui/imgui_widgets.s: src/imgui/imgui_widgets.cpp.s
 
 # target to generate assembly for a file
 src/imgui/imgui_widgets.cpp.s:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/imgui/imgui_widgets.cpp.s
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/imgui/imgui_widgets.cpp.s
 .PHONY : src/imgui/imgui_widgets.cpp.s
 
 src/main.o: src/main.cpp.o
@@ -358,7 +358,7 @@ src/main.o: src/main.cpp.o
 
 # target to build an object file
 src/main.cpp.o:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/main.cpp.o
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
 src/main.i: src/main.cpp.i
@@ -367,7 +367,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/main.cpp.i
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
 src/main.s: src/main.cpp.s
@@ -376,7 +376,7 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/main.cpp.s
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
 src/mesh.o: src/mesh.cpp.o
@@ -385,7 +385,7 @@ src/mesh.o: src/mesh.cpp.o
 
 # target to build an object file
 src/mesh.cpp.o:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/mesh.cpp.o
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/mesh.cpp.o
 .PHONY : src/mesh.cpp.o
 
 src/mesh.i: src/mesh.cpp.i
@@ -394,7 +394,7 @@ src/mesh.i: src/mesh.cpp.i
 
 # target to preprocess a source file
 src/mesh.cpp.i:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/mesh.cpp.i
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/mesh.cpp.i
 .PHONY : src/mesh.cpp.i
 
 src/mesh.s: src/mesh.cpp.s
@@ -403,7 +403,7 @@ src/mesh.s: src/mesh.cpp.s
 
 # target to generate assembly for a file
 src/mesh.cpp.s:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/mesh.cpp.s
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/mesh.cpp.s
 .PHONY : src/mesh.cpp.s
 
 src/shader.o: src/shader.cpp.o
@@ -412,7 +412,7 @@ src/shader.o: src/shader.cpp.o
 
 # target to build an object file
 src/shader.cpp.o:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/shader.cpp.o
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/shader.cpp.o
 .PHONY : src/shader.cpp.o
 
 src/shader.i: src/shader.cpp.i
@@ -421,7 +421,7 @@ src/shader.i: src/shader.cpp.i
 
 # target to preprocess a source file
 src/shader.cpp.i:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/shader.cpp.i
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/shader.cpp.i
 .PHONY : src/shader.cpp.i
 
 src/shader.s: src/shader.cpp.s
@@ -430,7 +430,7 @@ src/shader.s: src/shader.cpp.s
 
 # target to generate assembly for a file
 src/shader.cpp.s:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/shader.cpp.s
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/shader.cpp.s
 .PHONY : src/shader.cpp.s
 
 src/texture.o: src/texture.cpp.o
@@ -439,7 +439,7 @@ src/texture.o: src/texture.cpp.o
 
 # target to build an object file
 src/texture.cpp.o:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/texture.cpp.o
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/texture.cpp.o
 .PHONY : src/texture.cpp.o
 
 src/texture.i: src/texture.cpp.i
@@ -448,7 +448,7 @@ src/texture.i: src/texture.cpp.i
 
 # target to preprocess a source file
 src/texture.cpp.i:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/texture.cpp.i
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/texture.cpp.i
 .PHONY : src/texture.cpp.i
 
 src/texture.s: src/texture.cpp.s
@@ -457,7 +457,7 @@ src/texture.s: src/texture.cpp.s
 
 # target to generate assembly for a file
 src/texture.cpp.s:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/texture.cpp.s
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/texture.cpp.s
 .PHONY : src/texture.cpp.s
 
 src/texture2D.o: src/texture2D.cpp.o
@@ -466,7 +466,7 @@ src/texture2D.o: src/texture2D.cpp.o
 
 # target to build an object file
 src/texture2D.cpp.o:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/texture2D.cpp.o
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/texture2D.cpp.o
 .PHONY : src/texture2D.cpp.o
 
 src/texture2D.i: src/texture2D.cpp.i
@@ -475,7 +475,7 @@ src/texture2D.i: src/texture2D.cpp.i
 
 # target to preprocess a source file
 src/texture2D.cpp.i:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/texture2D.cpp.i
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/texture2D.cpp.i
 .PHONY : src/texture2D.cpp.i
 
 src/texture2D.s: src/texture2D.cpp.s
@@ -484,7 +484,7 @@ src/texture2D.s: src/texture2D.cpp.s
 
 # target to generate assembly for a file
 src/texture2D.cpp.s:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/src/texture2D.cpp.s
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/texture2D.cpp.s
 .PHONY : src/texture2D.cpp.s
 
 # Help Target
@@ -494,9 +494,9 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... copy_resources"
 	@echo "... edit_cache"
-	@echo "... Dunes"
+	@echo "... copy_resources"
+	@echo "... Terrain"
 	@echo "... src/controls.o"
 	@echo "... src/controls.i"
 	@echo "... src/controls.s"

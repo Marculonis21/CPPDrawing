@@ -6,5 +6,5 @@ CXX_FLAGS = -O3 -lpthread   -std=c++17
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/src -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/src 
+CXX_INCLUDES = -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/src -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/src 
 

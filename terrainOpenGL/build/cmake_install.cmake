@@ -1,4 +1,4 @@
-# Install script for directory: /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes
+# Install script for directory: /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

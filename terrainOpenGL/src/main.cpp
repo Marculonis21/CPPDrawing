@@ -37,11 +37,11 @@ const uint screen_height = 1024;
 int num_frames{ 0 };
 float last_time{ 0.0f };
 
+#define VSYNCON 1
 
 inline void perlinToTexture(int x_quad_count, int y_quad_count, float scale, Texture2D &heightTexture, Texture2D &albedoTexture,
                             float sandLevel=0.11, float grassLevel=0.6, float waterLevel=0.4)
 {
-    std::cout << "data created" << std::endl;
     std::vector<GLubyte> data;
     std::vector<GLubyte> colorData;
 
@@ -77,11 +77,6 @@ inline void perlinToTexture(int x_quad_count, int y_quad_count, float scale, Tex
 
             value -= waterLevel;
 
-            /* if (value  0.0f) { */
-            /*     colorData.push_back((GLubyte)0); */
-            /*     colorData.push_back((GLubyte)0); */
-            /*     colorData.push_back((GLubyte)150); */
-            /* } */
             if (value < sandLevel) {
                 colorData.push_back((GLubyte)255);
                 colorData.push_back((GLubyte)250);
@@ -123,7 +118,7 @@ int main()
     }
  
     glfwMakeContextCurrent(window);
-    glfwSwapInterval(1); // VSYNC
+    glfwSwapInterval(VSYNCON); 
  
     if (glewInit())
     {
@@ -145,6 +140,7 @@ int main()
     glEnable( GL_BLEND );  
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
 
+    // create shaders
 	Shader mainShader;
     mainShader.addShader("assets/shaders/TransformVertexShader.glsl", GL_VERTEX_SHADER);
     mainShader.addShader("assets/shaders/TextureFragmentShader.glsl", GL_FRAGMENT_SHADER);
@@ -157,12 +153,14 @@ int main()
     seaShader.addShader("assets/shaders/seaFragmentShader.glsl", GL_FRAGMENT_SHADER);
     seaShader.linkProgram();
 
-    // Tesselation
+    // Tesselation params
     glPatchParameteri(GL_PATCH_VERTICES, 4);
 
+    // create meshes
     Mesh  terrain(10, 1, true);
     Mesh seaLevel(100, 0.1, false);
 
+    // perlin and textures parameters
     float sandLevel  = 0.03;
     float grassLevel = 0.55;
     float waterLevel = 0.4;
@@ -182,6 +180,7 @@ int main()
 
     bool wireframe = false;
     bool showMouse = false;
+    bool spacePressed = false;
 
     glm::mat4 MVP;
 
@@ -198,7 +197,7 @@ int main()
 
     while (glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS && glfwWindowShouldClose(window) == 0)
     {
-        // Measure speed
+        // FPS COUNTER
         double currentTime = glfwGetTime();
         nbFrames++;
         if ( currentTime - lastTime >= 1.0 ){ // If last prinf() was more than 1 sec ago
@@ -209,20 +208,20 @@ int main()
             lastTime += 1.0;
         }
 
-		// Clear the screen
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        // do imgui drawing
+        // do imgui STUFF
         ImGui::Begin("ImGui win");
         ImGui::Text("X:%s, Y:%s, Z:%s", std::to_string(position.x).data(), std::to_string(position.y).data(), std::to_string(position.z).data());
         ImGui::Text("Rendering");
         ImGui::Text("%s", fpsText.data());
         ImGui::Checkbox("Wireframe", &wireframe);
 
+        // TODO: enable terrain color level changes
         ImGui::Text("Levels");
         ImGui::PushItemWidth(ImGui::CalcItemWidth()/2);
         ImGui::Text("Sand");
@@ -232,10 +231,12 @@ int main()
         ImGui::PopItemWidth();
 
         ImGui::DragFloat3("sunPosition:", _sun);
-
         ImGui::End();
 
-        if(glfwGetKey(window, GLFW_KEY_SPACE ) == GLFW_PRESS) { 
+        if(glfwGetKey(window, GLFW_KEY_SPACE ) == GLFW_PRESS) spacePressed = true;
+
+        if(spacePressed && glfwGetKey(window, GLFW_KEY_SPACE ) == GLFW_RELEASE) {
+            spacePressed = false;
 	        glfwSetCursorPos(window, screen_width/2, screen_height/2);
             showMouse = !showMouse;
         }
@@ -258,7 +259,7 @@ int main()
         perlinTexture.Activate();
         albedoTexture.Activate();
 
-		// Use our shader
+        // terrain generation
         mainShader.useShader();
 
         mainShader.set_mat4("MVP", MVP);
@@ -275,6 +276,7 @@ int main()
 	    glEnable(GL_CULL_FACE);
 		glDrawElements(GL_PATCHES, terrain.indexCount, GL_UNSIGNED_INT, 0); 
 
+        // water generation
         seaShader.useShader();
         seaShader.set_mat4("MVP", MVP);
         seaShader.set_int("heightMapSampler",0);

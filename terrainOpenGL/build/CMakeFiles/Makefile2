@@ -44,17 +44,17 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes
+CMAKE_SOURCE_DIR = /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build
+CMAKE_BINARY_DIR = /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build
 
 #=============================================================================
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
 all: CMakeFiles/copy_resources.dir/all
-all: CMakeFiles/Dunes.dir/all
+all: CMakeFiles/Terrain.dir/all
 
 .PHONY : all
 
@@ -65,7 +65,7 @@ preinstall:
 
 # The main recursive "clean" target.
 clean: CMakeFiles/copy_resources.dir/clean
-clean: CMakeFiles/Dunes.dir/clean
+clean: CMakeFiles/Terrain.dir/clean
 
 .PHONY : clean
 
@@ -76,14 +76,14 @@ clean: CMakeFiles/Dunes.dir/clean
 CMakeFiles/copy_resources.dir/all:
 	$(MAKE) -f CMakeFiles/copy_resources.dir/build.make CMakeFiles/copy_resources.dir/depend
 	$(MAKE) -f CMakeFiles/copy_resources.dir/build.make CMakeFiles/copy_resources.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles --progress-num=15 "Built target copy_resources"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/CMakeFiles --progress-num=15 "Built target copy_resources"
 .PHONY : CMakeFiles/copy_resources.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/copy_resources.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/CMakeFiles 1
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/copy_resources.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/CMakeFiles 0
 .PHONY : CMakeFiles/copy_resources.dir/rule
 
 # Convenience name for target.
@@ -97,31 +97,31 @@ CMakeFiles/copy_resources.dir/clean:
 .PHONY : CMakeFiles/copy_resources.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/Dunes.dir
+# Target rules for target CMakeFiles/Terrain.dir
 
 # All Build rule for target.
-CMakeFiles/Dunes.dir/all:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/depend
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14 "Built target Dunes"
-.PHONY : CMakeFiles/Dunes.dir/all
+CMakeFiles/Terrain.dir/all:
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/depend
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14 "Built target Terrain"
+.PHONY : CMakeFiles/Terrain.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/Dunes.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles 14
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/Dunes.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/marculonis/Desktop/Projects/CPP/CPPDrawing/dunes/build/CMakeFiles 0
-.PHONY : CMakeFiles/Dunes.dir/rule
+CMakeFiles/Terrain.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/CMakeFiles 14
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/Terrain.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/CMakeFiles 0
+.PHONY : CMakeFiles/Terrain.dir/rule
 
 # Convenience name for target.
-Dunes: CMakeFiles/Dunes.dir/rule
+Terrain: CMakeFiles/Terrain.dir/rule
 
-.PHONY : Dunes
+.PHONY : Terrain
 
 # clean rule for target.
-CMakeFiles/Dunes.dir/clean:
-	$(MAKE) -f CMakeFiles/Dunes.dir/build.make CMakeFiles/Dunes.dir/clean
-.PHONY : CMakeFiles/Dunes.dir/clean
+CMakeFiles/Terrain.dir/clean:
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/clean
+.PHONY : CMakeFiles/Terrain.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.
