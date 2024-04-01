@@ -3,7 +3,6 @@
 layout (quads, equal_spacing, ccw) in;
 
 in vec2 uv[];
-/* in vec3 pos[]; */
 out vec2 UV;
 out vec3 POS;
 flat out vec3 COLOR;

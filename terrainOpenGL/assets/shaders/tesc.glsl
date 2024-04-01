@@ -3,9 +3,7 @@
 layout (vertices = 4) out;
 
 in vec2 UV[];
-/* in vec3 POS[]; */
 out vec2 uv[];
-/* out vec3 pos[]; */
 
 uniform vec3 cameraPos;
 
@@ -13,7 +11,6 @@ void main()
 {
     gl_out[gl_InvocationID].gl_Position = gl_in[gl_InvocationID].gl_Position;
     uv[gl_InvocationID] = UV[gl_InvocationID];
-    /* pos[gl_InvocationID] = POS[gl_InvocationID]; */
 
     if(gl_InvocationID != 0) return;
 

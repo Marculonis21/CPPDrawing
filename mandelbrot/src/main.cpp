@@ -159,7 +159,6 @@ int main()
         our_shader.set_vec3("camera", cameraPos);
         our_shader.set_int("MAX_ITERATIONS", maxIter);
         
- 
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
  

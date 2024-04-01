@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/slime
+CMAKE_SOURCE_DIR = /home/marculonis/Desktop/Projects/CPP/CPPDrawing/slime
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/slime/build
+CMAKE_BINARY_DIR = /home/marculonis/Desktop/Projects/CPP/CPPDrawing/slime/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/slime.dir/depend.make
@@ -59,42 +59,42 @@ include CMakeFiles/slime.dir/flags.make
 
 CMakeFiles/slime.dir/src/main.cpp.o: CMakeFiles/slime.dir/flags.make
 CMakeFiles/slime.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/slime/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/slime.dir/src/main.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/slime.dir/src/main.cpp.o -c /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/slime/src/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/slime/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/slime.dir/src/main.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/slime.dir/src/main.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/slime/src/main.cpp
 
 CMakeFiles/slime.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/slime.dir/src/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/slime/src/main.cpp > CMakeFiles/slime.dir/src/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marculonis/Desktop/Projects/CPP/CPPDrawing/slime/src/main.cpp > CMakeFiles/slime.dir/src/main.cpp.i
 
 CMakeFiles/slime.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/slime.dir/src/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/slime/src/main.cpp -o CMakeFiles/slime.dir/src/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marculonis/Desktop/Projects/CPP/CPPDrawing/slime/src/main.cpp -o CMakeFiles/slime.dir/src/main.cpp.s
 
 CMakeFiles/slime.dir/src/shader.cpp.o: CMakeFiles/slime.dir/flags.make
 CMakeFiles/slime.dir/src/shader.cpp.o: ../src/shader.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/slime/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/slime.dir/src/shader.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/slime.dir/src/shader.cpp.o -c /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/slime/src/shader.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/slime/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/slime.dir/src/shader.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/slime.dir/src/shader.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/slime/src/shader.cpp
 
 CMakeFiles/slime.dir/src/shader.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/slime.dir/src/shader.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/slime/src/shader.cpp > CMakeFiles/slime.dir/src/shader.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marculonis/Desktop/Projects/CPP/CPPDrawing/slime/src/shader.cpp > CMakeFiles/slime.dir/src/shader.cpp.i
 
 CMakeFiles/slime.dir/src/shader.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/slime.dir/src/shader.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/slime/src/shader.cpp -o CMakeFiles/slime.dir/src/shader.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marculonis/Desktop/Projects/CPP/CPPDrawing/slime/src/shader.cpp -o CMakeFiles/slime.dir/src/shader.cpp.s
 
 CMakeFiles/slime.dir/src/texture.cpp.o: CMakeFiles/slime.dir/flags.make
 CMakeFiles/slime.dir/src/texture.cpp.o: ../src/texture.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/slime/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/slime.dir/src/texture.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/slime.dir/src/texture.cpp.o -c /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/slime/src/texture.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/slime/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/slime.dir/src/texture.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/slime.dir/src/texture.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/slime/src/texture.cpp
 
 CMakeFiles/slime.dir/src/texture.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/slime.dir/src/texture.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/slime/src/texture.cpp > CMakeFiles/slime.dir/src/texture.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marculonis/Desktop/Projects/CPP/CPPDrawing/slime/src/texture.cpp > CMakeFiles/slime.dir/src/texture.cpp.i
 
 CMakeFiles/slime.dir/src/texture.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/slime.dir/src/texture.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/slime/src/texture.cpp -o CMakeFiles/slime.dir/src/texture.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marculonis/Desktop/Projects/CPP/CPPDrawing/slime/src/texture.cpp -o CMakeFiles/slime.dir/src/texture.cpp.s
 
 # Object files for target slime
 slime_OBJECTS = \
@@ -115,7 +115,7 @@ slime: /usr/lib/x86_64-linux-gnu/libGLU.so
 slime: /usr/lib/x86_64-linux-gnu/libGLEW.so
 slime: /usr/lib/x86_64-linux-gnu/libglfw.so.3.3
 slime: CMakeFiles/slime.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/slime/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable slime"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/slime/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable slime"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/slime.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -128,6 +128,6 @@ CMakeFiles/slime.dir/clean:
 .PHONY : CMakeFiles/slime.dir/clean
 
 CMakeFiles/slime.dir/depend:
-	cd /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/slime/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/slime /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/slime /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/slime/build /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/slime/build /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/slime/build/CMakeFiles/slime.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/marculonis/Desktop/Projects/CPP/CPPDrawing/slime/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/marculonis/Desktop/Projects/CPP/CPPDrawing/slime /home/marculonis/Desktop/Projects/CPP/CPPDrawing/slime /home/marculonis/Desktop/Projects/CPP/CPPDrawing/slime/build /home/marculonis/Desktop/Projects/CPP/CPPDrawing/slime/build /home/marculonis/Desktop/Projects/CPP/CPPDrawing/slime/build/CMakeFiles/slime.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/slime.dir/depend
 

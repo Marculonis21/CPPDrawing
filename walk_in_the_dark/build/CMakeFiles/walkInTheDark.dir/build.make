@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark
+CMAKE_SOURCE_DIR = /home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/build
+CMAKE_BINARY_DIR = /home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/walkInTheDark.dir/depend.make
@@ -59,42 +59,42 @@ include CMakeFiles/walkInTheDark.dir/flags.make
 
 CMakeFiles/walkInTheDark.dir/src/main.cpp.o: CMakeFiles/walkInTheDark.dir/flags.make
 CMakeFiles/walkInTheDark.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/walkInTheDark.dir/src/main.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/walkInTheDark.dir/src/main.cpp.o -c /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/src/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/walkInTheDark.dir/src/main.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/walkInTheDark.dir/src/main.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark/src/main.cpp
 
 CMakeFiles/walkInTheDark.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/walkInTheDark.dir/src/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/src/main.cpp > CMakeFiles/walkInTheDark.dir/src/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark/src/main.cpp > CMakeFiles/walkInTheDark.dir/src/main.cpp.i
 
 CMakeFiles/walkInTheDark.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/walkInTheDark.dir/src/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/src/main.cpp -o CMakeFiles/walkInTheDark.dir/src/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark/src/main.cpp -o CMakeFiles/walkInTheDark.dir/src/main.cpp.s
 
 CMakeFiles/walkInTheDark.dir/src/shader.cpp.o: CMakeFiles/walkInTheDark.dir/flags.make
 CMakeFiles/walkInTheDark.dir/src/shader.cpp.o: ../src/shader.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/walkInTheDark.dir/src/shader.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/walkInTheDark.dir/src/shader.cpp.o -c /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/src/shader.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/walkInTheDark.dir/src/shader.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/walkInTheDark.dir/src/shader.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark/src/shader.cpp
 
 CMakeFiles/walkInTheDark.dir/src/shader.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/walkInTheDark.dir/src/shader.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/src/shader.cpp > CMakeFiles/walkInTheDark.dir/src/shader.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark/src/shader.cpp > CMakeFiles/walkInTheDark.dir/src/shader.cpp.i
 
 CMakeFiles/walkInTheDark.dir/src/shader.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/walkInTheDark.dir/src/shader.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/src/shader.cpp -o CMakeFiles/walkInTheDark.dir/src/shader.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark/src/shader.cpp -o CMakeFiles/walkInTheDark.dir/src/shader.cpp.s
 
 CMakeFiles/walkInTheDark.dir/src/texture.cpp.o: CMakeFiles/walkInTheDark.dir/flags.make
 CMakeFiles/walkInTheDark.dir/src/texture.cpp.o: ../src/texture.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/walkInTheDark.dir/src/texture.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/walkInTheDark.dir/src/texture.cpp.o -c /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/src/texture.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/walkInTheDark.dir/src/texture.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/walkInTheDark.dir/src/texture.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark/src/texture.cpp
 
 CMakeFiles/walkInTheDark.dir/src/texture.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/walkInTheDark.dir/src/texture.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/src/texture.cpp > CMakeFiles/walkInTheDark.dir/src/texture.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark/src/texture.cpp > CMakeFiles/walkInTheDark.dir/src/texture.cpp.i
 
 CMakeFiles/walkInTheDark.dir/src/texture.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/walkInTheDark.dir/src/texture.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/src/texture.cpp -o CMakeFiles/walkInTheDark.dir/src/texture.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark/src/texture.cpp -o CMakeFiles/walkInTheDark.dir/src/texture.cpp.s
 
 # Object files for target walkInTheDark
 walkInTheDark_OBJECTS = \
@@ -115,7 +115,7 @@ walkInTheDark: /usr/lib/x86_64-linux-gnu/libGLU.so
 walkInTheDark: /usr/lib/x86_64-linux-gnu/libGLEW.so
 walkInTheDark: /usr/lib/x86_64-linux-gnu/libglfw.so.3.3
 walkInTheDark: CMakeFiles/walkInTheDark.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable walkInTheDark"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable walkInTheDark"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/walkInTheDark.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -128,6 +128,6 @@ CMakeFiles/walkInTheDark.dir/clean:
 .PHONY : CMakeFiles/walkInTheDark.dir/clean
 
 CMakeFiles/walkInTheDark.dir/depend:
-	cd /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/build /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/build /home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/build/CMakeFiles/walkInTheDark.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark /home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark /home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark/build /home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark/build /home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark/build/CMakeFiles/walkInTheDark.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/walkInTheDark.dir/depend
 

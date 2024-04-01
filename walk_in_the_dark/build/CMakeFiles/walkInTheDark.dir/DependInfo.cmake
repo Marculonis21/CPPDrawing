@@ -4,9 +4,9 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/src/main.cpp" "/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/build/CMakeFiles/walkInTheDark.dir/src/main.cpp.o"
-  "/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/src/shader.cpp" "/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/build/CMakeFiles/walkInTheDark.dir/src/shader.cpp.o"
-  "/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/src/texture.cpp" "/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/build/CMakeFiles/walkInTheDark.dir/src/texture.cpp.o"
+  "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark/src/main.cpp" "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark/build/CMakeFiles/walkInTheDark.dir/src/main.cpp.o"
+  "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark/src/shader.cpp" "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark/build/CMakeFiles/walkInTheDark.dir/src/shader.cpp.o"
+  "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark/src/texture.cpp" "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark/build/CMakeFiles/walkInTheDark.dir/src/texture.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

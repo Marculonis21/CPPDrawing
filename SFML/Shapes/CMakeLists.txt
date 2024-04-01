@@ -38,4 +38,3 @@ include_directories(
 
 # Link executable to required SFML libraries
 target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics ImGui-SFML::ImGui-SFML)
-

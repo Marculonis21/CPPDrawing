@@ -6,5 +6,5 @@ CXX_FLAGS = -O3   -std=c++17
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/build/src -I/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/walk_in_the_dark/src 
+CXX_INCLUDES = -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark/build/src -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark/src 
 

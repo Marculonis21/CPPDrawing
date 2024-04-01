@@ -4,9 +4,9 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/slime/src/main.cpp" "/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/slime/build/CMakeFiles/slime.dir/src/main.cpp.o"
-  "/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/slime/src/shader.cpp" "/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/slime/build/CMakeFiles/slime.dir/src/shader.cpp.o"
-  "/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/slime/src/texture.cpp" "/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/slime/build/CMakeFiles/slime.dir/src/texture.cpp.o"
+  "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/slime/src/main.cpp" "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/slime/build/CMakeFiles/slime.dir/src/main.cpp.o"
+  "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/slime/src/shader.cpp" "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/slime/build/CMakeFiles/slime.dir/src/shader.cpp.o"
+  "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/slime/src/texture.cpp" "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/slime/build/CMakeFiles/slime.dir/src/texture.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
