@@ -45,19 +45,32 @@ CMakeFiles/Terrain.dir/src/imgui/imgui_widgets.cpp.o: ../src/imgui/imgui_interna
 CMakeFiles/Terrain.dir/src/imgui/imgui_widgets.cpp.o: ../src/imgui/imgui_widgets.cpp
 CMakeFiles/Terrain.dir/src/imgui/imgui_widgets.cpp.o: ../src/imgui/imstb_textedit.h
 
+CMakeFiles/Terrain.dir/src/imgui_wrap.cpp.o: ../src/imgui/imconfig.h
+CMakeFiles/Terrain.dir/src/imgui_wrap.cpp.o: ../src/imgui/imgui.h
+CMakeFiles/Terrain.dir/src/imgui_wrap.cpp.o: ../src/imgui/imgui_impl_glfw.h
+CMakeFiles/Terrain.dir/src/imgui_wrap.cpp.o: ../src/imgui/imgui_impl_opengl3.h
+CMakeFiles/Terrain.dir/src/imgui_wrap.cpp.o: ../src/imgui_wrap.cpp
+CMakeFiles/Terrain.dir/src/imgui_wrap.cpp.o: ../src/imgui_wrap.hpp
+
 CMakeFiles/Terrain.dir/src/main.cpp.o: ../src/controls.hpp
 CMakeFiles/Terrain.dir/src/main.cpp.o: ../src/imgui/imconfig.h
 CMakeFiles/Terrain.dir/src/main.cpp.o: ../src/imgui/imgui.h
 CMakeFiles/Terrain.dir/src/main.cpp.o: ../src/imgui/imgui_impl_glfw.h
 CMakeFiles/Terrain.dir/src/main.cpp.o: ../src/imgui/imgui_impl_opengl3.h
+CMakeFiles/Terrain.dir/src/main.cpp.o: ../src/imgui_wrap.hpp
 CMakeFiles/Terrain.dir/src/main.cpp.o: ../src/main.cpp
 CMakeFiles/Terrain.dir/src/main.cpp.o: ../src/mesh.hpp
+CMakeFiles/Terrain.dir/src/main.cpp.o: ../src/noise.hpp
 CMakeFiles/Terrain.dir/src/main.cpp.o: ../src/shader.hpp
 CMakeFiles/Terrain.dir/src/main.cpp.o: ../src/texture.hpp
 CMakeFiles/Terrain.dir/src/main.cpp.o: ../src/texture2D.hpp
 
 CMakeFiles/Terrain.dir/src/mesh.cpp.o: ../src/mesh.cpp
 CMakeFiles/Terrain.dir/src/mesh.cpp.o: ../src/mesh.hpp
+
+CMakeFiles/Terrain.dir/src/noise.cpp.o: ../src/noise.cpp
+CMakeFiles/Terrain.dir/src/noise.cpp.o: ../src/noise.hpp
+CMakeFiles/Terrain.dir/src/noise.cpp.o: ../src/texture2D.hpp
 
 CMakeFiles/Terrain.dir/src/shader.cpp.o: ../src/shader.cpp
 CMakeFiles/Terrain.dir/src/shader.cpp.o: ../src/shader.hpp

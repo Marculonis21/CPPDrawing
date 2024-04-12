@@ -41,6 +41,11 @@
 },
 {
   "directory": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build",
+  "command": "/usr/bin/c++   -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/src -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/src  -O3 -lpthread   -std=c++17 -o CMakeFiles/Terrain.dir/src/imgui_wrap.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/src/imgui_wrap.cpp",
+  "file": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/src/imgui_wrap.cpp"
+},
+{
+  "directory": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build",
   "command": "/usr/bin/c++   -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/src -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/src  -O3 -lpthread   -std=c++17 -o CMakeFiles/Terrain.dir/src/main.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/src/main.cpp",
   "file": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/src/main.cpp"
 },
@@ -48,6 +53,11 @@
   "directory": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build",
   "command": "/usr/bin/c++   -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/src -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/src  -O3 -lpthread   -std=c++17 -o CMakeFiles/Terrain.dir/src/mesh.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/src/mesh.cpp",
   "file": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/src/mesh.cpp"
+},
+{
+  "directory": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build",
+  "command": "/usr/bin/c++   -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/src -I/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/src  -O3 -lpthread   -std=c++17 -o CMakeFiles/Terrain.dir/src/noise.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/src/noise.cpp",
+  "file": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/src/noise.cpp"
 },
 {
   "directory": "/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build",

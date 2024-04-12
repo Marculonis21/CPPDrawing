@@ -5,16 +5,49 @@ layout (quads, equal_spacing, ccw) in;
 in vec2 uv[];
 out vec2 UV;
 out vec3 POS;
+out float HEIGHT;
+out vec3 NORMAL;
 flat out vec3 COLOR;
 
 uniform mat4 MVP;
 
-uniform sampler2D albedoSampler;
 uniform sampler2D heightMapSampler;
+
+uniform float waterLevel;
+uniform float sandLevel;
+uniform float grassLevel;
 
 float get_height(vec2 uv)
 {
     return texture(heightMapSampler, uv).r;
+}
+
+vec3 get_color(float height)
+{
+    /* height -= waterLevel; */
+
+    if (height < sandLevel) {
+        return vec3(1.0, 0.98, 0.83);
+    }
+    else if (height < grassLevel) {
+        return vec3(0.44, 0.75, 0.28);
+    }
+    return vec3(0.33,0.35,0.36);
+}
+
+vec3 get_normal(vec2 uv)
+{
+    // amount of quad * tess factor
+    const float step = 1.0f/640.0f;
+    vec3 vertex = vec3(uv.x, 0, uv.y);
+    vec3 UP    = vec3(uv.x, 0, uv.y+step);
+    vec3 RIGHT = vec3(uv.x+step, 0, uv.y);
+
+    vertex.y = get_height(vertex.xz);
+    UP.y = get_height(UP.xz);
+    RIGHT.y = get_height(RIGHT.xz);
+
+    return normalize(cross(RIGHT-vertex,UP-vertex));
 }
 
 void main()
@@ -40,9 +73,12 @@ void main()
     vec4 rightPos = pos1 + v * (pos2 - pos1);
     vec4 _pos = leftPos + u * (rightPos - leftPos);
 
-    gl_Position = MVP * vec4(_pos.xyz + vec3(0,2,0)*get_height(texCoord), 1);
+    float height = get_height(texCoord);
+    HEIGHT = height;
+    gl_Position = MVP * vec4(_pos.xyz + vec3(0,0,0)*height, 1);
 
     UV = texCoord;
     POS = gl_Position.xyz;
-    COLOR = texture(albedoSampler, UV).rgb;
+    NORMAL = -get_normal(UV);
+    COLOR = get_color(height);
 }

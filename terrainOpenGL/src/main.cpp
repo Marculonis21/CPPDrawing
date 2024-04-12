@@ -22,6 +22,8 @@
 #include <glm/gtc/random.hpp>
 #include <glm/gtc/noise.hpp>
 
+#include "imgui_wrap.hpp"
+#include "noise.hpp"
 #include "shader.hpp"
 #include "texture.hpp"
 #include "controls.hpp"
@@ -38,68 +40,6 @@ int num_frames{ 0 };
 float last_time{ 0.0f };
 
 #define VSYNCON 1
-
-inline void perlinToTexture(int x_quad_count, int y_quad_count, float scale, Texture2D &heightTexture, Texture2D &albedoTexture,
-                            float sandLevel=0.11, float grassLevel=0.6, float waterLevel=0.4)
-{
-    std::vector<GLubyte> data;
-    std::vector<GLubyte> colorData;
-
-    for (size_t y = 0; y < y_quad_count; ++y) 
-    {
-        for (size_t x = 0; x < x_quad_count; ++x) 
-        {
-            float _x = x*scale;
-            float _y = y*scale;
-
-            float value = 0;
-
-            const int octaves = 5;
-            float amplitude = 1;
-            float frequency = 200;
-            float totalAmplitude = 0;
-            for (float i = 0; i < octaves; ++i)  {
-                value += ((glm::perlin(glm::vec2(_x/frequency, _y/frequency))+1)/2)*amplitude;
-
-                totalAmplitude += amplitude;
-                amplitude *= 0.5;
-                frequency /= 2.0;
-            }
-
-            value = glm::pow(value, 1.5);
-            value = value/glm::pow(totalAmplitude,1.5);
-
-
-            data.push_back((GLubyte)(value*255));
-            data.push_back((GLubyte)(value*255));
-            data.push_back((GLubyte)(value*255));
-            data.push_back((GLubyte)(value*255));
-
-            value -= waterLevel;
-
-            if (value < sandLevel) {
-                colorData.push_back((GLubyte)255);
-                colorData.push_back((GLubyte)250);
-                colorData.push_back((GLubyte)212);
-            }
-            else if (value < grassLevel-waterLevel) {
-                colorData.push_back((GLubyte)112);
-                colorData.push_back((GLubyte)192);
-                colorData.push_back((GLubyte)72);
-            }
-            else {
-                colorData.push_back((GLubyte)85);
-                colorData.push_back((GLubyte)89);
-                colorData.push_back((GLubyte)92);
-            }
-
-            colorData.push_back((GLubyte)(255));
-        }
-    }
-
-    heightTexture.AddData(GL_RGBA, GL_UNSIGNED_BYTE, data.data());
-    albedoTexture.AddData(GL_RGBA, GL_UNSIGNED_BYTE, colorData.data());
-}
 
 int main()
 {
@@ -153,24 +93,43 @@ int main()
     seaShader.addShader("assets/shaders/seaFragmentShader.glsl", GL_FRAGMENT_SHADER);
     seaShader.linkProgram();
 
+	Compute noiseGenerator("assets/shaders/noise.glsl");
+
     // Tesselation params
     glPatchParameteri(GL_PATCH_VERTICES, 4);
 
     // create meshes
-    Mesh  terrain(10, 1, true);
-    Mesh seaLevel(100, 0.1, false);
+    Mesh  terrainMesh(10, 1, true);
+    Mesh seaLevelMesh(100, 0.1, false);
 
     // perlin and textures parameters
     float sandLevel  = 0.03;
     float grassLevel = 0.55;
-    float waterLevel = 0.4;
-    Texture2D perlinTexture(1000,1000,0, GL_RGBA32F);
-    Texture2D albedoTexture(1000,1000,1, GL_RGBA32F);
+    float waterLevel = 0.3;
 
-    perlinToTexture(1000,1000, 1, perlinTexture, albedoTexture, sandLevel, grassLevel, waterLevel);
+    float perlinFrequency = 200;
+    float perlinOctaves = 2;
 
+    const int textureSize = 1024;
+    /* float textureScale = 1000.0/textureSize; */
+
+    Texture2D perlinTexture(textureSize,textureSize,0, GL_RGBA32F);
+    /* Texture2D computeTexture(1000,1000,1, GL_RGBA32F); */
+
+    std::vector<GLubyte> tData(textureSize*textureSize*4, 0);
+    for (int i = 0; i < tData.size()/4; ++i) {
+        tData[i*4+0] = (GLubyte)255;
+        tData[i*4+1] = (GLubyte)0;
+        tData[i*4+2] = (GLubyte)0;
+        tData[i*4+3] = (GLubyte)255;
+    }
+    perlinTexture.AddData(GL_RGBA, GL_UNSIGNED_BYTE, tData.data());
+
+    /* Noise noise; */
+    /* noise.perlinToTexture(textureSize,textureSize,perlinTexture,perlinFrequency,perlinOctaves); */
     std::cout << "perlin done" << std::endl;
 
+    /* ImguiWrap imguiWrap(window); */
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO io = ImGui::GetIO();
@@ -181,6 +140,7 @@ int main()
     bool wireframe = false;
     bool showMouse = false;
     bool spacePressed = false;
+    bool reloadWanted = true;
 
     glm::mat4 MVP;
 
@@ -221,14 +181,19 @@ int main()
         ImGui::Text("%s", fpsText.data());
         ImGui::Checkbox("Wireframe", &wireframe);
 
+        ImGui::Text("Perlin");
+        ImGui::Text("frequency");
+        ImGui::DragFloat("##freq", &perlinFrequency);
+        ImGui::Text("octaves");
+        ImGui::DragFloat("##octaves", &perlinOctaves);
         // TODO: enable terrain color level changes
         ImGui::Text("Levels");
-        ImGui::PushItemWidth(ImGui::CalcItemWidth()/2);
+        ImGui::Text("Water");
+        ImGui::DragFloat("##waterLevel", &waterLevel, 0.01, 0);
         ImGui::Text("Sand");
         ImGui::DragFloat("##sand", &sandLevel, 0.01, 0);
         ImGui::Text("Grass");
         ImGui::DragFloat("##grass", &grassLevel, 0.01, 0);
-        ImGui::PopItemWidth();
 
         ImGui::DragFloat3("sunPosition:", _sun);
         ImGui::End();
@@ -247,51 +212,68 @@ int main()
         glfwSetInputMode(window, GLFW_CURSOR, showMouse ? GLFW_CURSOR_NORMAL : GLFW_CURSOR_DISABLED);
         glPolygonMode( GL_FRONT_AND_BACK, wireframe ? GL_LINE : GL_FILL);
 
-        if(!showMouse)
-        {
+        if(!showMouse) {
+            /* if (reloadWanted) { */
+            /*     reloadWanted = false; */
+            /*     noise.perlinToTexture(textureSize,textureSize,perlinTexture,perlinFrequency,perlinOctaves); */
+            /* } */
             computeMatricesFromInputs(window, screen_width, screen_height);
             glm::mat4 ProjectionMatrix = getProjectionMatrix();
             glm::mat4 ViewMatrix = getViewMatrix();
             glm::mat4 ModelMatrix = glm::mat4(1.0);
             MVP = ProjectionMatrix * ViewMatrix * ModelMatrix;
         }
+        else {
+            reloadWanted = true;
+        }
+
+        /* computeTexture.Activate(); */
 
         perlinTexture.Activate();
-        albedoTexture.Activate();
+        noiseGenerator.set_int("heightMapSampler",0);
+        noiseGenerator.set_float("octaves", perlinOctaves);
+        /* noiseGenerator.set_float("startFreq", perlinFrequency); */
+
+        /* if (reloadWanted) { */
+            reloadWanted = false;
+            noiseGenerator.useShader(1024/16,1024/16,1);
+            noiseGenerator.wait();
+        /* } */
 
         // terrain generation
         mainShader.useShader();
 
         mainShader.set_mat4("MVP", MVP);
         mainShader.set_int("heightMapSampler",0);
-        mainShader.set_int("albedoSampler",1);
         mainShader.set_vec3("cameraPos", position);
-        sunPosition = glm::vec3(_sun[0], _sun[1], _sun[2]);
-        mainShader.set_vec3("sunPosition", sunPosition);
-        mainShader.set_float("seaLevel", waterLevel);
+        mainShader.set_vec3("sunPosition", glm::vec3(_sun[0], _sun[1], _sun[2]));
+        mainShader.set_float("waterLevel", waterLevel);
+        mainShader.set_float("sandLevel", sandLevel);
+        mainShader.set_float("grassLevel", grassLevel);
         mainShader.set_vec3("origin", glm::vec3(0,0,0));
 
-        terrain.activate();
+        terrainMesh.activate();
 
 	    glEnable(GL_CULL_FACE);
-		glDrawElements(GL_PATCHES, terrain.indexCount, GL_UNSIGNED_INT, 0); 
+		glDrawElements(GL_PATCHES, terrainMesh.indexCount, GL_UNSIGNED_INT, 0); 
 
         // water generation
         seaShader.useShader();
         seaShader.set_mat4("MVP", MVP);
         seaShader.set_int("heightMapSampler",0);
-        seaShader.set_int("albedoSampler",1);
-        sunPosition = glm::vec3(_sun[0], _sun[1], _sun[2]);
-        seaShader.set_vec3("sunPosition", sunPosition);
-        seaShader.set_float("seaLevel", waterLevel);
-        seaShader.set_vec3("cameraPos", position);
+        seaShader.set_vec3("sunPosition", glm::vec3(_sun[0], _sun[1], _sun[2]));
         seaShader.set_float("time", currentTime);
+        seaShader.set_float("waterLevel", waterLevel);
+        seaShader.set_float("sandLevel", sandLevel);
+        seaShader.set_float("grassLevel", grassLevel);
+        seaShader.set_vec3("cameraPos", position);
 
-        seaLevel.activate();
+        /* seaLevelMesh.activate(); */
 
-        glDisable(GL_CULL_FACE);
-		glDrawElements(GL_TRIANGLES, seaLevel.indexCount, GL_UNSIGNED_INT, 0); 
+        /* glDisable(GL_CULL_FACE); */
+		/* glDrawElements(GL_TRIANGLES, seaLevelMesh.indexCount, GL_UNSIGNED_INT, 0); */ 
 
+        /* imguiWrap.Render(); */
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
@@ -300,6 +282,7 @@ int main()
 		glfwPollEvents();
     }
 
+    /* imguiWrap.Destroy(); */
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();

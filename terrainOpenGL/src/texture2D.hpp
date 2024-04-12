@@ -17,6 +17,7 @@ public:
     ~Texture2D() noexcept;
     void AddData(GLenum pixelFormat, GLenum type, void* pixels);
     void Activate();
+    void Data();
 };
 
 #endif 

@@ -1,4 +1,5 @@
 #include "texture2D.hpp"
+#include <iostream>
 
 Texture2D::Texture2D(GLsizei width, GLsizei height, GLuint slot, GLenum format)
 {
@@ -31,4 +32,19 @@ void Texture2D::Activate()
 {
     glActiveTexture(GL_TEXTURE0+bindSlot);
     glBindTexture(GL_TEXTURE_2D, textureID);
+}
+
+void Texture2D::Data()
+{
+    GLubyte* pixels = new GLubyte[1024*1024*4];
+    glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+
+    int min = 256;
+    int max = -1;
+
+    for (int i = 0; i < 1024*1024; ++i) {
+        if (pixels[i*4] > max) max = pixels[i*4];
+        if (pixels[i*4] < min) min = pixels[i*4];
+    }
+    std::cout << "min: " << min << ", max: " << max << std::endl;
 }

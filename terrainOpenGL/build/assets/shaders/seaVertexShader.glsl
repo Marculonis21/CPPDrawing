@@ -9,7 +9,7 @@ out vec3 vertexPos;
 out vec3 normal;
 
 uniform mat4 MVP;
-uniform float seaLevel;
+uniform float waterLevel;
 uniform float time;
 
 float get_offset(vec2 uv)
@@ -35,7 +35,7 @@ vec3 get_normal(vec2 uv)
 void main(){
     float offset = get_offset(vertexUV);
 
-    vertexPos = vertexPosition_modelspace + vec3(0,2,0)*seaLevel+vec3(0,1,0)*offset;
+    vertexPos = vertexPosition_modelspace + vec3(0,2,0)*waterLevel + vec3(0,1,0)*offset;
 	gl_Position = MVP*vec4(vertexPos,1);
     
 	UV = vertexUV;

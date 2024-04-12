@@ -352,6 +352,33 @@ src/imgui/imgui_widgets.cpp.s:
 	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/imgui/imgui_widgets.cpp.s
 .PHONY : src/imgui/imgui_widgets.cpp.s
 
+src/imgui_wrap.o: src/imgui_wrap.cpp.o
+
+.PHONY : src/imgui_wrap.o
+
+# target to build an object file
+src/imgui_wrap.cpp.o:
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/imgui_wrap.cpp.o
+.PHONY : src/imgui_wrap.cpp.o
+
+src/imgui_wrap.i: src/imgui_wrap.cpp.i
+
+.PHONY : src/imgui_wrap.i
+
+# target to preprocess a source file
+src/imgui_wrap.cpp.i:
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/imgui_wrap.cpp.i
+.PHONY : src/imgui_wrap.cpp.i
+
+src/imgui_wrap.s: src/imgui_wrap.cpp.s
+
+.PHONY : src/imgui_wrap.s
+
+# target to generate assembly for a file
+src/imgui_wrap.cpp.s:
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/imgui_wrap.cpp.s
+.PHONY : src/imgui_wrap.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -405,6 +432,33 @@ src/mesh.s: src/mesh.cpp.s
 src/mesh.cpp.s:
 	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/mesh.cpp.s
 .PHONY : src/mesh.cpp.s
+
+src/noise.o: src/noise.cpp.o
+
+.PHONY : src/noise.o
+
+# target to build an object file
+src/noise.cpp.o:
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/noise.cpp.o
+.PHONY : src/noise.cpp.o
+
+src/noise.i: src/noise.cpp.i
+
+.PHONY : src/noise.i
+
+# target to preprocess a source file
+src/noise.cpp.i:
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/noise.cpp.i
+.PHONY : src/noise.cpp.i
+
+src/noise.s: src/noise.cpp.s
+
+.PHONY : src/noise.s
+
+# target to generate assembly for a file
+src/noise.cpp.s:
+	$(MAKE) -f CMakeFiles/Terrain.dir/build.make CMakeFiles/Terrain.dir/src/noise.cpp.s
+.PHONY : src/noise.cpp.s
 
 src/shader.o: src/shader.cpp.o
 
@@ -521,12 +575,18 @@ help:
 	@echo "... src/imgui/imgui_widgets.o"
 	@echo "... src/imgui/imgui_widgets.i"
 	@echo "... src/imgui/imgui_widgets.s"
+	@echo "... src/imgui_wrap.o"
+	@echo "... src/imgui_wrap.i"
+	@echo "... src/imgui_wrap.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
 	@echo "... src/mesh.o"
 	@echo "... src/mesh.i"
 	@echo "... src/mesh.s"
+	@echo "... src/noise.o"
+	@echo "... src/noise.i"
+	@echo "... src/noise.s"
 	@echo "... src/shader.o"
 	@echo "... src/shader.i"
 	@echo "... src/shader.s"

@@ -161,9 +161,22 @@ CMakeFiles/Terrain.dir/src/imgui/imgui_widgets.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Terrain.dir/src/imgui/imgui_widgets.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/src/imgui/imgui_widgets.cpp -o CMakeFiles/Terrain.dir/src/imgui/imgui_widgets.cpp.s
 
+CMakeFiles/Terrain.dir/src/imgui_wrap.cpp.o: CMakeFiles/Terrain.dir/flags.make
+CMakeFiles/Terrain.dir/src/imgui_wrap.cpp.o: ../src/imgui_wrap.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/Terrain.dir/src/imgui_wrap.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Terrain.dir/src/imgui_wrap.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/src/imgui_wrap.cpp
+
+CMakeFiles/Terrain.dir/src/imgui_wrap.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Terrain.dir/src/imgui_wrap.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/src/imgui_wrap.cpp > CMakeFiles/Terrain.dir/src/imgui_wrap.cpp.i
+
+CMakeFiles/Terrain.dir/src/imgui_wrap.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Terrain.dir/src/imgui_wrap.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/src/imgui_wrap.cpp -o CMakeFiles/Terrain.dir/src/imgui_wrap.cpp.s
+
 CMakeFiles/Terrain.dir/src/main.cpp.o: CMakeFiles/Terrain.dir/flags.make
 CMakeFiles/Terrain.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/Terrain.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/Terrain.dir/src/main.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Terrain.dir/src/main.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/src/main.cpp
 
 CMakeFiles/Terrain.dir/src/main.cpp.i: cmake_force
@@ -176,7 +189,7 @@ CMakeFiles/Terrain.dir/src/main.cpp.s: cmake_force
 
 CMakeFiles/Terrain.dir/src/mesh.cpp.o: CMakeFiles/Terrain.dir/flags.make
 CMakeFiles/Terrain.dir/src/mesh.cpp.o: ../src/mesh.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/Terrain.dir/src/mesh.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/Terrain.dir/src/mesh.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Terrain.dir/src/mesh.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/src/mesh.cpp
 
 CMakeFiles/Terrain.dir/src/mesh.cpp.i: cmake_force
@@ -187,9 +200,22 @@ CMakeFiles/Terrain.dir/src/mesh.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Terrain.dir/src/mesh.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/src/mesh.cpp -o CMakeFiles/Terrain.dir/src/mesh.cpp.s
 
+CMakeFiles/Terrain.dir/src/noise.cpp.o: CMakeFiles/Terrain.dir/flags.make
+CMakeFiles/Terrain.dir/src/noise.cpp.o: ../src/noise.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/Terrain.dir/src/noise.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Terrain.dir/src/noise.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/src/noise.cpp
+
+CMakeFiles/Terrain.dir/src/noise.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Terrain.dir/src/noise.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/src/noise.cpp > CMakeFiles/Terrain.dir/src/noise.cpp.i
+
+CMakeFiles/Terrain.dir/src/noise.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Terrain.dir/src/noise.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/src/noise.cpp -o CMakeFiles/Terrain.dir/src/noise.cpp.s
+
 CMakeFiles/Terrain.dir/src/shader.cpp.o: CMakeFiles/Terrain.dir/flags.make
 CMakeFiles/Terrain.dir/src/shader.cpp.o: ../src/shader.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/Terrain.dir/src/shader.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/Terrain.dir/src/shader.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Terrain.dir/src/shader.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/src/shader.cpp
 
 CMakeFiles/Terrain.dir/src/shader.cpp.i: cmake_force
@@ -202,7 +228,7 @@ CMakeFiles/Terrain.dir/src/shader.cpp.s: cmake_force
 
 CMakeFiles/Terrain.dir/src/texture.cpp.o: CMakeFiles/Terrain.dir/flags.make
 CMakeFiles/Terrain.dir/src/texture.cpp.o: ../src/texture.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/Terrain.dir/src/texture.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/Terrain.dir/src/texture.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Terrain.dir/src/texture.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/src/texture.cpp
 
 CMakeFiles/Terrain.dir/src/texture.cpp.i: cmake_force
@@ -215,7 +241,7 @@ CMakeFiles/Terrain.dir/src/texture.cpp.s: cmake_force
 
 CMakeFiles/Terrain.dir/src/texture2D.cpp.o: CMakeFiles/Terrain.dir/flags.make
 CMakeFiles/Terrain.dir/src/texture2D.cpp.o: ../src/texture2D.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/Terrain.dir/src/texture2D.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/Terrain.dir/src/texture2D.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Terrain.dir/src/texture2D.cpp.o -c /home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/src/texture2D.cpp
 
 CMakeFiles/Terrain.dir/src/texture2D.cpp.i: cmake_force
@@ -236,8 +262,10 @@ Terrain_OBJECTS = \
 "CMakeFiles/Terrain.dir/src/imgui/imgui_impl_opengl3.cpp.o" \
 "CMakeFiles/Terrain.dir/src/imgui/imgui_tables.cpp.o" \
 "CMakeFiles/Terrain.dir/src/imgui/imgui_widgets.cpp.o" \
+"CMakeFiles/Terrain.dir/src/imgui_wrap.cpp.o" \
 "CMakeFiles/Terrain.dir/src/main.cpp.o" \
 "CMakeFiles/Terrain.dir/src/mesh.cpp.o" \
+"CMakeFiles/Terrain.dir/src/noise.cpp.o" \
 "CMakeFiles/Terrain.dir/src/shader.cpp.o" \
 "CMakeFiles/Terrain.dir/src/texture.cpp.o" \
 "CMakeFiles/Terrain.dir/src/texture2D.cpp.o"
@@ -253,8 +281,10 @@ Terrain: CMakeFiles/Terrain.dir/src/imgui/imgui_impl_glfw.cpp.o
 Terrain: CMakeFiles/Terrain.dir/src/imgui/imgui_impl_opengl3.cpp.o
 Terrain: CMakeFiles/Terrain.dir/src/imgui/imgui_tables.cpp.o
 Terrain: CMakeFiles/Terrain.dir/src/imgui/imgui_widgets.cpp.o
+Terrain: CMakeFiles/Terrain.dir/src/imgui_wrap.cpp.o
 Terrain: CMakeFiles/Terrain.dir/src/main.cpp.o
 Terrain: CMakeFiles/Terrain.dir/src/mesh.cpp.o
+Terrain: CMakeFiles/Terrain.dir/src/noise.cpp.o
 Terrain: CMakeFiles/Terrain.dir/src/shader.cpp.o
 Terrain: CMakeFiles/Terrain.dir/src/texture.cpp.o
 Terrain: CMakeFiles/Terrain.dir/src/texture2D.cpp.o
@@ -265,7 +295,7 @@ Terrain: /usr/lib/x86_64-linux-gnu/libGLU.so
 Terrain: /usr/lib/x86_64-linux-gnu/libGLEW.so
 Terrain: /usr/lib/x86_64-linux-gnu/libglfw.so.3.3
 Terrain: CMakeFiles/Terrain.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Linking CXX executable Terrain"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/terrainOpenGL/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Linking CXX executable Terrain"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Terrain.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

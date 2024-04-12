@@ -10,9 +10,10 @@ out vec4 color;
 
 // Values that stay constant for the whole mesh.
 uniform sampler2D heightMapSampler;
-uniform sampler2D albedoSampler;
 uniform vec3 sunPosition;
-uniform float seaLevel;
+uniform float waterLevel;
+uniform float sandLevel;
+uniform float grassLevel;
 uniform vec3 cameraPos;
 
 float get_height(vec2 uv)
@@ -42,6 +43,20 @@ vec4 get_shadows(vec4 color, vec3 startPos)
     return color;
 }
 
+vec3 get_terrain_color(float height)
+{
+    height -= waterLevel;
+
+    if (height < sandLevel) {
+        return vec3(1.0, 0.98, 0.83);
+    }
+    else if (height < grassLevel-waterLevel) {
+        return vec3(0.44, 0.75, 0.28);
+    }
+    return vec3(0.33,0.35,0.36);
+}
+
+
 vec4 get_reflection(vec3 startPos, vec3 dir)
 {
     const float maxSteps = 150;
@@ -59,16 +74,15 @@ vec4 get_reflection(vec3 startPos, vec3 dir)
 
         if(height > pos.y)
         {
-            return texture(albedoSampler, pos.xz);
+            return vec4(get_terrain_color(height),1);
         }
     }
 
     return vec4(0.2,0.2,0.5,1);
 }
-
 void main(){
 
-    vec3 POS = vec3(UV.x, seaLevel, UV.y);
+    vec3 POS = vec3(UV.x, waterLevel, UV.y);
 
     vec3 camDir = normalize(vertexPos-cameraPos);
     vec3 camReflect = reflect(camDir,normal);
