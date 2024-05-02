@@ -7,7 +7,7 @@ out vec2 UV;
 out vec3 POS;
 out float HEIGHT;
 out vec3 NORMAL;
-out vec3 COLOR;
+flat out vec3 COLOR;
 
 uniform mat4 MVP;
 
@@ -22,9 +22,15 @@ float get_height(vec2 uv)
     return texture(heightMapSampler, uv).r;
 }
 
-vec3 get_color(float height)
+float hash(vec2 uv)
+{
+	return fract(sin(dot(uv, vec2(12.9898, 78.233))) * 43758.5453);
+}
+
+vec3 get_color(float height, vec2 uv)
 {
     /* height -= waterLevel; */
+    height += (hash(uv)*2 - 1)*0.01;
 
     if (height < sandLevel) {
         return vec3(1.0, 0.98, 0.83);
@@ -79,6 +85,6 @@ void main()
     gl_Position = MVP * vec4(POS, 1);
     UV = texCoord;
     NORMAL = -get_normal(UV);
-    COLOR = get_color(height);
+    COLOR = get_color(height,UV);
     /* COLOR = texture(heightMapSampler, UV).rgb; */
 }

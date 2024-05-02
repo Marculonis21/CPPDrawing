@@ -120,7 +120,10 @@ void main()
         float value = amp*((cnoise(coords/freq)+1.0)/2.0);
         sum += value;
     }
-    sum /= ampSum;
+    /* sum /= ampSum; */
+
+    sum = pow(sum, 1.5);
+    sum = sum/pow(ampSum, 1.5);
     /* sum = pow(sum,1); */
     /* vec2 uv = vec2(coords)/freq; */
 

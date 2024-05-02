@@ -7,7 +7,7 @@ in vec3 NORMAL;
 in vec3 POS;
 
 // Ouput data
-in vec3 COLOR;
+flat in vec3 COLOR;
 out vec4 color;
 
 // Values that stay constant for the whole mesh.
