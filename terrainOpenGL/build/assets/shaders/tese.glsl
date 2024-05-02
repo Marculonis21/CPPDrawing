@@ -7,7 +7,7 @@ out vec2 UV;
 out vec3 POS;
 out float HEIGHT;
 out vec3 NORMAL;
-flat out vec3 COLOR;
+out vec3 COLOR;
 
 uniform mat4 MVP;
 
@@ -75,10 +75,10 @@ void main()
 
     float height = get_height(texCoord);
     HEIGHT = height;
-    gl_Position = MVP * vec4(_pos.xyz + vec3(0,0,0)*height, 1);
-
+    POS = _pos.xyz + vec3(0,1,0)*height;
+    gl_Position = MVP * vec4(POS, 1);
     UV = texCoord;
-    POS = gl_Position.xyz;
     NORMAL = -get_normal(UV);
     COLOR = get_color(height);
+    /* COLOR = texture(heightMapSampler, UV).rgb; */
 }

@@ -57,6 +57,8 @@ CMakeFiles/Terrain.dir/src/main.cpp.o: ../src/imgui/imconfig.h
 CMakeFiles/Terrain.dir/src/main.cpp.o: ../src/imgui/imgui.h
 CMakeFiles/Terrain.dir/src/main.cpp.o: ../src/imgui/imgui_impl_glfw.h
 CMakeFiles/Terrain.dir/src/main.cpp.o: ../src/imgui/imgui_impl_opengl3.h
+CMakeFiles/Terrain.dir/src/main.cpp.o: ../src/imgui/imgui_internal.h
+CMakeFiles/Terrain.dir/src/main.cpp.o: ../src/imgui/imstb_textedit.h
 CMakeFiles/Terrain.dir/src/main.cpp.o: ../src/imgui_wrap.hpp
 CMakeFiles/Terrain.dir/src/main.cpp.o: ../src/main.cpp
 CMakeFiles/Terrain.dir/src/main.cpp.o: ../src/mesh.hpp

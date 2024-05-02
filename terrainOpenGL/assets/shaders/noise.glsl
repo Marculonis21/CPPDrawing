@@ -1,11 +1,10 @@
 #version 450 core
 
-layout(local_size_x = 16, local_size_y = 16, local_size_z = 1) in;
+layout(local_size_x = 32, local_size_y = 32, local_size_z = 1) in;
 
 layout(rgba32f, binding = 0) uniform image2D heightMapSampler;
-uniform float octaves;
-
-/* uniform float sFreq; */
+uniform int octaves;
+uniform float sFreq;
 
 vec4 mod289(vec4 x)
 {
@@ -112,11 +111,8 @@ void main()
     uvec2 coords = gl_GlobalInvocationID.xy;
     float sum = 0;
 
-    /* float amp = 1.0; */
-    float sFreq = 100.0;
-
     float ampSum = 0;
-    for(int i = 0; i < int(octaves); i++)
+    for(int i = 0; i < octaves; i++)
     {
         float amp = pow(0.5,i);
         ampSum += amp;
@@ -125,6 +121,7 @@ void main()
         sum += value;
     }
     sum /= ampSum;
+    /* sum = pow(sum,1); */
     /* vec2 uv = vec2(coords)/freq; */
 
 /*     float value = 1.0*(cnoise(uv)+1)/2; */
