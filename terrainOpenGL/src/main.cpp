@@ -115,17 +115,25 @@ int main()
 
     const int textureSize = 1024;
 
-    Texture2D perlinTexture(textureSize,textureSize,0, GL_RGBA32F);
+    Texture2D albedoHeightTexture(textureSize,textureSize, 0, GL_RGBA32F);
+    Texture2D normalTexture(textureSize,textureSize, 1, GL_RGBA32F);
     /* Texture2D computeTexture(1000,1000,1, GL_RGBA32F); */
 
-    std::vector<GLubyte> tData(textureSize*textureSize*4, 0);
-    for (int i = 0; i < tData.size()/4; ++i) {
-        tData[i*4+0] = (GLubyte)255;
-        tData[i*4+1] = (GLubyte)0;
-        tData[i*4+2] = (GLubyte)0;
-        tData[i*4+3] = (GLubyte)255;
+    std::vector<GLubyte> t1Data(textureSize*textureSize*4, 0);
+    std::vector<GLubyte> t2Data(textureSize*textureSize*4, 0);
+    for (int i = 0; i < t1Data.size()/4; ++i) {
+        t1Data[i*4+0] = (GLubyte)0;
+        t1Data[i*4+1] = (GLubyte)0;
+        t1Data[i*4+2] = (GLubyte)0;
+        t1Data[i*4+3] = (GLubyte)255;
+        t2Data[i*4+0] = (GLubyte)0;
+        t2Data[i*4+1] = (GLubyte)0;
+        t2Data[i*4+2] = (GLubyte)0;
+        t2Data[i*4+3] = (GLubyte)255;
     }
-    perlinTexture.AddData(GL_RGBA, GL_UNSIGNED_BYTE, tData.data());
+    albedoHeightTexture.AddData(GL_RGBA, GL_UNSIGNED_BYTE, t1Data.data());
+    normalTexture.AddData(GL_RGBA, GL_UNSIGNED_BYTE, t2Data.data());
+
     std::cout << "perlin done" << std::endl;
 
     IMGUI_CHECKVERSION();
@@ -222,21 +230,30 @@ int main()
             reloadWanted = true;
         }
 
-        perlinTexture.Activate();
+        albedoHeightTexture.Activate();
+        normalTexture.Activate();
         if (reloadWanted) {
-            noiseGenerator.useShader(textureSize/32,textureSize/32,1);
-            noiseGenerator.set_int("heightMapSampler",0);
+            noiseGenerator.useShader(textureSize/1,textureSize/1,1);
+            noiseGenerator.set_int("albedoHeightSampler",0);
+            noiseGenerator.set_int("normalSampler",   1);
             noiseGenerator.set_int("octaves", int(perlinOctaves));
             noiseGenerator.set_float("sFreq", perlinFrequency);
-            /* noiseGenerator.wait(); */
-            /* perlinTexture.Data(); */
+
+            noiseGenerator.set_float("waterLevel", waterLevel);
+            noiseGenerator.set_float("sandLevel", sandLevel);
+            noiseGenerator.set_float("grassLevel", grassLevel);
+
+            noiseGenerator.wait();
+            /* albedoHeightTexture.Data(); */
+            /* normalTexture.Data(); */
         }
 
         // terrain generation
         mainShader.useShader();
 
         mainShader.set_mat4("MVP", MVP);
-        mainShader.set_int("heightMapSampler",0);
+        mainShader.set_int("albedoHeightTexture",0);
+        mainShader.set_int("normalSampler", 1);
         mainShader.set_vec3("cameraPos", position);
         mainShader.set_vec3("sunPosition", glm::vec3(_sun[0], _sun[1], _sun[2]));
         mainShader.set_float("waterLevel", waterLevel);
@@ -252,7 +269,8 @@ int main()
         // water generation
         seaShader.useShader();
         seaShader.set_mat4("MVP", MVP);
-        seaShader.set_int("heightMapSampler",0);
+        seaShader.set_int("albedoHeightTexture",0);
+        seaShader.set_int("normalSampler", 1);
         seaShader.set_vec3("sunPosition", glm::vec3(_sun[0], _sun[1], _sun[2]));
         seaShader.set_float("time", currentTime);
         seaShader.set_float("waterLevel", waterLevel);

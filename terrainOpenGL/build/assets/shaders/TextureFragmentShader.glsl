@@ -1,8 +1,8 @@
 #version 450 core
 
-// Interpolated values from the vertex shaders
 in vec2 UV;
 in float HEIGHT;
+/* in float HEIGHTMULT; */
 in vec3 NORMAL;
 in vec3 POS;
 
@@ -11,7 +11,9 @@ flat in vec3 COLOR;
 out vec4 color;
 
 // Values that stay constant for the whole mesh.
-uniform sampler2D heightMapSampler;
+uniform sampler2D albedoHeightSampler;
+uniform sampler2D normalSampler;
+
 uniform vec3 sunPosition;
 uniform float waterLevel;
 
@@ -20,7 +22,7 @@ float get_height(vec2 uv)
     if (uv.x > 1 || uv.x < 0 || uv.y > 1 || uv.y < 0)
         return 0;
 
-    return texture(heightMapSampler, uv).r;
+    return texture(albedoHeightSampler, uv).w;
 }
 
 vec4 get_shadows(vec4 color, vec3 startPos)
@@ -53,8 +55,9 @@ void main(){
 
     const float sizeOfMesh = 10.0;
 
-    vec3 _color = COLOR;
+    vec3 _color = NORMAL;
     color = vec4(_color, 1);
+    return;
     /* return; */
     /* float height = HEIGHT; */
     /* if(abs(height) < 0.01) */
@@ -69,9 +72,8 @@ void main(){
     }
     else {
         color = get_shadows(vec4(_color,1), pos);
+        color *= max(dot(NORMAL, normalize(sunPosition - pos)), 0.8);
     }
 
-    color *= max(dot(NORMAL, normalize(sunPosition - pos)), 0.8);
     color = vec4(color.rgb, 1);
-    /* color = vec4(NORMAL, 1); */
 }

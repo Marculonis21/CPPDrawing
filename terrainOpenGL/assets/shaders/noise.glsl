@@ -1,10 +1,20 @@
 #version 450 core
 
-layout(local_size_x = 32, local_size_y = 32, local_size_z = 1) in;
+layout(local_size_x = 1, local_size_y = 1, local_size_z = 1) in;
 
-layout(rgba32f, binding = 0) uniform image2D heightMapSampler;
+layout(rgba32f, binding = 0) uniform image2D albedoHeightSampler;
+layout(rgba32f, binding = 1) uniform image2D normalSampler;
+
 uniform int octaves;
 uniform float sFreq;
+
+uniform float waterLevel;
+uniform float sandLevel;
+uniform float grassLevel;
+
+const vec3 sandColor  = vec3(1.0, 0.98, 0.83);
+const vec3 grassColor = vec3(0.44, 0.75, 0.28);
+const vec3 rockColor  = vec3(0.33,0.35,0.36);
 
 vec4 mod289(vec4 x)
 {
@@ -106,9 +116,8 @@ float pnoise(vec2 P, vec2 rep)
   return 2.3 * n_xy;
 }
 
-void main()
+float get_height(vec2 coords)
 {
-    uvec2 coords = gl_GlobalInvocationID.xy;
     float sum = 0;
 
     float ampSum = 0;
@@ -124,5 +133,70 @@ void main()
     sum /= ampSum;
     sum = pow(sum, 2);
 
-    imageStore(heightMapSampler, ivec2(coords), vec4(sum,sum,sum,1.0));
+    return sum;
+}
+
+float hash(vec2 uv)
+{
+	return fract(sin(dot(uv, vec2(12.9898, 78.233))) * 43758.5453);
+}
+
+
+vec3 get_color(float height, vec2 uv)
+{
+
+    /* float steepness = pow(dot(vec3(0, 1, 0), normal),1); */
+
+    /* steepness += (hash(uv)*2 - 1)*0.1; */
+    /* if(steepness > 0.8) */
+    /*     return vec3(1,0,0); */
+    /* if(steepness < 0.1) */
+    /*     return vec3(0,1,0); */
+    /* return vec3(steepness); */
+
+    /* if (steepness < 0.2) { */
+    /*     return vec3(0.33,0.35,0.36); */
+    /* } */
+
+    if(height <= waterLevel-0.005) {
+        return vec3(mix(vec3(0,0,0.4), sandColor, exp(-1.2*waterLevel/height)));
+    }
+
+    height += (hash(uv)*2 - 1)*0.01;
+
+    if (height < sandLevel) {
+        return sandColor;
+    }
+    else if (height < grassLevel) {
+        return grassColor;
+    }
+    return rockColor;
+}
+
+vec3 get_normal(vec2 uv)
+{
+    // amount of quad * tess factor
+    const float step = 1;
+    vec3 vertex = vec3(uv.x, 0, uv.y);
+    vec3 UP    = vec3(uv.x, 0, uv.y+step);
+    vec3 RIGHT = vec3(uv.x+step, 0, uv.y);
+
+    vertex.y = 1024*get_height(vertex.xz);
+    UP.y =     1024*get_height(UP.xz);
+    RIGHT.y =  1024*get_height(RIGHT.xz);
+
+    return -normalize(cross(RIGHT-vertex,UP-vertex));
+}
+
+void main()
+{
+    vec2 coords = gl_GlobalInvocationID.xy;
+
+    float height = get_height(coords);
+    vec4 albedoHeight = vec4(get_color(height,coords), height);
+    vec3 normal = get_normal(coords);
+
+    imageStore(albedoHeightSampler, ivec2(coords), albedoHeight);
+    /* barrier(); */
+    imageStore(normalSampler, ivec2(coords), vec4(normal,1.0));
 }

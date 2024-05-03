@@ -18,7 +18,7 @@ uniform vec3 cameraPos;
 
 float get_height(vec2 uv)
 {
-    return texture(heightMapSampler, uv).r;
+    return 4*texture(heightMapSampler, uv).r;
 }
 
 vec4 get_shadows(vec4 color, vec3 startPos)
@@ -80,6 +80,7 @@ vec4 get_reflection(vec3 startPos, vec3 dir)
 
     return vec4(0.2,0.2,0.5,1);
 }
+
 void main(){
 
     vec3 POS = vec3(UV.x, waterLevel, UV.y);
