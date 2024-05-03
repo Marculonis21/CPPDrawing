@@ -55,6 +55,12 @@ void main(){
 
     vec3 _color = COLOR;
     color = vec4(_color, 1);
+    /* return; */
+    /* float height = HEIGHT; */
+    /* if(abs(height) < 0.01) */
+    /*     color = vec4(1,0,0, 1); */
+    /* else */
+    /*     color = vec4(height,height,height, 1); */
 
     vec3 pos = vec3(POS.x/sizeOfMesh, POS.y, POS.z/sizeOfMesh);
 

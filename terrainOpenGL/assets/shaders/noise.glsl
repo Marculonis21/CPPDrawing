@@ -120,20 +120,9 @@ void main()
         float value = amp*((cnoise(coords/freq)+1.0)/2.0);
         sum += value;
     }
-    /* sum /= ampSum; */
 
-    sum = pow(sum, 1.5);
-    sum = sum/pow(ampSum, 1.5);
-    /* sum = pow(sum,1); */
-    /* vec2 uv = vec2(coords)/freq; */
-
-/*     float value = 1.0*(cnoise(uv)+1)/2; */
-    /* value += 0.5     *(cnoise(uv*2.0) +1.0)/2.0; */
-    /* value += 0.25    *(cnoise(uv*4.0) +1.0)/2.0; */
-    /* value += 0.125   *(cnoise(uv*8.0) +1.0)/2.0; */
-    /* value += 0.0625  *(cnoise(uv*16.0)+1.0)/2.0; */
-    /* value += 0.03125 *(cnoise(uv*32.0)+1.0)/2.0; */
-    /* value *= 0.5; */
+    sum /= ampSum;
+    sum = pow(sum, 2);
 
     imageStore(heightMapSampler, ivec2(coords), vec4(sum,sum,sum,1.0));
 }

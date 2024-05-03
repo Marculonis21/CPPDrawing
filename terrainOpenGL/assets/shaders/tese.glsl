@@ -17,6 +17,8 @@ uniform float waterLevel;
 uniform float sandLevel;
 uniform float grassLevel;
 
+const float heightMult = 4.0;
+
 float get_height(vec2 uv)
 {
     return texture(heightMapSampler, uv).r;
@@ -27,15 +29,30 @@ float hash(vec2 uv)
 	return fract(sin(dot(uv, vec2(12.9898, 78.233))) * 43758.5453);
 }
 
-vec3 get_color(float height, vec2 uv)
+vec3 get_color(float height, vec2 uv, vec3 normal)
 {
     /* height -= waterLevel; */
-    height += (hash(uv)*2 - 1)*0.01;
+    float steepness = pow(dot(vec3(0, 1, 0), normal),1);
+
+    /* steepness += (hash(uv)*2 - 1)*0.1; */
+    /* if(steepness > 0.8) */
+    /*     return vec3(1,0,0); */
+    /* if(steepness < 0.1) */
+    /*     return vec3(0,1,0); */
+    /* return vec3(steepness); */
+
+    height += (hash(uv)*2 - 1)*0.05;
+
+    /* if (steepness < 0.2) { */
+    /*     return vec3(0.33,0.35,0.36); */
+    /* } */
 
     if (height < sandLevel) {
         return vec3(1.0, 0.98, 0.83);
     }
     else if (height < grassLevel) {
+        /* if(steepness > 0.8) */
+        /* return vec3(82/255.0, 152/255.0, 47/255.0); */
         return vec3(0.44, 0.75, 0.28);
     }
     return vec3(0.33,0.35,0.36);
@@ -49,9 +66,9 @@ vec3 get_normal(vec2 uv)
     vec3 UP    = vec3(uv.x, 0, uv.y+step);
     vec3 RIGHT = vec3(uv.x+step, 0, uv.y);
 
-    vertex.y = get_height(vertex.xz);
-    UP.y = get_height(UP.xz);
-    RIGHT.y = get_height(RIGHT.xz);
+    vertex.y = heightMult*get_height(vertex.xz);
+    UP.y =     heightMult*get_height(UP.xz);
+    RIGHT.y =  heightMult*get_height(RIGHT.xz);
 
     return normalize(cross(RIGHT-vertex,UP-vertex));
 }
@@ -81,10 +98,10 @@ void main()
 
     float height = get_height(texCoord);
     HEIGHT = height;
-    POS = _pos.xyz + vec3(0,1,0)*height;
+    POS = _pos.xyz + vec3(0,1,0)*height*heightMult;
     gl_Position = MVP * vec4(POS, 1);
     UV = texCoord;
     NORMAL = -get_normal(UV);
-    COLOR = get_color(height,UV);
+    COLOR = get_color(height,UV,NORMAL);
     /* COLOR = texture(heightMapSampler, UV).rgb; */
 }

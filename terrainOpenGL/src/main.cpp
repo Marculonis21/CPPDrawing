@@ -228,7 +228,8 @@ int main()
             noiseGenerator.set_int("heightMapSampler",0);
             noiseGenerator.set_int("octaves", int(perlinOctaves));
             noiseGenerator.set_float("sFreq", perlinFrequency);
-            noiseGenerator.wait();
+            /* noiseGenerator.wait(); */
+            /* perlinTexture.Data(); */
         }
 
         // terrain generation
