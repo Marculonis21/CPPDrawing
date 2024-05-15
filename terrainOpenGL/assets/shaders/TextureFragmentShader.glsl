@@ -2,7 +2,7 @@
 
 in vec2 UV;
 in float HEIGHT;
-/* in float HEIGHTMULT; */
+in float HEIGHTMULT;
 in vec3 NORMAL;
 in vec3 POS;
 
@@ -38,7 +38,7 @@ vec4 get_shadows(vec4 color, vec3 startPos)
     {
         pos += dir*max((pos.y-height)*0.05, minStep);
 
-        height = get_height(pos.xz);
+        height = HEIGHTMULT*get_height(pos.xz);
 
         if(height >= pos.y)
         {
@@ -55,15 +55,8 @@ void main(){
 
     const float sizeOfMesh = 10.0;
 
-    vec3 _color = NORMAL;
+    vec3 _color = COLOR;
     color = vec4(_color, 1);
-    return;
-    /* return; */
-    /* float height = HEIGHT; */
-    /* if(abs(height) < 0.01) */
-    /*     color = vec4(1,0,0, 1); */
-    /* else */
-    /*     color = vec4(height,height,height, 1); */
 
     vec3 pos = vec3(POS.x/sizeOfMesh, POS.y, POS.z/sizeOfMesh);
 

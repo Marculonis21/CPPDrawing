@@ -6,7 +6,7 @@ in vec2 uv[];
 out vec2 UV;
 out vec3 POS;
 out float HEIGHT;
-/* out float HEIGHTMULT; */
+out float HEIGHTMULT;
 out vec3 NORMAL;
 flat out vec3 COLOR;
 
@@ -14,6 +14,8 @@ uniform mat4 MVP;
 
 uniform sampler2D albedoHeightSampler;
 uniform sampler2D normalSampler;
+
+const float heightMult = 5.0f;
 
 void main()
 {
@@ -48,5 +50,5 @@ void main()
 
     POS = _pos.xyz + vec3(0,1,0)*HEIGHT*heightMult;
     gl_Position = MVP * vec4(POS, 1);
-    /* HEIGHTMULT = heightMult; */
+    HEIGHTMULT = heightMult;
 }
