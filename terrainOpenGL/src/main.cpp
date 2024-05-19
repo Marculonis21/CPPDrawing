@@ -36,8 +36,8 @@
 
 extern glm::vec3 position;
 
-const uint screen_width = 1024;
-const uint screen_height = 1024;
+const uint screen_width = 1920;
+const uint screen_height = 1080;
  
 int num_frames{ 0 };
 float last_time{ 0.0f };
@@ -278,9 +278,9 @@ int main()
         seaShader.set_float("grassLevel", grassLevel);
         seaShader.set_vec3("cameraPos", position);
 
-        /* seaLevelMesh.activate(); */
-        /* glDisable(GL_CULL_FACE); */
-		/* glDrawElements(GL_TRIANGLES, seaLevelMesh.indexCount, GL_UNSIGNED_INT, 0); */ 
+        seaLevelMesh.activate();
+        glDisable(GL_CULL_FACE);
+		glDrawElements(GL_TRIANGLES, seaLevelMesh.indexCount, GL_UNSIGNED_INT, 0); 
 
         /* imguiWrap.Render(); */
         ImGui::Render();

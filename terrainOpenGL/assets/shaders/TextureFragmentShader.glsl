@@ -20,23 +20,27 @@ uniform float waterLevel;
 float get_height(vec2 uv)
 {
     if (uv.x > 1 || uv.x < 0 || uv.y > 1 || uv.y < 0)
-        return 0;
+        return -10;
 
     return texture(albedoHeightSampler, uv).w;
 }
 
-vec4 get_shadows(vec4 color, vec3 startPos)
+vec4 get_shadows(vec4 color, vec3 startPos, vec3 sunPos)
 {
+    //what about doing shadows the opposite way?? FROM SUN TO THE TERRAIN -
+    //might be better for the occlusion
+    
     const float maxSteps = 200;
-    const float minStep = 0.001;
+    const float minStep = 0.0025;
 
-    vec3 dir = normalize(sunPosition - startPos);
+    vec3 dir = normalize(sunPos - startPos);
     vec3 pos = startPos + dir*0.001;
     float height = pos.y;
 
     for (int i = 1; i < maxSteps; i++)
     {
-        pos += dir*max((pos.y-height)*0.05, minStep);
+        /* pos += dir*max((pos.y-height)*0.05, minStep); */
+        pos += dir*minStep;
 
         height = HEIGHTMULT*get_height(pos.xz);
 
@@ -59,13 +63,14 @@ void main(){
     color = vec4(_color, 1);
 
     vec3 pos = vec3(POS.x/sizeOfMesh, POS.y, POS.z/sizeOfMesh);
+    vec3 _sun = vec3(sunPosition.x, sunPosition.y*HEIGHTMULT, sunPosition.z);
 
     if(HEIGHT <= waterLevel-0.005) {
         color = vec4(mix(vec3(0,0,0.5), _color, exp(-1.2*waterLevel/HEIGHT)),1);
     }
     else {
-        color = get_shadows(vec4(_color,1), pos);
-        color *= max(dot(NORMAL, normalize(sunPosition - pos)), 0.8);
+        color = get_shadows(vec4(_color,1), pos, _sun);
+        color *= max(dot(NORMAL, normalize(_sun - pos)), 0.85);
     }
 
     color = vec4(color.rgb, 1);

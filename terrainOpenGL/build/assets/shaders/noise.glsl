@@ -144,7 +144,6 @@ float hash(vec2 uv)
 
 vec3 get_color(float height, vec2 uv)
 {
-
     /* float steepness = pow(dot(vec3(0, 1, 0), normal),1); */
 
     /* steepness += (hash(uv)*2 - 1)*0.1; */

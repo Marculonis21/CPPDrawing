@@ -9,30 +9,43 @@ in vec3 normal;
 out vec4 color;
 
 // Values that stay constant for the whole mesh.
-uniform sampler2D heightMapSampler;
+uniform sampler2D albedoHeightSampler;
+uniform sampler2D normalSampler;
 uniform vec3 sunPosition;
 uniform float waterLevel;
 uniform float sandLevel;
 uniform float grassLevel;
 uniform vec3 cameraPos;
 
+const float HEIGHTMULT = 5.0f;
+
 float get_height(vec2 uv)
 {
-    return 4*texture(heightMapSampler, uv).r;
+    if (uv.x > 1 || uv.x < 0 || uv.y > 1 || uv.y < 0)
+        return -10;
+
+    return HEIGHTMULT*texture(albedoHeightSampler, uv).w;
 }
 
-vec4 get_shadows(vec4 color, vec3 startPos)
+vec4 get_shadows(vec4 color, vec3 startPos, vec3 sunPos)
 {
     const float maxSteps = 200;
-    const float step = 0.005;
+    const float minStep = 0.0025;
 
-    vec3 dir = normalize(sunPosition - startPos);
+    startPos.y *= HEIGHTMULT;
+
+    vec3 dir = normalize(sunPos - startPos);
+    vec3 pos = startPos + dir*0.001;
+    float height = pos.y;
 
     for (int i = 1; i < maxSteps; i++)
     {
-        vec3 pos = startPos + (dir*i*step);
+        /* pos += dir*max((pos.y-height)*0.05, minStep); */
+        pos += dir*minStep;
 
-        if(get_height(pos.xz) > pos.y)
+        height = HEIGHTMULT*get_height(pos.xz);
+
+        if(height >= pos.y)
         {
             color.rgb = color.rgb * (1.0-((maxSteps-i)/(maxSteps*1.5)));
             color.a = color.a     / (1.0-((maxSteps-i)/(maxSteps*1.3)));
@@ -43,17 +56,9 @@ vec4 get_shadows(vec4 color, vec3 startPos)
     return color;
 }
 
-vec3 get_terrain_color(float height)
+vec3 get_terrain_color(vec2 uv)
 {
-    height -= waterLevel;
-
-    if (height < sandLevel) {
-        return vec3(1.0, 0.98, 0.83);
-    }
-    else if (height < grassLevel-waterLevel) {
-        return vec3(0.44, 0.75, 0.28);
-    }
-    return vec3(0.33,0.35,0.36);
+    return texture(albedoHeightSampler, uv).rgb;
 }
 
 
@@ -62,11 +67,13 @@ vec4 get_reflection(vec3 startPos, vec3 dir)
     const float maxSteps = 150;
     const float step = 0.01;
 
+    vec3 pos = startPos + dir*0.001;
+
     for (int i = 0; i < maxSteps; i++)
     {
-        vec3 pos = startPos + dir*0.0001 + (dir*i*step);
+        pos += dir*step;
 
-        if(pos.y > 1) {
+        if(pos.y > 1*HEIGHTMULT) {
             break;
         }
 
@@ -74,7 +81,8 @@ vec4 get_reflection(vec3 startPos, vec3 dir)
 
         if(height > pos.y)
         {
-            return vec4(get_terrain_color(height),1);
+            /* return vec4(1,0,0,1); */
+            return vec4(get_terrain_color(pos.xz),1);
         }
     }
 
@@ -83,15 +91,16 @@ vec4 get_reflection(vec3 startPos, vec3 dir)
 
 void main(){
 
-    vec3 POS = vec3(UV.x, waterLevel, UV.y);
+    vec3 POS = vec3(UV.x, vertexPos.y, UV.y);
+    vec3 _sun = vec3(sunPosition.x, sunPosition.y*HEIGHTMULT, sunPosition.z);
 
     vec3 camDir = normalize(vertexPos-cameraPos);
     vec3 camReflect = reflect(camDir,normal);
 
-    camReflect.y *= 4;
+    camReflect.y *= 5;
     camReflect = normalize(camReflect);
 
     color = get_reflection(POS, camReflect);
     color.a = clamp(1-dot(-camDir,normal),0,1);
-    color = get_shadows(color, POS);
+    color = get_shadows(color, POS, _sun);
 }
