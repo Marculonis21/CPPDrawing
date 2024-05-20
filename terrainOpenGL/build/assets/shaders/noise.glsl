@@ -12,9 +12,11 @@ uniform float waterLevel;
 uniform float sandLevel;
 uniform float grassLevel;
 
-const vec3 sandColor  = vec3(1.0, 0.98, 0.83);
-const vec3 grassColor = vec3(0.44, 0.75, 0.28);
-const vec3 rockColor  = vec3(0.33,0.35,0.36);
+uniform vec3 sunPosition;
+
+const vec4 sandColor  = vec4(1.0, 0.98, 0.83, 1);
+const vec4 grassColor = vec4(0.44, 0.75, 0.28, 1);
+const vec4 rockColor  = vec4(0.33,0.35,0.36, 1);
 
 vec4 mod289(vec4 x)
 {
@@ -141,8 +143,45 @@ float hash(vec2 uv)
 	return fract(sin(dot(uv, vec2(12.9898, 78.233))) * 43758.5453);
 }
 
+vec4 get_shadows(vec4 color, vec3 startPos, vec3 sunPos)
+{
+    //what about doing shadows the opposite way?? FROM SUN TO THE TERRAIN -
+    //might be better for the occlusion
 
-vec3 get_color(float height, vec2 uv)
+    startPos.x = startPos.x / 1024.0;
+    startPos.z = startPos.z / 1024.0;
+    
+    const float maxSteps = 200;
+    const float minStep = 1/256.0;
+
+    startPos.y = startPos.y;
+
+    vec3 dir = normalize(sunPos - startPos);
+    /* dir.y = dir.y; */
+    vec3 pos = startPos;
+    float height = pos.y;
+
+    for (int i = 1; i < maxSteps; i++)
+    {
+        pos += dir*max((pos.y-height)*0.01, minStep);
+        /* pos += dir*0.001; */
+
+        height = get_height(pos.xz*1024);
+
+        if(height >= pos.y)
+        {
+            /* return vec4(1,0,0,1); */
+            color.rgb = color.rgb * (1.0-((maxSteps-i)/(maxSteps*1.5)));
+            color.a = color.a     / (1.0-((maxSteps-i)/(maxSteps*1.3)));
+            break;
+        }
+    }
+
+    /* return vec4(1,1,1,1); */
+    return color;
+}
+
+vec4 get_color(float height, vec2 uv, vec3 sunPos)
 {
     /* float steepness = pow(dot(vec3(0, 1, 0), normal),1); */
 
@@ -157,20 +196,31 @@ vec3 get_color(float height, vec2 uv)
     /*     return vec3(0.33,0.35,0.36); */
     /* } */
 
+    vec4 color = vec4(0);
+
     if(height <= waterLevel-0.005) {
-        return vec3(mix(vec3(0,0,0.4), sandColor, exp(-1.2*waterLevel/height)));
+        color = vec4(mix(vec4(0,0,0.4,1), sandColor, exp(-1.2*waterLevel/height)));
+    }
+    else {
+
+      float _height = height + (hash(uv)*2 - 1)*0.01;
+
+      if (_height < sandLevel) {
+          color = sandColor;
+      }
+      else if (_height < grassLevel) {
+          color = grassColor;
+      }
+      else {
+          color = rockColor;
+      }
+
     }
 
-    height += (hash(uv)*2 - 1)*0.01;
-
-    if (height < sandLevel) {
-        return sandColor;
-    }
-    else if (height < grassLevel) {
-        return grassColor;
-    }
-    return rockColor;
+    color = get_shadows(color, vec3(uv.x, height, uv.y), sunPos);
+    return color;
 }
+
 
 vec3 get_normal(vec2 uv)
 {
@@ -190,9 +240,10 @@ vec3 get_normal(vec2 uv)
 void main()
 {
     vec2 coords = gl_GlobalInvocationID.xy;
+    vec3 sunPos = vec3(sunPosition.x, sunPosition.y, sunPosition.z);
 
     float height = get_height(coords);
-    vec4 albedoHeight = vec4(get_color(height,coords), height);
+    vec4 albedoHeight = vec4(get_color(height,coords, sunPos).rgb, height);
     vec3 normal = get_normal(coords);
 
     imageStore(albedoHeightSampler, ivec2(coords), albedoHeight);

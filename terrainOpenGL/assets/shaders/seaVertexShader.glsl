@@ -7,10 +7,13 @@ layout(location = 1) in vec2 vertexUV;
 out vec2 UV;
 out vec3 vertexPos;
 out vec3 normal;
+out float HEIGHTMULT;
 
 uniform mat4 MVP;
 uniform float waterLevel;
 uniform float time;
+
+const float heightMult = 5.0f;
 
 float get_offset(vec2 uv)
 {
@@ -35,10 +38,12 @@ vec3 get_normal(vec2 uv)
 void main(){
     float offset = get_offset(vertexUV);
 
-    vertexPos = vertexPosition_modelspace + vec3(0,5,0)*waterLevel + vec3(0,1,0)*offset;
+    vertexPos = vertexPosition_modelspace + vec3(0,1,0)*waterLevel*heightMult + vec3(0,1,0)*offset;
 	gl_Position = MVP*vec4(vertexPos,1);
     
 	UV = vertexUV;
     normal = get_normal(vertexUV);
+
+    HEIGHTMULT = heightMult;
 }
 

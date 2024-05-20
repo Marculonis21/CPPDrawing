@@ -46,7 +46,8 @@ vec4 get_shadows(vec4 color, vec3 startPos, vec3 sunPos)
 
         if(height >= pos.y)
         {
-            color.rgb = color.rgb * (1.0-((maxSteps-i)/(maxSteps*1.5)));
+            /* color.rgb = color.rgb * (1.0-((maxSteps-i)/(maxSteps*1.5))); */
+            color.rgb = color.rgb * 0.5;
             color.a = color.a     / (1.0-((maxSteps-i)/(maxSteps*1.3)));
             break;
         }
@@ -69,7 +70,7 @@ void main(){
         color = vec4(mix(vec3(0,0,0.5), _color, exp(-1.2*waterLevel/HEIGHT)),1);
     }
     else {
-        color = get_shadows(vec4(_color,1), pos, _sun);
+        /* color = get_shadows(vec4(_color,1), pos, _sun); */
         color *= max(dot(NORMAL, normalize(_sun - pos)), 0.85);
     }
 

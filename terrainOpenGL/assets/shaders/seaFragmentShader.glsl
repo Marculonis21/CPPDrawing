@@ -4,6 +4,7 @@
 in vec2 UV;
 in vec3 vertexPos;
 in vec3 normal;
+in float HEIGHTMULT;
 
 // Ouput data
 out vec4 color;
@@ -16,8 +17,6 @@ uniform float waterLevel;
 uniform float sandLevel;
 uniform float grassLevel;
 uniform vec3 cameraPos;
-
-const float HEIGHTMULT = 5.0f;
 
 float get_height(vec2 uv)
 {
@@ -64,7 +63,7 @@ vec3 get_terrain_color(vec2 uv)
 
 vec4 get_reflection(vec3 startPos, vec3 dir)
 {
-    const float maxSteps = 150;
+    const float maxSteps = 200;
     const float step = 0.01;
 
     vec3 pos = startPos + dir*0.001;

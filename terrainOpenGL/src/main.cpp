@@ -36,8 +36,8 @@
 
 extern glm::vec3 position;
 
-const uint screen_width = 1920;
-const uint screen_height = 1080;
+const uint screen_width = 1024;
+const uint screen_height = 1024;
  
 int num_frames{ 0 };
 float last_time{ 0.0f };
@@ -242,6 +242,8 @@ int main()
             noiseGenerator.set_float("waterLevel", waterLevel);
             noiseGenerator.set_float("sandLevel", sandLevel);
             noiseGenerator.set_float("grassLevel", grassLevel);
+
+            noiseGenerator.set_vec3("sunPosition", glm::vec3(_sun[0], _sun[1], _sun[2]));
 
             noiseGenerator.wait();
             /* albedoHeightTexture.Data(); */
