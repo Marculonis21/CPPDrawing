@@ -1,6 +1,6 @@
 #version 450 core
 
-layout(local_size_x = 1, local_size_y = 1, local_size_z = 1) in;
+layout(local_size_x = 32, local_size_y = 32, local_size_z = 1) in;
 
 layout(rgba32f, binding = 0) uniform image2D albedoHeightSampler;
 layout(rgba32f, binding = 1) uniform image2D normalSampler;
@@ -151,8 +151,8 @@ vec4 get_shadows(vec4 color, vec3 startPos, vec3 sunPos)
     startPos.x = startPos.x / 1024.0;
     startPos.z = startPos.z / 1024.0;
     
-    const float maxSteps = 200;
-    const float minStep = 1/256.0;
+    const float maxSteps = 300;
+    const float minStep = 1/512.0;
 
     startPos.y = startPos.y;
 
@@ -164,20 +164,19 @@ vec4 get_shadows(vec4 color, vec3 startPos, vec3 sunPos)
     for (int i = 1; i < maxSteps; i++)
     {
         pos += dir*max((pos.y-height)*0.01, minStep);
-        /* pos += dir*0.001; */
+
+        if(pos.y > 1 || pos.x > 1 || pos.z > 1 || pos.x < 0 || pos.z < 0) {
+            break;
+        }
 
         height = get_height(pos.xz*1024);
 
-        if(height >= pos.y)
-        {
-            /* return vec4(1,0,0,1); */
+        if(height >= pos.y) {
             color.rgb = color.rgb * (1.0-((maxSteps-i)/(maxSteps*1.5)));
             color.a = color.a     / (1.0-((maxSteps-i)/(maxSteps*1.3)));
             break;
         }
     }
-
-    /* return vec4(1,1,1,1); */
     return color;
 }
 

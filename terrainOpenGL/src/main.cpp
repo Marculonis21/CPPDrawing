@@ -70,7 +70,7 @@ int main()
 
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
     glfwPollEvents();
-    glfwSetCursorPos(window, screen_width/2, screen_height/2);
+    glfwSetCursorPos(window, screen_width/2.0, screen_height/2.0);
 
 	// Dark blue background
 	glClearColor(0.1f, 0.1f, 0.1f, 0.0f);
@@ -192,7 +192,7 @@ int main()
         ImGui::DragFloat("##freq", &perlinFrequency);
         ImGui::Text("octaves");
         ImGui::DragFloat("##octaves", &perlinOctaves, 0.1,0,10);
-        // TODO: enable terrain color level changes
+
         ImGui::Text("Levels");
         ImGui::Text("Water");
         ImGui::DragFloat("##waterLevel", &waterLevel, 0.01, 0);
@@ -201,14 +201,14 @@ int main()
         ImGui::Text("Grass");
         ImGui::DragFloat("##grass", &grassLevel, 0.01, 0);
 
-        ImGui::DragFloat3("sunPosition:", _sun);
+        ImGui::DragFloat3("sunPosition:", _sun, 0.1, 0.0);
         ImGui::End();
 
         if(glfwGetKey(window, GLFW_KEY_SPACE ) == GLFW_PRESS) spacePressed = true;
 
         if(spacePressed && glfwGetKey(window, GLFW_KEY_SPACE ) == GLFW_RELEASE) {
             spacePressed = false;
-	        glfwSetCursorPos(window, screen_width/2, screen_height/2);
+	        glfwSetCursorPos(window, screen_width/2.0, screen_height/2.0);
             showMouse = !showMouse;
         }
         
@@ -233,7 +233,7 @@ int main()
         albedoHeightTexture.Activate();
         normalTexture.Activate();
         if (reloadWanted) {
-            noiseGenerator.useShader(textureSize/1,textureSize/1,1);
+            noiseGenerator.useShader(textureSize/32,textureSize/32,1);
             noiseGenerator.set_int("albedoHeightSampler",0);
             noiseGenerator.set_int("normalSampler",   1);
             noiseGenerator.set_int("octaves", int(perlinOctaves));
