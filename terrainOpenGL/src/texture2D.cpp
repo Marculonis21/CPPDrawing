@@ -1,5 +1,6 @@
 #include "texture2D.hpp"
 #include <iostream>
+#include <vector>
 
 Texture2D::Texture2D(GLsizei width, GLsizei height, GLuint slot, GLenum format)
 {
@@ -16,6 +17,15 @@ Texture2D::Texture2D(GLsizei width, GLsizei height, GLuint slot, GLenum format)
 
     glTextureStorage2D(textureID, 1, format, width, height);
     glBindImageTexture(slot, textureID, 0, GL_FALSE, 0, GL_READ_WRITE, GL_RGBA32F);
+
+    std::vector<GLubyte> tData(this->width*this->height*4, 0);
+    for (int i = 0; i < tData.size()/4; ++i) {
+        tData[i*4+0] = (GLubyte)0;
+        tData[i*4+1] = (GLubyte)0;
+        tData[i*4+2] = (GLubyte)0;
+        tData[i*4+3] = (GLubyte)255;
+    }
+    AddData(GL_RGBA, GL_UNSIGNED_BYTE, tData.data());
 }
 
 Texture2D::~Texture2D() noexcept

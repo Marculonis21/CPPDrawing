@@ -117,24 +117,7 @@ int main()
 
     Texture2D albedoHeightTexture(textureSize,textureSize, 0, GL_RGBA32F);
     Texture2D normalTexture(textureSize,textureSize, 1, GL_RGBA32F);
-    /* Texture2D computeTexture(1000,1000,1, GL_RGBA32F); */
-
-    std::vector<GLubyte> t1Data(textureSize*textureSize*4, 0);
-    std::vector<GLubyte> t2Data(textureSize*textureSize*4, 0);
-    for (int i = 0; i < t1Data.size()/4; ++i) {
-        t1Data[i*4+0] = (GLubyte)0;
-        t1Data[i*4+1] = (GLubyte)0;
-        t1Data[i*4+2] = (GLubyte)0;
-        t1Data[i*4+3] = (GLubyte)255;
-        t2Data[i*4+0] = (GLubyte)0;
-        t2Data[i*4+1] = (GLubyte)0;
-        t2Data[i*4+2] = (GLubyte)0;
-        t2Data[i*4+3] = (GLubyte)255;
-    }
-    albedoHeightTexture.AddData(GL_RGBA, GL_UNSIGNED_BYTE, t1Data.data());
-    normalTexture.AddData(GL_RGBA, GL_UNSIGNED_BYTE, t2Data.data());
-
-    std::cout << "perlin done" << std::endl;
+    Texture2D waterTexture(textureSize/2,textureSize/2, 2, GL_RGBA32F);
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -235,7 +218,7 @@ int main()
         if (reloadWanted) {
             noiseGenerator.useShader(textureSize/32,textureSize/32,1);
             noiseGenerator.set_int("albedoHeightSampler",0);
-            noiseGenerator.set_int("normalSampler",   1);
+            noiseGenerator.set_int("normalSampler", 1);
             noiseGenerator.set_int("octaves", int(perlinOctaves));
             noiseGenerator.set_float("sFreq", perlinFrequency);
 
