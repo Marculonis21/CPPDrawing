@@ -7,6 +7,7 @@ out vec2 uv[];
 
 uniform vec3 cameraPos;
 
+
 void main()
 {
     gl_out[gl_InvocationID].gl_Position = gl_in[gl_InvocationID].gl_Position;
@@ -24,10 +25,10 @@ void main()
     float dist2 = length(vec4(cameraPos,1) - c3);
     float dist3 = length(vec4(cameraPos,1) - c4);
 
-    /* int tes0 = int(mix(8.0, 2.0, clamp(dist0/20.0, 0.0, 1.0))); */
-    /* int tes1 = int(mix(8.0, 2.0, clamp(dist1/20.0, 0.0, 1.0))); */
-    /* int tes2 = int(mix(8.0, 2.0, clamp(dist2/20.0, 0.0, 1.0))); */
-    /* int tes3 = int(mix(8.0, 2.0, clamp(dist3/20.0, 0.0, 1.0))); */
+    /* int tes0 = int(mix(64.0, 2.0, clamp(dist0/15.0, 0.0, 1.0))); */
+    /* int tes1 = int(mix(64.0, 2.0, clamp(dist1/15.0, 0.0, 1.0))); */
+    /* int tes2 = int(mix(64.0, 2.0, clamp(dist2/15.0, 0.0, 1.0))); */
+    /* int tes3 = int(mix(64.0, 2.0, clamp(dist3/15.0, 0.0, 1.0))); */
 
     int tes0 = 64;
     int tes1 = 64;

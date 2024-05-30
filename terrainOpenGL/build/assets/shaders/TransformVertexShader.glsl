@@ -6,11 +6,9 @@ layout(location = 1) in vec2 vertexUV;
 
 out vec2 UV;
 
-uniform vec3 origin;
-
 void main(){
 
-	gl_Position =  vec4(origin + vertexPosition_modelspace,1);
+	gl_Position =  vec4(vertexPosition_modelspace,1);
     
 	UV = vertexUV;
 }

@@ -151,7 +151,7 @@ vec4 get_shadows(vec4 color, vec3 startPos, vec3 sunPos)
     startPos.x = startPos.x / 1024.0;
     startPos.z = startPos.z / 1024.0;
     
-    const float maxSteps = 400;
+    const float maxSteps = 300;
     const float minStep = 1/512.0;
 
     startPos.y = startPos.y;
@@ -171,16 +171,12 @@ vec4 get_shadows(vec4 color, vec3 startPos, vec3 sunPos)
 
         height = get_height(pos.xz*1024);
 
-        if(height >= pos.y)
-        {
-            /* return vec4(1,0,0,1); */
+        if(height >= pos.y) {
             color.rgb = color.rgb * (1.0-((maxSteps-i)/(maxSteps*1.5)));
             color.a = color.a     / (1.0-((maxSteps-i)/(maxSteps*1.3)));
             break;
         }
     }
-
-    /* return vec4(1,1,1,1); */
     return color;
 }
 
