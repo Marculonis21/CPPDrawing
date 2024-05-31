@@ -40,7 +40,15 @@ void main()
     UV = texCoord;
 
     float terrainHeight = texture(albedoHeightSampler, UV).w;
-    float waterHeight = texture(waterTextureSampler, UV).r;
+    float waterHeight = texture(waterTextureSampler, UV).w;
+    if(waterHeight < 0.001)
+    {
+        waterHeight = -0.001;
+    }
+    else
+    {
+        waterHeight*=1.001;
+    }
 
     POS = _pos.xyz + vec3(0,1,0)*(terrainHeight+waterHeight)*5;
     gl_Position = MVP * vec4(POS, 1);

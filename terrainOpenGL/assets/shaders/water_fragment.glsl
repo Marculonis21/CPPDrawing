@@ -10,6 +10,9 @@ out vec4 color;
 // Values that stay constant for the whole mesh.
 /* uniform sampler2D albedoHeightSampler; */
 /* uniform sampler2D normalSampler; */
+uniform sampler2D waterTextureSampler;
+uniform sampler2D waterFlowSampler;
+
 
 const float sizeOfMesh = 10.0;
 
@@ -49,5 +52,7 @@ void main(){
     color = vec4(1,0,0, 1);
 
     vec3 pos = vec3(POS.x/sizeOfMesh, POS.y, POS.z/sizeOfMesh);
-    color = vec4(pos.xz,0,1);
+    /* color = vec4(texture(waterFlowSampler, UV).rgb, 1); */
+    /* color = vec4(0,0,1,0.3); */
+    /* color = vec4(vec3(texture(waterTextureSampler, UV).w),1 ); */
 }

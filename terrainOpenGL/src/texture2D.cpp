@@ -23,7 +23,7 @@ Texture2D::Texture2D(GLsizei width, GLsizei height, GLuint slot, GLenum format)
         tData[i*4+0] = (GLubyte)0;
         tData[i*4+1] = (GLubyte)0;
         tData[i*4+2] = (GLubyte)0;
-        tData[i*4+3] = (GLubyte)255;
+        tData[i*4+3] = (GLubyte)0;
     }
     AddData(GL_RGBA, GL_UNSIGNED_BYTE, tData.data());
 }
