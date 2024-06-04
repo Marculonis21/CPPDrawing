@@ -8,13 +8,20 @@ in vec3 POS;
 out vec4 color;
 
 // Values that stay constant for the whole mesh.
-/* uniform sampler2D albedoHeightSampler; */
+uniform sampler2D albedoHeightSampler;
 /* uniform sampler2D normalSampler; */
 uniform sampler2D waterTextureSampler;
-uniform sampler2D waterFlowSampler;
+/* uniform sampler2D waterFlowSampler; */
 
+uniform vec3 cameraPos;
 
 const float sizeOfMesh = 10.0;
+const float HEIGHTMULT = 5.0;
+
+float get_height(vec2 uv)
+{
+    return texture(albedoHeightSampler, uv).w;
+}
 
 /* vec4 get_shadows(vec4 color, vec3 startPos, vec3 sunPos) */
 /* { */
@@ -47,12 +54,30 @@ const float sizeOfMesh = 10.0;
 /*     return color; */
 /* } */
 
+float get_depth(vec3 startPos, vec3 dir)
+{
+    vec3 pos = startPos;
+    float height = 0;
+    const float step = 0.01;
+    const int maxSteps = 50;
+
+    for (int i = 1; i < maxSteps; i++) {
+        pos += dir * step;
+
+        height = HEIGHTMULT*get_height(pos.xz/sizeOfMesh);
+
+        if(height >= pos.y){
+            return step*i;
+        }
+    }
+    return maxSteps*step;
+}
+
 void main(){
+    /* vec3 pos = vec3(POS.x/sizeOfMesh, POS.y, POS.z/sizeOfMesh); */
 
-    /* color = vec4(1,0,0, 1); */
+    float depth = get_depth(POS, normalize(POS-cameraPos));
+    depth = exp(depth*2);
 
-    vec3 pos = vec3(POS.x/sizeOfMesh, POS.y, POS.z/sizeOfMesh);
-    /* color = vec4(texture(waterFlowSampler, UV).rgb, 1); */
-    color = vec4(0,0,1,0.3);
-    /* color = vec4(vec3(texture(waterTextureSampler, UV).w),1 ); */
+    color = vec4(0,0,0.5,depth/3);
 }
