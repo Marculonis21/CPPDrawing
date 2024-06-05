@@ -10,7 +10,7 @@ with OpenGL or SFML.
 ## Interesting projects:
 ### [Terrain](./terrainOpenGL/)
 <p align="center">
-  <img src="./terrainOpenGL/imgs/11.jpg" width=600/>
+  <img src="./terrainOpenGL/imgs/11.png" width=600/>
 </p>
 
 #
