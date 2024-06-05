@@ -84,22 +84,22 @@ int main() {
     // create shaders
     Shader mainShader;
     mainShader.addShader("assets/shaders/TransformVertexShader.glsl",
-            GL_VERTEX_SHADER);
+                         GL_VERTEX_SHADER);
     mainShader.addShader("assets/shaders/TextureFragmentShader.glsl",
-            GL_FRAGMENT_SHADER);
+                         GL_FRAGMENT_SHADER);
     mainShader.addShader("assets/shaders/tesc.glsl", GL_TESS_CONTROL_SHADER);
     mainShader.addShader("assets/shaders/tese.glsl", GL_TESS_EVALUATION_SHADER);
     mainShader.linkProgram();
 
     Shader waterDrawShader;
     waterDrawShader.addShader("assets/shaders/water_vertex.glsl",
-            GL_VERTEX_SHADER);
+                              GL_VERTEX_SHADER);
     waterDrawShader.addShader("assets/shaders/water_fragment.glsl",
-            GL_FRAGMENT_SHADER);
+                              GL_FRAGMENT_SHADER);
     waterDrawShader.addShader("assets/shaders/water_tesc.glsl",
-            GL_TESS_CONTROL_SHADER);
+                              GL_TESS_CONTROL_SHADER);
     waterDrawShader.addShader("assets/shaders/water_tese.glsl",
-            GL_TESS_EVALUATION_SHADER);
+                              GL_TESS_EVALUATION_SHADER);
     waterDrawShader.linkProgram();
 
     /* Shader seaShader; */
@@ -114,8 +114,8 @@ int main() {
     Compute erosionSource("assets/shaders/erosion_source.glsl");
     Compute erosionFlow("assets/shaders/erosion_flow.glsl");
     Compute erosionDeposition("assets/shaders/erosion_deposition.glsl");
-    /* Compute erosionSediment("assets/shaders/erosion_sediment.glsl"); */
-    /* Compute erosionEvaporation("..sets/shaders/erosion_evaporation.glsl"); */
+    Compute erosionTransport("assets/shaders/erosion_transport.glsl");
+    Compute erosionEvaporation("assets/shaders/erosion_evaporation.glsl");
 
     // Tesselation params
     glPatchParameteri(GL_PATCH_VERTICES, 4);
@@ -123,23 +123,27 @@ int main() {
     // create meshes
     Mesh terrainMesh(10, 1, true);
     /* Mesh seaLevelMesh(100, 0.1, false); */
-    Mesh waterMesh(100, 0.1, true);
+    Mesh waterMesh(10, 1, true);
 
     // perlin and textures parameters
     float sandLevel = 0.1;
     float grassLevel = 0.55;
     float waterLevel = 0.0;
 
-    float perlinFrequency = 400;
+    float perlinFrequency = 600;
     float perlinOctaves = 4;
 
     const int textureSize = 1024;
+    const int waterTextureSize = 1024;
+
+    const float erosionTimeStep = 0.001;
 
     Texture2D albedoHeightTexture(textureSize, textureSize, 0, GL_RGBA32F);
     Texture2D normalTexture(textureSize, textureSize, 1, GL_RGBA32F);
 
-    Texture2D waterTexture(textureSize, textureSize, 2, GL_RGBA32F);
-    Texture2D waterFlowTexture(textureSize, textureSize, 3, GL_RGBA32F);
+    Texture2D waterTexture(waterTextureSize,waterTextureSize, 2, GL_RGBA32F);
+    Texture2D waterFlowTexture(waterTextureSize,waterTextureSize, 3, GL_RGBA32F);
+    Texture2D sedimentTexture(waterTextureSize,waterTextureSize, 4, GL_RGBA32F);
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -167,13 +171,12 @@ int main() {
     _sun[2] = sunPosition.z;
 
     while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
-            glfwWindowShouldClose(window) == 0) {
+           glfwWindowShouldClose(window) == 0) {
         // FPS COUNTER
         double currentTime = glfwGetTime();
         nbFrames++;
-        if (currentTime - lastTime >=
-                1.0) { // If last prinf() was more than 1 sec ago
-                       // printf and reset timer
+        if (currentTime - lastTime >= 1.0) { // If last prinf() was more than 1
+                                             // sec ago printf and reset timer
             lastSplit = 1000.0 / double(nbFrames);
             fpsText = "Speed: " + std::to_string(lastSplit);
             nbFrames = 0;
@@ -189,8 +192,8 @@ int main() {
         // do imgui STUFF
         ImGui::Begin("ImGui win");
         ImGui::Text("X:%s, Y:%s, Z:%s", std::to_string(position.x).data(),
-                std::to_string(position.y).data(),
-                std::to_string(position.z).data());
+                    std::to_string(position.y).data(),
+                    std::to_string(position.z).data());
         ImGui::Text("Rendering");
         ImGui::Text("%s", fpsText.data());
         ImGui::Checkbox("Wireframe", &wireframe);
@@ -215,7 +218,8 @@ int main() {
         if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
             spacePressed = true;
 
-        if (spacePressed && glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_RELEASE) {
+        if (spacePressed &&
+            glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_RELEASE) {
             spacePressed = false;
             glfwSetCursorPos(window, screen_width / 2.0, screen_height / 2.0);
             showMouse = !showMouse;
@@ -227,7 +231,7 @@ int main() {
             wireframe = true;
 
         glfwSetInputMode(window, GLFW_CURSOR,
-                showMouse ? GLFW_CURSOR_NORMAL : GLFW_CURSOR_DISABLED);
+                         showMouse ? GLFW_CURSOR_NORMAL : GLFW_CURSOR_DISABLED);
         glPolygonMode(GL_FRONT_AND_BACK, wireframe ? GL_LINE : GL_FILL);
 
         if (!showMouse) {
@@ -245,6 +249,7 @@ int main() {
         normalTexture.Activate();
         waterTexture.Activate();
         waterFlowTexture.Activate();
+        sedimentTexture.Activate();
         if (reloadWanted) {
             noiseGenerator.useShader(textureSize / 32, textureSize / 32, 1);
             noiseGenerator.set_int("albedoHeightSampler", 0);
@@ -257,34 +262,54 @@ int main() {
             noiseGenerator.set_float("grassLevel", grassLevel);
 
             noiseGenerator.set_vec3("sunPosition",
-                    glm::vec3(_sun[0], _sun[1], _sun[2]));
+                                    glm::vec3(_sun[0], _sun[1], _sun[2]));
 
             noiseGenerator.wait();
             /* albedoHeightTexture.Data(); */
             /* normalTexture.Data(); */
 
-
-            erosionSource.useShader(textureSize/32, textureSize/32, 1);
+            erosionSource.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
             erosionSource.set_int("waterTextureSampler", 2);
-            erosionSource.set_float("timeStep", 0.001);
+            erosionSource.set_float("timeStep", erosionTimeStep);
             erosionSource.wait();
-
         }
+        else {
+            // erosion process
+            erosionFlow.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
+            erosionFlow.set_int("albedoHeightSampler", 0);
+            erosionFlow.set_int("normalSampler", 1);
+            erosionFlow.set_int("waterTextureSampler", 2);
+            erosionFlow.set_int("waterFlowSampler", 3);
+            erosionFlow.set_float("timeStep", erosionTimeStep);
+            erosionFlow.wait();
 
-        // erosion process
-        erosionFlow.useShader(textureSize/32, textureSize/32, 1);
-        erosionFlow.set_int("albedoHeightSampler", 0);
-        erosionFlow.set_int("waterTextureSampler", 2);
-        erosionFlow.set_int("waterFlowSampler", 3);
-        erosionFlow.set_float("timeStep", 0.005);
-        erosionFlow.wait();
+            erosionDeposition.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
+            erosionDeposition.set_int("albedoHeightSampler", 0);
+            erosionDeposition.set_int("normalSampler", 1);
+            erosionDeposition.set_int("waterTextureSampler", 2);
+            erosionDeposition.set_int("waterFlowSampler", 3);
+            erosionDeposition.set_int("sedimentSampler", 4);
+            erosionDeposition.set_float("timeStep", erosionTimeStep);
+            erosionDeposition.set_float("sedCapacityConst", 0.1);
+            erosionDeposition.set_float("sedDissolveConst", 0.01);
+            erosionDeposition.set_float("sedDepositConst", 0.01);
+            erosionDeposition.wait();
 
-        erosionDeposition.useShader(textureSize/32, textureSize/32, 1);
-        erosionDeposition.set_int("waterTextureSampler", 2);
-        erosionDeposition.set_int("waterFlowSampler", 3);
-        erosionDeposition.set_float("timeStep", 0.005);
-        erosionDeposition.wait();
+            erosionTransport.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
+            erosionTransport.set_int("waterTextureSampler", 2);
+            erosionTransport.set_int("waterFlowSampler", 3);
+            erosionTransport.set_int("sedimentSampler", 4);
+            erosionTransport.set_float("timeStep", erosionTimeStep);
+            erosionTransport.wait();
 
+            erosionEvaporation.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
+            erosionEvaporation.set_int("albedoHeightSampler", 0);
+            erosionEvaporation.set_int("waterTextureSampler", 2);
+            erosionEvaporation.set_int("sedimentSampler", 4);
+            erosionEvaporation.set_float("timeStep", erosionTimeStep);
+            erosionEvaporation.set_float("evaporationConst", 3);
+            erosionEvaporation.wait();
+        }
 
         // terrain generation
         mainShader.useShader();
@@ -295,7 +320,8 @@ int main() {
         mainShader.set_int("waterTextureSampler", 2);
 
         mainShader.set_vec3("cameraPos", position);
-        mainShader.set_vec3("sunPosition", glm::vec3(_sun[0], _sun[1], _sun[2]));
+        mainShader.set_vec3("sunPosition",
+                            glm::vec3(_sun[0], _sun[1], _sun[2]));
         mainShader.set_float("waterLevel", waterLevel);
         mainShader.set_float("sandLevel", sandLevel);
         mainShader.set_float("grassLevel", grassLevel);
@@ -310,6 +336,7 @@ int main() {
         waterDrawShader.set_vec3("cameraPos", position);
         waterDrawShader.set_int("albedoHeightSampler", 0);
         waterDrawShader.set_int("waterTextureSampler", 2);
+        waterDrawShader.set_int("sedimentSampler", 4);
         /* waterDrawShader.set_int("waterFlowSampler", 3); */
 
         waterMesh.activate();
@@ -320,8 +347,9 @@ int main() {
         /* seaShader.set_mat4("MVP", MVP); */
         /* seaShader.set_int("albedoHeightTexture",0); */
         /* seaShader.set_int("normalSampler", 1); */
-        /* seaShader.set_vec3("sunPosition", glm::vec3(_sun[0], _sun[1], _sun[2]));
-        */
+        /* seaShader.set_vec3("sunPosition", glm::vec3(_sun[0], _sun[1],
+         * _sun[2]));
+         */
         /* seaShader.set_float("time", currentTime); */
         /* seaShader.set_float("waterLevel", waterLevel); */
         /* seaShader.set_float("sandLevel", sandLevel); */
@@ -330,8 +358,8 @@ int main() {
 
         /* seaLevelMesh.activate(); */
         /* glDisable(GL_CULL_FACE); */
-        /* glDrawElements(GL_TRIANGLES, seaLevelMesh.indexCount, GL_UNSIGNED_INT,
-         * 0); */
+        /* glDrawElements(GL_TRIANGLES, seaLevelMesh.indexCount,
+         * GL_UNSIGNED_INT, 0); */
 
         /* imguiWrap.Render(); */
         ImGui::Render();

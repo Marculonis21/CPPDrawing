@@ -3,20 +3,33 @@
 layout(local_size_x = 32, local_size_y = 32, local_size_z = 1) in;
 
 layout(rgba32f, binding = 0) uniform image2D albedoHeightSampler;
+layout(rgba32f, binding = 1) uniform image2D normalSampler;
 layout(rgba32f, binding = 2) uniform image2D waterTextureSampler;
 layout(rgba32f, binding = 3) uniform image2D waterFlowSampler;
 
 uniform float timeStep;
 
-const float A = 10.0; // pipe cross-section
-const float l = 10; // pipe length 1/l
+const float A = 100.0; // pipe cross-section
+const float l = 100; // pipe length 1/l
 const float g = 10;
+
+vec3 get_normal(vec2 coords, float vHeight, float uHeight, float rHeight)
+{
+    // amount of quad * tess factor
+    const float step = 1;
+    vec3 vertex = vec3(coords.x,      1024*vHeight, coords.y);
+    vec3 UP     = vec3(coords.x,      1024*uHeight, coords.y+step);
+    vec3 RIGHT  = vec3(coords.x+step, 1024*rHeight, coords.y);
+
+    return -normalize(cross(RIGHT-vertex,UP-vertex));
+}
 
 void main()
 {
     vec2 coords = gl_GlobalInvocationID.xy;
     float tHeight = imageLoad(albedoHeightSampler, ivec2(coords)).w;
     float wHeight = imageLoad(waterTextureSampler, ivec2(coords)).w;
+
     vec4 flow = imageLoad(waterFlowSampler, ivec2(coords));
     //    g
     //    ^ 
@@ -29,6 +42,9 @@ void main()
     float tHeightR = imageLoad(albedoHeightSampler, ivec2(coords)+ivec2( 1, 0)).w;
     float tHeightD = imageLoad(albedoHeightSampler, ivec2(coords)+ivec2( 0,-1)).w;
 
+    vec3 tNormal = get_normal(coords, tHeight, tHeightU, tHeightR);
+    imageStore(normalSampler, ivec2(coords), vec4(tNormal,0));
+
     float wHeightL = imageLoad(waterTextureSampler, ivec2(coords)+ivec2(-1, 0)).w;
     float wHeightU = imageLoad(waterTextureSampler, ivec2(coords)+ivec2( 0, 1)).w;
     float wHeightR = imageLoad(waterTextureSampler, ivec2(coords)+ivec2( 1, 0)).w;
@@ -38,6 +54,9 @@ void main()
     float dh_U = tHeight+wHeight - tHeightU-wHeightU;
     float dh_R = tHeight+wHeight - tHeightR-wHeightR;
     float dh_D = tHeight+wHeight - tHeightD-wHeightD;
+
+    /* vec3 normal = get_normal(coords, tHeight+wHeight, tHeightU+wHeightU, tHeightR+wHeightR); */
+    vec3 normal = vec3(0);
 
     flow.r = max(0, flow.r + timeStep*A*(g*dh_L)*l);
     flow.g = max(0, flow.g + timeStep*A*(g*dh_U)*l);
@@ -57,5 +76,6 @@ void main()
 
     float K = min(1, (wHeight*1*1)/((fSum)*timeStep));
 
+    imageStore(waterTextureSampler, ivec2(coords), vec4(normal, wHeight));
     imageStore(waterFlowSampler, ivec2(coords), K*flow);
 }

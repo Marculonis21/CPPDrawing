@@ -2,10 +2,17 @@
 
 layout(local_size_x = 32, local_size_y = 32, local_size_z = 1) in;
 
+layout(rgba32f, binding = 0) uniform image2D albedoHeightSampler;
+layout(rgba32f, binding = 1) uniform image2D normalSampler;
 layout(rgba32f, binding = 2) uniform image2D waterTextureSampler;
 layout(rgba32f, binding = 3) uniform image2D waterFlowSampler;
+layout(rgba32f, binding = 4) uniform image2D sedimentSampler;
 
 uniform float timeStep;
+
+uniform float sedCapacityConst;
+uniform float sedDissolveConst;
+uniform float sedDepositConst;
 
 void main()
 {
@@ -33,9 +40,39 @@ void main()
 
     float vold = (fIn - fOut) * timeStep;
 
-    float wHeight = imageLoad(waterTextureSampler, ivec2(coords)).w;
+    vec4 waterTexture = imageLoad(waterTextureSampler, ivec2(coords));
 
-    wHeight += vold/(1*1);
+    float oldW = waterTexture.w;
+    waterTexture.w += vold/(1*1);
+    float newW = waterTexture.w;
 
-    imageStore(waterTextureSampler, ivec2(coords), vec4(0,0,0,wHeight));
+    imageStore(waterTextureSampler, ivec2(coords), waterTexture);
+
+    vec2 vel = vec2(in_flowL - outFlow.r + outFlow.b - in_flowR,
+                    in_flowD - outFlow.a + outFlow.g - in_flowU)/2;
+
+    vec4 albedoHeight = imageLoad(albedoHeightSampler, ivec2(coords));
+    float tHeight = albedoHeight.w;
+
+    vec3 normal = imageLoad(normalSampler, ivec2(coords)).rgb;
+    float tilt = acos(dot(normal, vec3(0,1,0)));
+    tilt = max(tilt, 0.001);
+
+    float transportCap = sedCapacityConst * sin(tilt) * length(vel);
+
+    float sedAmount = imageLoad(sedimentSampler, ivec2(coords)).w;
+
+    if(transportCap > sedAmount) {
+        float change = sedDissolveConst*(transportCap - sedAmount)*timeStep;
+        tHeight = tHeight - change;
+        sedAmount = sedAmount + change;
+    }
+    else {
+        float change = sedDepositConst*(sedAmount - transportCap)*timeStep;
+        tHeight = tHeight + change;
+        sedAmount = sedAmount - change;
+    }
+
+    imageStore(albedoHeightSampler, ivec2(coords), vec4(albedoHeight.rgb, tHeight));
+    imageStore(sedimentSampler, ivec2(coords), vec4(0,0,0,sedAmount));
 }

@@ -71,7 +71,7 @@ void main(){
     }
     else {
         /* color = get_shadows(vec4(_color,1), pos, _sun); */
-        color *= max(dot(NORMAL, normalize(_sun - pos)), 0.85);
+        color *= max(dot(NORMAL, normalize(_sun - pos)), 0.1);
     }
 
     color = vec4(color.rgb, 1);
