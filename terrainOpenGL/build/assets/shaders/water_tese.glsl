@@ -53,6 +53,6 @@ void main()
         waterHeight*=1.001;
     }
 
-    POS = _pos.xyz + vec3(0,1,0)*(terrainHeight+waterHeight)*5;
+    POS = _pos.xyz + vec3(0,1,0)*(terrainHeight+waterHeight)*1;
     gl_Position = MVP * vec4(POS, 1);
 }

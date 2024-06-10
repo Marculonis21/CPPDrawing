@@ -5,6 +5,7 @@ layout(local_size_x = 32, local_size_y = 32, local_size_z = 1) in;
 layout(rgba32f, binding = 0) uniform image2D albedoHeightSampler;
 layout(rgba32f, binding = 1) uniform image2D normalSampler;
 
+uniform int tTextureSize;
 uniform int octaves;
 uniform float sFreq;
 
@@ -148,8 +149,8 @@ vec4 get_shadows(vec4 color, vec3 startPos, vec3 sunPos)
     //what about doing shadows the opposite way?? FROM SUN TO THE TERRAIN -
     //might be better for the occlusion
 
-    startPos.x = startPos.x / 1024.0;
-    startPos.z = startPos.z / 1024.0;
+    startPos.x = startPos.x / tTextureSize;
+    startPos.z = startPos.z / tTextureSize;
     
     const float maxSteps = 300;
     const float minStep = 1/512.0;
@@ -169,7 +170,7 @@ vec4 get_shadows(vec4 color, vec3 startPos, vec3 sunPos)
             break;
         }
 
-        height = get_height(pos.xz*1024);
+        height = get_height(pos.xz*tTextureSize);
 
         if(height >= pos.y) {
             color.rgb = color.rgb * (1.0-((maxSteps-i)/(maxSteps*1.5)));
@@ -229,9 +230,9 @@ vec3 get_normal(vec2 uv)
     vec3 UP    = vec3(uv.x, 0, uv.y+step);
     vec3 RIGHT = vec3(uv.x+step, 0, uv.y);
 
-    vertex.y = 1024*get_height(vertex.xz);
-    UP.y =     1024*get_height(UP.xz);
-    RIGHT.y =  1024*get_height(RIGHT.xz);
+    vertex.y = tTextureSize*get_height(vertex.xz);
+    UP.y =     tTextureSize*get_height(UP.xz);
+    RIGHT.y =  tTextureSize*get_height(RIGHT.xz);
 
     return -normalize(cross(RIGHT-vertex,UP-vertex));
 }

@@ -130,11 +130,12 @@ int main() {
     float grassLevel = 0.55;
     float waterLevel = 0.0;
 
-    float perlinFrequency = 600;
+    float perlinFrequency = 400;
     float perlinOctaves = 4;
 
-    const int textureSize = 1024;
-    const int waterTextureSize = 1024;
+    const int textureSize = 512;
+    const int waterTextureSize = 512;
+    const float tScalingF = (float)textureSize/waterTextureSize;
 
     const float erosionTimeStep = 0.001;
 
@@ -156,6 +157,9 @@ int main() {
     bool showMouse = false;
     bool spacePressed = false;
     bool reloadWanted = true;
+
+    bool enterPressed = false;
+    bool addWater = false;
 
     glm::mat4 MVP;
 
@@ -218,6 +222,11 @@ int main() {
         if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
             spacePressed = true;
 
+        if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS)
+            addWater = true;
+        if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_RELEASE) 
+            addWater = false;
+
         if (spacePressed &&
             glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_RELEASE) {
             spacePressed = false;
@@ -252,6 +261,7 @@ int main() {
         sedimentTexture.Activate();
         if (reloadWanted) {
             noiseGenerator.useShader(textureSize / 32, textureSize / 32, 1);
+            noiseGenerator.set_int("tTextureSize", textureSize);
             noiseGenerator.set_int("albedoHeightSampler", 0);
             noiseGenerator.set_int("normalSampler", 1);
             noiseGenerator.set_int("octaves", int(perlinOctaves));
@@ -268,6 +278,9 @@ int main() {
             /* albedoHeightTexture.Data(); */
             /* normalTexture.Data(); */
 
+        }
+
+        if (addWater) {
             erosionSource.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
             erosionSource.set_int("waterTextureSampler", 2);
             erosionSource.set_float("timeStep", erosionTimeStep);
@@ -276,6 +289,9 @@ int main() {
         else {
             // erosion process
             erosionFlow.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
+            erosionFlow.set_int("tTextureSize", textureSize);
+            erosionFlow.set_int("wTextureSize", waterTextureSize);
+            erosionFlow.set_float("tScalingF", tScalingF);
             erosionFlow.set_int("albedoHeightSampler", 0);
             erosionFlow.set_int("normalSampler", 1);
             erosionFlow.set_int("waterTextureSampler", 2);
@@ -284,6 +300,9 @@ int main() {
             erosionFlow.wait();
 
             erosionDeposition.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
+            erosionDeposition.set_int("tTextureSize", textureSize);
+            erosionDeposition.set_int("wTextureSize", waterTextureSize);
+            erosionDeposition.set_float("tScalingF", tScalingF);
             erosionDeposition.set_int("albedoHeightSampler", 0);
             erosionDeposition.set_int("normalSampler", 1);
             erosionDeposition.set_int("waterTextureSampler", 2);
@@ -296,6 +315,8 @@ int main() {
             erosionDeposition.wait();
 
             erosionTransport.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
+            erosionTransport.set_int("tTextureSize", textureSize);
+            erosionTransport.set_int("wTextureSize", waterTextureSize);
             erosionTransport.set_int("waterTextureSampler", 2);
             erosionTransport.set_int("waterFlowSampler", 3);
             erosionTransport.set_int("sedimentSampler", 4);
@@ -314,14 +335,14 @@ int main() {
         // terrain generation
         mainShader.useShader();
 
+        mainShader.set_int("tTextureSize", textureSize);
         mainShader.set_mat4("MVP", MVP);
         mainShader.set_int("albedoHeightTexture", 0);
         mainShader.set_int("normalSampler", 1);
         mainShader.set_int("waterTextureSampler", 2);
 
         mainShader.set_vec3("cameraPos", position);
-        mainShader.set_vec3("sunPosition",
-                            glm::vec3(_sun[0], _sun[1], _sun[2]));
+        mainShader.set_vec3("sunPosition", glm::vec3(_sun[0], _sun[1], _sun[2]));
         mainShader.set_float("waterLevel", waterLevel);
         mainShader.set_float("sandLevel", sandLevel);
         mainShader.set_float("grassLevel", grassLevel);
@@ -332,6 +353,7 @@ int main() {
         glDrawElements(GL_PATCHES, terrainMesh.indexCount, GL_UNSIGNED_INT, 0);
 
         waterDrawShader.useShader();
+        /* waterDrawShader.set_int("tTextureSize", textureSize); */
         waterDrawShader.set_mat4("MVP", MVP);
         waterDrawShader.set_vec3("cameraPos", position);
         waterDrawShader.set_int("albedoHeightSampler", 0);

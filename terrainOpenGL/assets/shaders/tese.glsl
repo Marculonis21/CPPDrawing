@@ -15,7 +15,7 @@ uniform mat4 MVP;
 uniform sampler2D albedoHeightSampler;
 uniform sampler2D normalSampler;
 
-const float heightMult = 5.0f;
+const float heightMult = 1.0f;
 
 void main()
 {

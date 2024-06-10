@@ -6,7 +6,7 @@ layout(rgba32f, binding = 2) uniform image2D waterTextureSampler;
 
 uniform float timeStep;
 
-const float waterAddAmount = 2;
+const float waterAddAmount = 0.5;
 
 void main()
 {

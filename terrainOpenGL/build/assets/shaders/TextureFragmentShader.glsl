@@ -74,5 +74,6 @@ void main(){
         color *= max(dot(NORMAL, normalize(_sun - pos)), 0.1);
     }
 
-    color = vec4(color.rgb, 1);
+    /* color = vec4(color.rgb, 1); */
+    color = vec4(NORMAL, 1);
 }

@@ -18,7 +18,7 @@ uniform sampler2D sedimentSampler;
 uniform vec3 cameraPos;
 
 const float sizeOfMesh = 10.0;
-const float HEIGHTMULT = 5.0;
+const float HEIGHTMULT = 1.0;
 
 float get_height(vec2 uv)
 {

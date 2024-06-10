@@ -18,11 +18,11 @@ void main()
     vec4 albedoHeight = imageLoad(albedoHeightSampler, ivec2(coords));
 
     waterTexture.w = waterTexture.w * (1 - evaporationConst*timeStep);
-    float change = sedTexture.w - sedTexture.w * (1 - evaporationConst*timeStep);
-    sedTexture.w -= change;
-    albedoHeight.w += change;
+    /* float change = sedTexture.w - sedTexture.w * (1 - evaporationConst*timeStep); */
+    /* sedTexture.w -= change; */
+    /* albedoHeight.w += change; */
 
     imageStore(waterTextureSampler, ivec2(coords), waterTexture);
-    imageStore(albedoHeightSampler, ivec2(coords), albedoHeight);
-    imageStore(sedimentSampler, ivec2(coords), sedTexture);
+    /* imageStore(albedoHeightSampler, ivec2(coords), albedoHeight); */
+    /* imageStore(sedimentSampler, ivec2(coords), sedTexture); */
 }
