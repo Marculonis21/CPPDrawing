@@ -57,7 +57,7 @@ void main()
     waterTexture.xy = velComps;
 
     imageStore(waterTextureSampler, ivec2(coords), waterTexture);
-
+    if(waterTexture.w < 0.001) return;
 
     vec4 albedoHeight = imageLoad(albedoHeightSampler, ivec2(coords));
     float tHeight = albedoHeight.w;

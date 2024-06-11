@@ -41,7 +41,7 @@ const uint screen_height = 1024;
 int num_frames{0};
 float last_time{0.0f};
 
-#define VSYNCON 1
+#define VSYNCON 0
 
 int main() {
 
@@ -137,7 +137,7 @@ int main() {
     const int waterTextureSize = 512;
     const float tScalingF = (float)textureSize/waterTextureSize;
 
-    const float erosionTimeStep = 0.001;
+    const float erosionTimeStep = 0.0005;
 
     Texture2D albedoHeightTexture(textureSize, textureSize, 0, GL_RGBA32F);
     Texture2D normalTexture(textureSize, textureSize, 1, GL_RGBA32F);
