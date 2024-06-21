@@ -5,7 +5,6 @@ layout (quads, equal_spacing, ccw) in;
 in vec2 uv[];
 out vec2 UV;
 out vec3 POS;
-out vec3 NORMAL;
 /* out float HEIGHT; */
 
 uniform mat4 MVP;
@@ -13,6 +12,8 @@ uniform mat4 MVP;
 uniform sampler2D albedoHeightSampler;
 uniform sampler2D waterTextureSampler;
 /* uniform sampler2D normalSampler; */
+
+
 
 void main()
 {
@@ -42,7 +43,6 @@ void main()
     float terrainHeight = texture(albedoHeightSampler, UV).w;
     vec4 waterTexture = texture(waterTextureSampler, UV);
     float waterHeight = waterTexture.w;
-    NORMAL = waterTexture.rgb;
 
     if(waterHeight < 0.001)
     {

@@ -2,7 +2,6 @@
 
 in vec2 UV;
 in vec3 POS;
-in vec3 NORMAL;
 
 // Ouput data
 /* flat in vec3 COLOR; */
@@ -16,13 +15,14 @@ uniform sampler2D sedimentSampler;
 /* uniform sampler2D waterFlowSampler; */
 
 uniform vec3 cameraPos;
+uniform vec3 sunPosition;
 
 const float sizeOfMesh = 10.0;
 const float HEIGHTMULT = 1.0;
 
 float get_height(vec2 uv)
 {
-    return texture(albedoHeightSampler, uv).w;
+    return texture(albedoHeightSampler, uv).w + texture(waterTextureSampler, uv).w;
 }
 
 vec3 get_terrain_color(vec2 uv)
@@ -71,7 +71,7 @@ float get_depth(vec3 startPos, vec3 dir)
     for (int i = 1; i < maxSteps; i++) {
         pos += dir * step;
 
-        height = HEIGHTMULT*get_height(pos.xz/sizeOfMesh);
+        height = HEIGHTMULT*texture(albedoHeightSampler, pos.xz/sizeOfMesh).w;
 
         if(height >= pos.y){
             return step*i;
@@ -107,8 +107,23 @@ vec4 get_reflection(vec3 startPos, vec3 dir)
     return vec4(0.2,0.2,0.5,1);
 }
 
+vec3 get_normal(vec2 uv)
+{
+    // amount of quad * tess factor
+    const float step = 1.0/640.0;
+    vec3 vertex = vec3(uv.x, 0, uv.y);
+    vec3 UP    = vec3(uv.x, 0, uv.y+step);
+    vec3 RIGHT = vec3(uv.x+step, 0, uv.y);
+
+    vertex.y = get_height(vertex.xz);
+    UP.y =     get_height(UP.xz);
+    RIGHT.y =  get_height(RIGHT.xz);
+
+    return -normalize(cross(RIGHT-vertex,UP-vertex));
+}
+
 void main(){
-    /* vec3 pos = vec3(POS.x/sizeOfMesh, POS.y, POS.z/sizeOfMesh); */
+    vec3 pos = vec3(POS.x/sizeOfMesh, POS.y, POS.z/sizeOfMesh);
 
     /* vec3 camDir = normalize(POS-cameraPos); */
     /* vec3 camReflect = reflect(camDir,NORMAL); */
@@ -120,11 +135,13 @@ void main(){
 
     float depth = get_depth(POS, normalize(POS-cameraPos));
     depth = exp(depth*2);
-    color = vec4(0.2,0.2,0.5,depth/3);
+    color = vec4(0.2,0.2,0.5,depth/2);
+    vec3 normal = get_normal(POS.xz/sizeOfMesh);
+    color *= max(dot(normal, normalize(sunPosition - pos)), 0.75);
 
-    float sed = texture(sedimentSampler, UV).w*10;
+    /* float sed = texture(sedimentSampler, UV).w*10; */
     /* color = sed > 0.01 ? vec4(1,0,0, 1) : vec4(0,1,0,1); */
-    color = vec4(sed,sed,sed,1);
+    /* color = vec4(sed,sed,sed,1); */
     /* color = vec4(NORMAL,1); */
 
     /* color.a = clamp(1-dot(-camDir,NORMAL),0,1); */

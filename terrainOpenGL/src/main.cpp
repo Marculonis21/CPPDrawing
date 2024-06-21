@@ -41,7 +41,7 @@ const uint screen_height = 1024;
 int num_frames{0};
 float last_time{0.0f};
 
-#define VSYNCON 0
+#define VSYNCON 1
 
 int main() {
 
@@ -137,7 +137,7 @@ int main() {
     const int waterTextureSize = 512;
     const float tScalingF = (float)textureSize/waterTextureSize;
 
-    const float erosionTimeStep = 0.0005;
+    const float erosionTimeStep = 0.001;
 
     Texture2D albedoHeightTexture(textureSize, textureSize, 0, GL_RGBA32F);
     Texture2D normalTexture(textureSize, textureSize, 1, GL_RGBA32F);
@@ -328,7 +328,7 @@ int main() {
             erosionEvaporation.set_int("waterTextureSampler", 2);
             erosionEvaporation.set_int("sedimentSampler", 4);
             erosionEvaporation.set_float("timeStep", erosionTimeStep);
-            erosionEvaporation.set_float("evaporationConst", 3);
+            erosionEvaporation.set_float("evaporationConst", 1);
             erosionEvaporation.wait();
         }
 
@@ -356,6 +356,7 @@ int main() {
         /* waterDrawShader.set_int("tTextureSize", textureSize); */
         waterDrawShader.set_mat4("MVP", MVP);
         waterDrawShader.set_vec3("cameraPos", position);
+        waterDrawShader.set_vec3("sunPosition", glm::vec3(_sun[0], _sun[1], _sun[2]));
         waterDrawShader.set_int("albedoHeightSampler", 0);
         waterDrawShader.set_int("waterTextureSampler", 2);
         waterDrawShader.set_int("sedimentSampler", 4);
@@ -383,7 +384,6 @@ int main() {
         /* glDrawElements(GL_TRIANGLES, seaLevelMesh.indexCount,
          * GL_UNSIGNED_INT, 0); */
 
-        /* imguiWrap.Render(); */
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
