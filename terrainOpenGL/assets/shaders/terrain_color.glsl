@@ -3,11 +3,6 @@
 layout(local_size_x = 32, local_size_y = 32, local_size_z = 1) in;
 
 layout(rgba32f, binding = 0) uniform image2D albedoHeightSampler;
-layout(rgba32f, binding = 1) uniform image2D normalSampler;
-
-uniform int tTextureSize;
-uniform int octaves;
-uniform float sFreq;
 
 uniform float waterLevel;
 uniform float sandLevel;
@@ -21,6 +16,7 @@ const vec4 rockColor  = vec4(0.33,0.35,0.36, 1);
 
 float get_height(vec2 coords)
 {
+    return imageLoad(albedoHeightSampler, ivec2(coords)).w;
 }
 
 float hash(vec2 uv)
@@ -28,58 +24,45 @@ float hash(vec2 uv)
 	return fract(sin(dot(uv, vec2(12.9898, 78.233))) * 43758.5453);
 }
 
-vec4 get_shadows(vec4 color, vec3 startPos, vec3 sunPos)
-{
-    //what about doing shadows the opposite way?? FROM SUN TO THE TERRAIN -
-    //might be better for the occlusion
+/* vec4 get_shadows(vec4 color, vec3 startPos, vec3 sunPos) */
+/* { */
+/*     //what about doing shadows the opposite way?? FROM SUN TO THE TERRAIN - */
+/*     //might be better for the occlusion */
 
-    startPos.x = startPos.x / tTextureSize;
-    startPos.z = startPos.z / tTextureSize;
+/*     startPos.x = startPos.x / tTextureSize; */
+/*     startPos.z = startPos.z / tTextureSize; */
     
-    const float maxSteps = 300;
-    const float minStep = 1/512.0;
+/*     const float maxSteps = 300; */
+/*     const float minStep = 1/512.0; */
 
-    startPos.y = startPos.y;
+/*     startPos.y = startPos.y; */
 
-    vec3 dir = normalize(sunPos - startPos);
-    /* dir.y = dir.y; */
-    vec3 pos = startPos;
-    float height = pos.y;
+/*     vec3 dir = normalize(sunPos - startPos); */
+/*     /1* dir.y = dir.y; *1/ */
+/*     vec3 pos = startPos; */
+/*     float height = pos.y; */
 
-    for (int i = 1; i < maxSteps; i++)
-    {
-        pos += dir*max((pos.y-height)*0.01, minStep);
+/*     for (int i = 1; i < maxSteps; i++) */
+/*     { */
+/*         pos += dir*max((pos.y-height)*0.01, minStep); */
 
-        if(pos.y > 1 || pos.x > 1 || pos.z > 1 || pos.x < 0 || pos.z < 0) {
-            break;
-        }
+/*         if(pos.y > 1 || pos.x > 1 || pos.z > 1 || pos.x < 0 || pos.z < 0) { */
+/*             break; */
+/*         } */
 
-        height = get_height(pos.xz*tTextureSize);
+/*         height = get_height(pos.xz*tTextureSize); */
 
-        if(height >= pos.y) {
-            color.rgb = color.rgb * (1.0-((maxSteps-i)/(maxSteps*1.5)));
-            color.a = color.a     / (1.0-((maxSteps-i)/(maxSteps*1.3)));
-            break;
-        }
-    }
-    return color;
-}
+/*         if(height >= pos.y) { */
+/*             color.rgb = color.rgb * (1.0-((maxSteps-i)/(maxSteps*1.5))); */
+/*             color.a = color.a     / (1.0-((maxSteps-i)/(maxSteps*1.3))); */
+/*             break; */
+/*         } */
+/*     } */
+/*     return color; */
+/* } */
 
 vec4 get_color(float height, vec2 uv, vec3 sunPos)
 {
-    /* float steepness = pow(dot(vec3(0, 1, 0), normal),1); */
-
-    /* steepness += (hash(uv)*2 - 1)*0.1; */
-    /* if(steepness > 0.8) */
-    /*     return vec3(1,0,0); */
-    /* if(steepness < 0.1) */
-    /*     return vec3(0,1,0); */
-    /* return vec3(steepness); */
-
-    /* if (steepness < 0.2) { */
-    /*     return vec3(0.33,0.35,0.36); */
-    /* } */
-
     vec4 color = vec4(0);
 
     if(height <= waterLevel-0.005) {
@@ -98,28 +81,26 @@ vec4 get_color(float height, vec2 uv, vec3 sunPos)
       else {
           color = rockColor;
       }
-
     }
 
-    color = get_shadows(color, vec3(uv.x, height, uv.y), sunPos);
+    /* color = get_shadows(color, vec3(uv.x, height, uv.y), sunPos); */
     return color;
 }
 
+/* vec3 get_normal(vec2 uv) */
+/* { */
+/*     // amount of quad * tess factor */
+/*     const float step = 1; */
+/*     vec3 vertex = vec3(uv.x, 0, uv.y); */
+/*     vec3 UP    = vec3(uv.x, 0, uv.y+step); */
+/*     vec3 RIGHT = vec3(uv.x+step, 0, uv.y); */
 
-vec3 get_normal(vec2 uv)
-{
-    // amount of quad * tess factor
-    const float step = 1;
-    vec3 vertex = vec3(uv.x, 0, uv.y);
-    vec3 UP    = vec3(uv.x, 0, uv.y+step);
-    vec3 RIGHT = vec3(uv.x+step, 0, uv.y);
+/*     vertex.y = tTextureSize*get_height(vertex.xz); */
+/*     UP.y =     tTextureSize*get_height(UP.xz); */
+/*     RIGHT.y =  tTextureSize*get_height(RIGHT.xz); */
 
-    vertex.y = tTextureSize*get_height(vertex.xz);
-    UP.y =     tTextureSize*get_height(UP.xz);
-    RIGHT.y =  tTextureSize*get_height(RIGHT.xz);
-
-    return -normalize(cross(RIGHT-vertex,UP-vertex));
-}
+/*     return -normalize(cross(RIGHT-vertex,UP-vertex)); */
+/* } */
 
 void main()
 {
@@ -128,9 +109,6 @@ void main()
 
     float height = get_height(coords);
     vec4 albedoHeight = vec4(get_color(height,coords, sunPos).rgb, height);
-    vec3 normal = get_normal(coords);
 
     imageStore(albedoHeightSampler, ivec2(coords), albedoHeight);
-    /* barrier(); */
-    imageStore(normalSampler, ivec2(coords), vec4(normal,1.0));
 }

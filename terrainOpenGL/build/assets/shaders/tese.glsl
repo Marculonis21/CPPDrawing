@@ -8,7 +8,7 @@ out vec3 POS;
 out float HEIGHT;
 out float HEIGHTMULT;
 out vec3 NORMAL;
-flat out vec3 COLOR;
+out vec3 COLOR;
 
 uniform mat4 MVP;
 
