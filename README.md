@@ -8,13 +8,14 @@ This is my sandbox folder for different shader/graphic programs which use C++
 with OpenGL or SFML.
 
 ## Interesting projects:
-### [Terrain](./terrainOpenGL/)
+### [Terrain with erosion](./terrainOpenGL/)
 <p align="center">
-  <img src="./terrainOpenGL/imgs/11.png" width=600/>
+  <img src="./terrainOpenGL/imgs/11.png" width=400/>
+  <img src="./terrainOpenGL/imgs/erosion_normals1.png" width=400/>
 </p>
 
 #
-### [Slime](./slime/)
+### [Compute Slime](./slime/)
 <p align="center">
   <img src="./slime/pics/s1.jpg" width=600/>
 </p>
@@ -26,7 +27,7 @@ with OpenGL or SFML.
 </p>
 
 #
-### [Compute Shader Falling sand sim](./falling_sand/)
+### [Compute Falling sand sim test](./falling_sand/)
 <p align="center">
   <img src="./falling_sand/pics/p1.jpg" width=600/>
 </p>
