@@ -1,17 +1,18 @@
 ## Procedural terrain - C++/OpenGL
 
 - perlin noise
+- 2D water sim for hydraulic erosion
 - OOP texture, mesh classes
 - camera movement
 - imgui UI
 - real time shadows, raytraced water reflections
-- 2D water sim for hydraulic erosion
 
-Playing around with noise maps.
+Playing around with noise maps. Really interested in trying to make terrain
+playground similar to [From Dust](https://en.wikipedia.org/wiki/From_Dust).
 
 ![main](imgs/11.png)
 
-### Simulated Erosion (normal maps)
+### Simulated Erosion (normal maps) - latest update
 ![p1](imgs/erosion_normals1.png)
 ![p1](imgs/erosion_normals2.png)
 
