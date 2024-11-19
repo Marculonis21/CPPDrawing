@@ -11,13 +11,9 @@
 #include <SFML/Window/Mouse.hpp>
 #include <sys/types.h>
 #include <cmath>
-#include <iostream>
 #include <vector>
 
 #include "particle.hpp"
-#include <omp.h>
-#include <algorithm>
-#include <execution>
 
 #include "constraints.hpp"
 

@@ -1,3 +1,0 @@
-/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot/build/CMakeFiles/edit_cache.dir
-/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot/build/CMakeFiles/rebuild_cache.dir
-/home/marculonis/Desktop/Projects/CPP/Opengl_drawing/mandelbrot/build/CMakeFiles/Drawing.dir

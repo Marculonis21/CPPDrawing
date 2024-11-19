@@ -1,3 +1,0 @@
-repository='https://github.com/eliasdaler/imgui-sfml'
-module=''
-tag='origin'

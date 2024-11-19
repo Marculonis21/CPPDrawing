@@ -1,3 +1,0 @@
-/home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark/build/CMakeFiles/rebuild_cache.dir
-/home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark/build/CMakeFiles/edit_cache.dir
-/home/marculonis/Desktop/Projects/CPP/CPPDrawing/walk_in_the_dark/build/CMakeFiles/walkInTheDark.dir

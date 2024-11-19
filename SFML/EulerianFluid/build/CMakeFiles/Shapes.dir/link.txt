@@ -1,1 +1,0 @@
-/usr/bin/c++  -O3   CMakeFiles/Shapes.dir/src/main.cpp.o  -o Shapes  /usr/lib/x86_64-linux-gnu/libsfml-graphics.so.2.5.1 _deps/imgui-sfml-build/libImGui-SFML.a /usr/lib/x86_64-linux-gnu/libsfml-window.so.2.5.1 /usr/lib/x86_64-linux-gnu/libsfml-system.so.2.5.1 -lsfml-graphics -lsfml-system -lsfml-window /usr/lib/x86_64-linux-gnu/libGL.so /usr/lib/x86_64-linux-gnu/libGLU.so 

@@ -1,3 +1,0 @@
-/home/marculonis/Desktop/Projects/CPP/CPPDrawing/slime/build/CMakeFiles/rebuild_cache.dir
-/home/marculonis/Desktop/Projects/CPP/CPPDrawing/slime/build/CMakeFiles/edit_cache.dir
-/home/marculonis/Desktop/Projects/CPP/CPPDrawing/slime/build/CMakeFiles/slime.dir

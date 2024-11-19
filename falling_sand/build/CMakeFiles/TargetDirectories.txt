@@ -1,3 +1,0 @@
-/home/marculonis/Desktop/Projects/CPP/CPPDrawing/compute_test/build/CMakeFiles/rebuild_cache.dir
-/home/marculonis/Desktop/Projects/CPP/CPPDrawing/compute_test/build/CMakeFiles/edit_cache.dir
-/home/marculonis/Desktop/Projects/CPP/CPPDrawing/compute_test/build/CMakeFiles/computeTest.dir

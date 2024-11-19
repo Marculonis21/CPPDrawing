@@ -44,10 +44,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/marculonis/Desktop/Projects/CPP/SFML/Cloth
+CMAKE_SOURCE_DIR = /home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Cloth
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/marculonis/Desktop/Projects/CPP/SFML/Cloth/build
+CMAKE_BINARY_DIR = /home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Cloth/build
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -74,14 +74,14 @@ clean: CMakeFiles/Cloth.dir/clean
 CMakeFiles/Cloth.dir/all:
 	$(MAKE) -f CMakeFiles/Cloth.dir/build.make CMakeFiles/Cloth.dir/depend
 	$(MAKE) -f CMakeFiles/Cloth.dir/build.make CMakeFiles/Cloth.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/marculonis/Desktop/Projects/CPP/SFML/Cloth/build/CMakeFiles --progress-num=1,2 "Built target Cloth"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Cloth/build/CMakeFiles --progress-num=1,2 "Built target Cloth"
 .PHONY : CMakeFiles/Cloth.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Cloth.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/marculonis/Desktop/Projects/CPP/SFML/Cloth/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Cloth/build/CMakeFiles 2
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/Cloth.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/marculonis/Desktop/Projects/CPP/SFML/Cloth/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/marculonis/Desktop/Projects/CPP/CPPDrawing/SFML/Cloth/build/CMakeFiles 0
 .PHONY : CMakeFiles/Cloth.dir/rule
 
 # Convenience name for target.
