@@ -57,9 +57,9 @@ float sense(uint id, float centerOffset)
 
 void steerAgent(uint id)
 {
-    float forwardValue = sense(id,     0);
-    float rightValue   = sense(id,  1f);
-    float leftValue    = sense(id, -1f);
+    float forwardValue = sense(id, 0.0f);
+    float rightValue   = sense(id, 1.0f);
+    float leftValue    = sense(id,-1.0f);
 
     float steerValue = 0;
 
