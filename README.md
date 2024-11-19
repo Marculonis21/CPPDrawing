@@ -7,6 +7,20 @@ your own!*
 This is my sandbox folder for different shader/graphic programs which use C++
 with OpenGL or SFML.
 
+*** 
+
+#### Building
+Building of each project is done using CMAKE. To build a project just navigate
+into its directory and run:
+```bash
+cmake -B build && cd build
+make
+./<name of the project> # run the compiled program
+```
+I usually leave projects in runnable state. However, it might happen that there
+are some problems and/or compatibility issues and stuff like that (I am going
+to try to help resolve your issues if you need help).
+
 ## Interesting projects:
 ### [Terrain with erosion](./terrainOpenGL/)
 <p align="center">
