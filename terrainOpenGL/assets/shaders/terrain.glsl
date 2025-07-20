@@ -3,6 +3,9 @@
 layout(local_size_x = 32, local_size_y = 32, local_size_z = 1) in;
 
 layout(rgba32f, binding = 0) uniform image2D albedoHeightSampler;
+layout(rgba32f, binding = 1) uniform image2D normalSampler;
+
+uniform int tTextureSize;
 
 uniform float waterLevel;
 uniform float sandLevel;
@@ -10,9 +13,10 @@ uniform float grassLevel;
 
 uniform vec3 sunPosition;
 
-const vec4 sandColor  = vec4(1.0, 0.98, 0.83, 1);
-const vec4 grassColor = vec4(0.44, 0.75, 0.28, 1);
-const vec4 rockColor  = vec4(0.33,0.35,0.36, 1);
+const vec3 sandColor  = vec3(1.0, 0.98, 0.83);
+const vec3 grassColor = vec3(0.44, 0.75, 0.28);
+const vec3 rockColor  = vec3(0.33,0.35,0.36);
+
 
 float get_height(vec2 coords)
 {
@@ -61,16 +65,17 @@ float hash(vec2 uv)
 /*     return color; */
 /* } */
 
-vec4 get_color(float height, vec2 uv, vec3 sunPos)
+vec3 get_color(vec2 coords)
 {
-    vec4 color = vec4(0);
+    vec3 color = vec3(0);
+    float height = get_height(coords);
 
     if(height <= waterLevel-0.005) {
-        color = vec4(mix(vec4(0,0,0.4,1), sandColor, exp(-1.2*waterLevel/height)));
+        color = vec3(mix(vec3(0,0,0.4), sandColor, exp(-1.2*waterLevel/height)));
     }
     else {
 
-      float _height = height + (hash(uv)*2 - 1)*0.01;
+      float _height = height + (hash(coords)*2 - 1)*0.01;
 
       if (_height < sandLevel) {
           color = sandColor;
@@ -83,32 +88,33 @@ vec4 get_color(float height, vec2 uv, vec3 sunPos)
       }
     }
 
-    /* color = get_shadows(color, vec3(uv.x, height, uv.y), sunPos); */
+    vec3 sunPos = vec3(sunPosition.x, sunPosition.y, sunPosition.z);
+    // color = get_shadows(color, vec3(uv.x, height, uv.y), sunPos);
     return color;
 }
 
-/* vec3 get_normal(vec2 uv) */
-/* { */
-/*     // amount of quad * tess factor */
-/*     const float step = 1; */
-/*     vec3 vertex = vec3(uv.x, 0, uv.y); */
-/*     vec3 UP    = vec3(uv.x, 0, uv.y+step); */
-/*     vec3 RIGHT = vec3(uv.x+step, 0, uv.y); */
+vec3 get_normal(vec2 coords)
+{
+    float vHeight = get_height(coords);
+    float uHeight = get_height(coords+vec2( 0, 1));
+    float rHeight = get_height(coords+vec2( 1, 1));
 
-/*     vertex.y = tTextureSize*get_height(vertex.xz); */
-/*     UP.y =     tTextureSize*get_height(UP.xz); */
-/*     RIGHT.y =  tTextureSize*get_height(RIGHT.xz); */
+    // amount of quad * tess factor
+    const float step = 1;
+    vec3 vertex = vec3(coords.x,      tTextureSize*vHeight, coords.y);
+    vec3 UP     = vec3(coords.x,      tTextureSize*uHeight, coords.y+step);
+    vec3 RIGHT  = vec3(coords.x+step, tTextureSize*rHeight, coords.y);
 
-/*     return -normalize(cross(RIGHT-vertex,UP-vertex)); */
-/* } */
+    return -normalize(cross(RIGHT-vertex,UP-vertex));
+}
 
 void main()
 {
     vec2 coords = gl_GlobalInvocationID.xy;
-    vec3 sunPos = vec3(sunPosition.x, sunPosition.y, sunPosition.z);
 
-    float height = get_height(coords);
-    vec4 albedoHeight = vec4(get_color(height,coords, sunPos).rgb, height);
+    vec4 albedoHeight = vec4(get_color(coords).rgb, get_height(coords));
+    vec3 normal = get_normal(coords);
 
     imageStore(albedoHeightSampler, ivec2(coords), albedoHeight);
+    imageStore(normalSampler, ivec2(coords), vec4(normal, 0));
 }

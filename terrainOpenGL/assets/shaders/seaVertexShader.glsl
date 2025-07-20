@@ -22,7 +22,7 @@ float get_offset(vec2 uv)
 
 vec3 get_normal(vec2 uv)
 {
-    const float step = 0.1f;
+    const float step = 0.01f;
     vec3 vertex = vec3(uv.x,      0, uv.y);
     vec3 UP     = vec3(uv.x,      0, uv.y+step);
     vec3 RIGHT  = vec3(uv.x+step, 0, uv.y);

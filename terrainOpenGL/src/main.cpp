@@ -29,7 +29,6 @@
 #include "imgui_wrap.hpp"
 #include "mesh.hpp"
 #include "shader.hpp"
-#include "texture.hpp"
 #include "texture2D.hpp"
 
 extern glm::vec3 position;
@@ -109,7 +108,7 @@ int main() {
     /* seaShader.linkProgram(); */
 
     Compute noiseGenerator("assets/shaders/noise.glsl");
-    Compute terrainColor("assets/shaders/terrain_color.glsl");
+    Compute terrainShader("assets/shaders/terrain.glsl");
 
     Compute erosionSource("assets/shaders/erosion_source.glsl");
     Compute erosionFlow("assets/shaders/erosion_flow.glsl");
@@ -262,35 +261,26 @@ int main() {
         waterTexture.Activate();
         waterFlowTexture.Activate();
         sedimentTexture.Activate();
+
         if (reloadTerrain) {
             noiseGenerator.useShader(textureSize / 32, textureSize / 32, 1);
-            noiseGenerator.set_int("tTextureSize", textureSize);
             noiseGenerator.set_int("albedoHeightSampler", 0);
-            noiseGenerator.set_int("normalSampler", 1);
             noiseGenerator.set_int("octaves", int(perlinOctaves));
             noiseGenerator.set_float("sFreq", perlinFrequency);
 
-            noiseGenerator.set_float("waterLevel", waterLevel);
-            noiseGenerator.set_float("sandLevel", sandLevel);
-            noiseGenerator.set_float("grassLevel", grassLevel);
-
-            noiseGenerator.set_vec3("sunPosition",
-                                    glm::vec3(_sun[0], _sun[1], _sun[2]));
-
             noiseGenerator.wait();
-            /* albedoHeightTexture.Data(); */
-            /* normalTexture.Data(); */
         }
 
-        terrainColor.useShader(textureSize / 32, textureSize / 32, 1);
-        terrainColor.set_int("albedoHeightSampler", 0);
-        terrainColor.set_float("waterLevel", waterLevel);
-        terrainColor.set_float("sandLevel", sandLevel);
-        terrainColor.set_float("grassLevel", grassLevel);
-
-        terrainColor.set_vec3("sunPosition",
-                              glm::vec3(_sun[0], _sun[1], _sun[2]));
-        terrainColor.wait();
+        terrainShader.useShader(textureSize / 32, textureSize / 32, 1);
+        terrainShader.set_int("tTextureSize", textureSize);
+        terrainShader.set_int("albedoHeightSampler", 0);
+        terrainShader.set_int("normalSampler", 1);
+        terrainShader.set_float("waterLevel", waterLevel);
+        terrainShader.set_float("sandLevel", sandLevel);
+        terrainShader.set_float("grassLevel", grassLevel);
+        terrainShader.set_vec3("sunPosition",
+                               glm::vec3(_sun[0], _sun[1], _sun[2]));
+        terrainShader.wait();
 
         if (addWater) {
             erosionSource.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
@@ -305,7 +295,6 @@ int main() {
             erosionFlow.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
             erosionFlow.set_int("tTextureSize", textureSize);
             erosionFlow.set_int("wTextureSize", waterTextureSize);
-            erosionFlow.set_float("tScalingF", tScalingF);
             erosionFlow.set_int("albedoHeightSampler", 0);
             erosionFlow.set_int("normalSampler", 1);
             erosionFlow.set_int("waterTextureSampler", 2);
@@ -338,9 +327,7 @@ int main() {
             erosionTransport.wait();
 
             erosionEvaporation.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
-            erosionEvaporation.set_int("albedoHeightSampler", 0);
             erosionEvaporation.set_int("waterTextureSampler", 2);
-            erosionEvaporation.set_int("sedimentSampler", 4);
             erosionEvaporation.set_float("timeStep", erosionTimeStep);
             erosionEvaporation.set_float("evaporationConst", 1);
             erosionEvaporation.wait();

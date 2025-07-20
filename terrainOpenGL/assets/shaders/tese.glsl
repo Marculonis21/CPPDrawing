@@ -6,16 +6,13 @@ in vec2 uv[];
 out vec2 UV;
 out vec3 POS;
 out float HEIGHT;
-out float HEIGHTMULT;
 out vec3 NORMAL;
 out vec3 COLOR;
 
 uniform mat4 MVP;
 
-uniform sampler2D albedoHeightSampler;
-uniform sampler2D normalSampler;
-
-const float heightMult = 1.0f;
+layout(binding = 0) uniform sampler2D albedoHeightSampler;
+layout(binding = 1) uniform sampler2D normalSampler;
 
 void main()
 {
@@ -40,15 +37,15 @@ void main()
     vec4 rightPos = mix(pos1, pos2, v);
     vec4 _pos = mix(leftPos, rightPos, u);
 
-    /* float height = get_height(texCoord); */
     UV = texCoord;
     vec4 albedoHeight = texture(albedoHeightSampler, UV);
     vec4 normal = texture(normalSampler, UV);
-    NORMAL = normal.rgb;
-    HEIGHT = albedoHeight.w;
-    COLOR = albedoHeight.rgb;
 
-    POS = _pos.xyz + vec3(0,1,0)*HEIGHT*heightMult;
+    NORMAL = normal.rgb;
+
+    COLOR = albedoHeight.rgb;
+    HEIGHT = albedoHeight.w;
+
+    POS = _pos.xyz + vec3(0,1,0)*HEIGHT;
     gl_Position = MVP * vec4(POS, 1);
-    HEIGHTMULT = heightMult;
 }
