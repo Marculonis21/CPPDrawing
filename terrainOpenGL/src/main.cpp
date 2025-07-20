@@ -28,7 +28,6 @@
 #include "imgui/imgui_internal.h"
 #include "imgui_wrap.hpp"
 #include "mesh.hpp"
-#include "noise.hpp"
 #include "shader.hpp"
 #include "texture.hpp"
 #include "texture2D.hpp"
@@ -128,11 +127,11 @@ int main() {
 
     // perlin and textures parameters
     float sandLevel = 0.1;
-    float grassLevel = 0.55;
+    float grassLevel = 0.9;
     float waterLevel = 0.0;
 
-    float perlinFrequency = 400;
-    float perlinOctaves = 4;
+    float perlinFrequency = 800;
+    float perlinOctaves = 8;
 
     const int textureSize = 512;
     const int waterTextureSize = 512;
@@ -300,6 +299,8 @@ int main() {
             erosionSource.wait();
         }
         else {
+            /* https://inria.hal.science/inria-00402079/document */
+            /* https://harald.ist.org/paste/erosion.pdf */
             // erosion process
             erosionFlow.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
             erosionFlow.set_int("tTextureSize", textureSize);

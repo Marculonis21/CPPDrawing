@@ -13,9 +13,9 @@ uniform float tScalingF;
 
 uniform float timeStep;
 
-const float A = 100.0; // pipe cross-section
 const float l = 100; // pipe length 1/l
-const float g = 10;
+const float A = 100;
+const float g = 9.81;
 
 vec3 get_normal(vec2 coords, float vHeight, float uHeight, float rHeight)
 {
@@ -64,18 +64,21 @@ void main()
     flow.b = max(0, flow.b + timeStep*A*(g*dh_R)*l);
     flow.a = max(0, flow.a + timeStep*A*(g*dh_D)*l);
 
-    if(coords.x - 1 < 0) flow.r = 0;
-    if(coords.y + 1 > wTextureSize-1) flow.g = 0;
-    if(coords.x + 1 > wTextureSize-1) flow.b = 0;
-    if(coords.y - 1 < 0) flow.a = 0;
+    // no slip - can flow out of the grid
+    if(coords.x == 0) flow.r = 0;
+    if(coords.x == wTextureSize-1) flow.b = 0;
+
+    if(coords.y == 0) flow.g = 0;
+    if(coords.y == wTextureSize-1) flow.a = 0;
 
     // distance of points (1*1 for now)
     float fSum = flow.r+flow.g+flow.b+flow.a;
-    if (fSum < 0.001) {
-        fSum = 0.001;
+    if (fSum < 0.00001) {
+        fSum = 0.00001;
     }
 
-    float K = min(1, (wHeight*1*1)/((fSum)*timeStep));
+    // float K = min(1, (wHeight*1*1)/((fSum)*timeStep));
+    float K = min(1, (wHeight*1*1)/(fSum*timeStep));
 
     imageStore(waterTextureSampler, ivec2(coords), vec4(0,0,0, wHeight));
     imageStore(waterFlowSampler, ivec2(coords), K*flow);

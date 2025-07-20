@@ -29,10 +29,10 @@ void main()
     int tes2 = int(mix(64.0, 2.0, clamp(dist2/15.0, 0.0, 1.0)));
     int tes3 = int(mix(64.0, 2.0, clamp(dist3/15.0, 0.0, 1.0)));
 
-    /* int tes0 = 64; */
-    /* int tes1 = 64; */
-    /* int tes2 = 64; */
-    /* int tes3 = 64; */
+    tes0 = 64;
+    tes1 = 64;
+    tes2 = 64;
+    tes3 = 64;
 
     gl_TessLevelOuter[0] = tes0;
     gl_TessLevelOuter[1] = tes1;
