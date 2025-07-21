@@ -15,6 +15,8 @@ void main()
 {
     vec2 coords = gl_GlobalInvocationID.xy;
 
+    vec4 sedimentTexture = imageLoad(sedimentSampler, ivec2(coords));
+
     float in_flowL = imageLoad(waterFlowSampler, ivec2(coords)+ivec2(-1, 0)).b;
     float in_flowU = imageLoad(waterFlowSampler, ivec2(coords)+ivec2( 0, 1)).a;
     float in_flowR = imageLoad(waterFlowSampler, ivec2(coords)+ivec2( 1, 0)).r;
@@ -102,5 +104,5 @@ void main()
     /* float newSed = (ul + dl + ur + dr)/4.0; */
     /* float newSed = imageLoad(sedimentSampler, ivec2(x0,y0)).w; */
 
-    imageStore(sedimentSampler, ivec2(coords), vec4(0,0,0,newSed));
+    imageStore(sedimentSampler, ivec2(coords), vec4(sedimentTexture.rgb,newSed));
 }

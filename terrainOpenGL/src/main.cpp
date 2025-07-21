@@ -137,7 +137,7 @@ int main() {
     const int waterTextureSize = 512;
     const float tScalingF = (float)textureSize/waterTextureSize;
 
-    const float erosionTimeStep = 0.001;
+    const float erosionTimeStep = 0.00001;
 
     Texture2D albedoHeightTexture(textureSize, textureSize, 0, GL_RGBA32F);
     Texture2D normalTexture(textureSize, textureSize, 1, GL_RGBA32F);

@@ -51,10 +51,12 @@ void main()
 
     float wHeightAvg = (wHeight + wHeightNew) / 2.0;
 
-    vec newVel = dFlow / (L_CELL * wHeightAvg);
-    waterTexture.xy = newVel;
-    waterTexture.z = wHeight; // keep old around
-    waterTexture.w = wHeightNew;
+    vec2 newVel = dFlow / (L_CELL * wHeightAvg);
+
+    vec4 waterTexture = vec4(newVel, wHeight, wHeightNew);
+    //waterTexture.xy = newVel;
+    //waterTexture.z = wHeight; // keep old around
+    //waterTexture.w = wHeightNew;
 
     imageStore(waterTextureSampler, ivec2(coords), waterTexture);
 }
