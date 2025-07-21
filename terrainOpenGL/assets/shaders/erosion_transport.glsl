@@ -20,10 +20,10 @@ void main()
     float in_flowR = imageLoad(waterFlowSampler, ivec2(coords)+ivec2( 1, 0)).r;
     float in_flowD = imageLoad(waterFlowSampler, ivec2(coords)+ivec2( 0,-1)).g;
 
-    if(coords.x - 1 < 0) in_flowL = 0;
-    if(coords.y + 1 > wTextureSize-1) in_flowU = 0;
-    if(coords.x + 1 > wTextureSize-1) in_flowR = 0;
-    if(coords.y - 1 < 0) in_flowD = 0;
+    // if(coords.x - 1 < 0) in_flowL = 0;
+    // if(coords.y + 1 > wTextureSize-1) in_flowU = 0;
+    // if(coords.x + 1 > wTextureSize-1) in_flowR = 0;
+    // if(coords.y - 1 < 0) in_flowD = 0;
 
     vec4 outFlow = imageLoad(waterFlowSampler, ivec2(coords));
     //    g

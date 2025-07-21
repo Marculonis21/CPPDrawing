@@ -112,6 +112,7 @@ int main() {
 
     Compute erosionSource("assets/shaders/erosion_source.glsl");
     Compute erosionFlow("assets/shaders/erosion_flow.glsl");
+    Compute erosionFlowVelocityField("assets/shaders/erosion_flow_velocity_field.glsl");
     Compute erosionDeposition("assets/shaders/erosion_deposition.glsl");
     Compute erosionTransport("assets/shaders/erosion_transport.glsl");
     Compute erosionEvaporation("assets/shaders/erosion_evaporation.glsl");
@@ -293,14 +294,19 @@ int main() {
             /* https://harald.ist.org/paste/erosion.pdf */
             // erosion process
             erosionFlow.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
-            erosionFlow.set_int("tTextureSize", textureSize);
             erosionFlow.set_int("wTextureSize", waterTextureSize);
             erosionFlow.set_int("albedoHeightSampler", 0);
-            erosionFlow.set_int("normalSampler", 1);
             erosionFlow.set_int("waterTextureSampler", 2);
             erosionFlow.set_int("waterFlowSampler", 3);
             erosionFlow.set_float("timeStep", erosionTimeStep);
             erosionFlow.wait();
+
+            erosionFlowVelocityField.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
+            erosionFlowVelocityField.set_int("wTextureSize", waterTextureSize);
+            erosionFlowVelocityField.set_int("waterTextureSampler", 2);
+            erosionFlowVelocityField.set_int("waterFlowSampler", 3);
+            erosionFlowVelocityField.set_float("timeStep", erosionTimeStep);
+            erosionFlowVelocityField.wait();
 
             erosionDeposition.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
             erosionDeposition.set_int("tTextureSize", textureSize);
@@ -312,9 +318,14 @@ int main() {
             erosionDeposition.set_int("waterFlowSampler", 3);
             erosionDeposition.set_int("sedimentSampler", 4);
             erosionDeposition.set_float("timeStep", erosionTimeStep);
-            erosionDeposition.set_float("sedCapacityConst", 0.1);
-            erosionDeposition.set_float("sedDissolveConst", 0.01);
-            erosionDeposition.set_float("sedDepositConst", 0.01);
+
+            erosionDeposition.set_float("K_C", 1.0);
+            erosionDeposition.set_float("ALPHA_MIN", 0.1);
+            erosionDeposition.set_float("K_DMAX", 4.0);
+            erosionDeposition.set_float("K_S", 0.01);
+            erosionDeposition.set_float("K_D", 0.001);
+            erosionDeposition.set_float("K_H", 0.01);
+            erosionDeposition.set_float("K_H_MIN", 0.1);
             erosionDeposition.wait();
 
             erosionTransport.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
