@@ -6,6 +6,7 @@ layout(rgba32f, binding = 0) uniform image2D albedoHeightSampler;
 layout(rgba32f, binding = 2) uniform image2D waterTextureSampler;
 layout(rgba32f, binding = 3) uniform image2D waterFlowSampler;
 
+uniform int tTextureSize;
 uniform int wTextureSize;
 
 uniform float timeStep;
@@ -27,16 +28,22 @@ void main()
     //    v
     //    a
     //    TODO: POSSIBLE EXTENSION TO 8 neighbors
-    
-    float tHeightL = imageLoad(albedoHeightSampler, ivec2(coords+vec2(-1, 0))).w;
-    float tHeightU = imageLoad(albedoHeightSampler, ivec2(coords+vec2( 0, 1))).w;
-    float tHeightR = imageLoad(albedoHeightSampler, ivec2(coords+vec2( 1, 0))).w;
-    float tHeightD = imageLoad(albedoHeightSampler, ivec2(coords+vec2( 0,-1))).w;
 
-    float wHeightL = imageLoad(waterTextureSampler, ivec2(coords)+ivec2(-1, 0)).w;
-    float wHeightU = imageLoad(waterTextureSampler, ivec2(coords)+ivec2( 0, 1)).w;
-    float wHeightR = imageLoad(waterTextureSampler, ivec2(coords)+ivec2( 1, 0)).w;
-    float wHeightD = imageLoad(waterTextureSampler, ivec2(coords)+ivec2( 0,-1)).w;
+
+    const ivec2 L = ivec2(coords+vec2(-1, 0));
+    const ivec2 U = ivec2(coords+vec2( 0, 1));
+    const ivec2 R = ivec2(coords+vec2( 1, 0));
+    const ivec2 D = ivec2(coords+vec2( 0,-1));
+    
+    float tHeightL = coords.x == 0              ? tHeight : imageLoad(albedoHeightSampler, L).w;
+    float tHeightU = coords.y == tTextureSize-1 ? tHeight : imageLoad(albedoHeightSampler, U).w;
+    float tHeightR = coords.x == tTextureSize-1 ? tHeight : imageLoad(albedoHeightSampler, R).w;
+    float tHeightD = coords.y == 0              ? tHeight : imageLoad(albedoHeightSampler, D).w;
+
+    float wHeightL = coords.x == 0              ? wHeight : imageLoad(waterTextureSampler, L).w;
+    float wHeightU = coords.y == wTextureSize-1 ? wHeight : imageLoad(waterTextureSampler, U).w;
+    float wHeightR = coords.x == wTextureSize-1 ? wHeight : imageLoad(waterTextureSampler, R).w;
+    float wHeightD = coords.y == 0              ? wHeight : imageLoad(waterTextureSampler, D).w;
 
     float dh_L = tHeight+wHeight - tHeightL-wHeightL;
     float dh_U = tHeight+wHeight - tHeightU-wHeightU;
@@ -44,28 +51,24 @@ void main()
     float dh_D = tHeight+wHeight - tHeightD-wHeightD;
 
     float a_L = (G * dh_L) / L_PIPE;
-    float a_U = (G * dh_L) / L_PIPE;
-    float a_R = (G * dh_L) / L_PIPE;
-    float a_D = (G * dh_L) / L_PIPE;
+    float a_U = (G * dh_U) / L_PIPE;
+    float a_R = (G * dh_R) / L_PIPE;
+    float a_D = (G * dh_D) / L_PIPE;
 
-    const float A_PIPE = wHeight;
-    flow.r = max(0, flow.r + timeStep*A_PIPE*a_L);
-    flow.g = max(0, flow.g + timeStep*A_PIPE*a_U);
-    flow.b = max(0, flow.b + timeStep*A_PIPE*a_R);
-    flow.a = max(0, flow.a + timeStep*A_PIPE*a_D);
+    //float A_PIPE = tHeight+wHeight * 100;
+    float A_PIPE = 60;
+
+    // no slip - no water can flow out of the grid
+    flow.r = coords.x == 0              ? 0 : max(0, flow.r + timeStep*A_PIPE*a_L);
+    flow.g = coords.y == wTextureSize-1 ? 0 : max(0, flow.g + timeStep*A_PIPE*a_U);
+    flow.b = coords.x == wTextureSize-1 ? 0 : max(0, flow.b + timeStep*A_PIPE*a_R);
+    flow.a = coords.y == 0              ? 0 : max(0, flow.a + timeStep*A_PIPE*a_D);
 
     // distance of points (1*1 for now)
     float fSum = flow.r+flow.g+flow.b+flow.a;
 
     // float K = min(1, (wHeight*1*1)/((fSum)*timeStep));
     float K = min(1, (wHeight*L_CELL*L_CELL)/(fSum*timeStep));
-
-    // no slip - no water can flow out of the grid
-    if(coords.x == 0) flow.r = 0;
-    if(coords.x == wTextureSize-1) flow.b = 0;
-
-    if(coords.y == 0) flow.g = 0;
-    if(coords.y == wTextureSize-1) flow.a = 0;
 
     // imageStore(waterTextureSampler, ivec2(coords), vec4(0,0,0, wHeight));
     imageStore(waterFlowSampler, ivec2(coords), K*flow);

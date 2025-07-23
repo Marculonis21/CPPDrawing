@@ -17,15 +17,15 @@ void main()
 
     vec4 sedimentTexture = imageLoad(sedimentSampler, ivec2(coords));
 
-    float in_flowL = imageLoad(waterFlowSampler, ivec2(coords)+ivec2(-1, 0)).b;
-    float in_flowU = imageLoad(waterFlowSampler, ivec2(coords)+ivec2( 0, 1)).a;
-    float in_flowR = imageLoad(waterFlowSampler, ivec2(coords)+ivec2( 1, 0)).r;
-    float in_flowD = imageLoad(waterFlowSampler, ivec2(coords)+ivec2( 0,-1)).g;
+    const ivec2 L = ivec2(coords+vec2(-1, 0));
+    const ivec2 U = ivec2(coords+vec2( 0, 1));
+    const ivec2 R = ivec2(coords+vec2( 1, 0));
+    const ivec2 D = ivec2(coords+vec2( 0,-1));
 
-    // if(coords.x - 1 < 0) in_flowL = 0;
-    // if(coords.y + 1 > wTextureSize-1) in_flowU = 0;
-    // if(coords.x + 1 > wTextureSize-1) in_flowR = 0;
-    // if(coords.y - 1 < 0) in_flowD = 0;
+    float in_flowL = coords.x == 0              ? 0 : imageLoad(waterFlowSampler, L).b;
+    float in_flowU = coords.y == wTextureSize-1 ? 0 : imageLoad(waterFlowSampler, U).a;
+    float in_flowR = coords.x == wTextureSize-1 ? 0 : imageLoad(waterFlowSampler, R).r;
+    float in_flowD = coords.y == 0              ? 0 : imageLoad(waterFlowSampler, D).g;
 
     vec4 outFlow = imageLoad(waterFlowSampler, ivec2(coords));
     //    g

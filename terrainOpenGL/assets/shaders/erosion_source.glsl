@@ -6,14 +6,15 @@ layout(rgba32f, binding = 2) uniform image2D waterTextureSampler;
 
 uniform float timeStep;
 
-const float waterAddAmount = 0.5;
+const float waterAddAmount = 1;
 
 void main()
 {
     vec2 coords = gl_GlobalInvocationID.xy;
 
-    float waterAmount = imageLoad(waterTextureSampler, ivec2(coords)).w;
-    waterAmount += timeStep*waterAddAmount;
+    vec4 waterTexture = imageLoad(waterTextureSampler, ivec2(coords));
 
-    imageStore(waterTextureSampler, ivec2(coords), vec4(0,0,0,waterAmount));
+    waterTexture.w += timeStep*waterAddAmount;
+
+    imageStore(waterTextureSampler, ivec2(coords), waterTexture);
 }

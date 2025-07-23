@@ -2,7 +2,10 @@
 
 layout(local_size_x = 32, local_size_y = 32, local_size_z = 1) in;
 
-layout(rgba32f, binding = 0) uniform image2D albedoHeightImage;
+layout(rgba32f, binding = 0) uniform image2D albedoHeightSampler;
+layout(rgba32f, binding = 2) uniform image2D waterTextureSampler;
+layout(rgba32f, binding = 3) uniform image2D waterFlowSampler;
+layout(rgba32f, binding = 4) uniform image2D sedimentSampler;
 
 uniform int octaves;
 uniform float sFreq;
@@ -148,5 +151,8 @@ void main()
 
     vec4 albedoHeight = vec4(0,0,0, get_height(coords));
 
-    imageStore(albedoHeightImage, ivec2(coords), albedoHeight);
+    imageStore(albedoHeightSampler, ivec2(coords), albedoHeight);
+    imageStore(waterTextureSampler, ivec2(coords), vec4(0));
+    imageStore(waterFlowSampler, ivec2(coords), vec4(0));
+    imageStore(sedimentSampler, ivec2(coords), vec4(1,0,0,0)); // hardness starts at 1
 }

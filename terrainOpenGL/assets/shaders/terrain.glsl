@@ -96,8 +96,8 @@ vec3 get_color(vec2 coords)
 vec3 get_normal(vec2 coords)
 {
     float vHeight = get_height(coords);
-    float uHeight = get_height(coords+vec2( 0, 1));
-    float rHeight = get_height(coords+vec2( 1, 1));
+    float uHeight = coords.y == tTextureSize-1 ? vHeight : get_height(coords+vec2( 0, 1));
+    float rHeight = coords.x == tTextureSize-1 ? vHeight : get_height(coords+vec2( 1, 0));
 
     // amount of quad * tess factor
     const float step = 1;
@@ -108,12 +108,50 @@ vec3 get_normal(vec2 coords)
     return -normalize(cross(RIGHT-vertex,UP-vertex));
 }
 
+vec3 _get_normal(vec2 coords) {
+
+    vec2 vx10 = coords.x == tTextureSize-1 ? coords : vec2(coords + vec2(1, 0));
+    vec2 vx11 = coords.x == 0              ? coords : vec2(coords + vec2(-1, 0));
+
+    vec2 vy10 = coords.y == tTextureSize-1 ? coords : vec2(coords + vec2(0, 1));
+    vec2 vy11 = coords.y == 0              ? coords : vec2(coords + vec2(0, -1));
+
+    vec2 vx20 = (coords.x == 0 || coords.y == 0)                           ? coords : vec2(coords + vec2(-1, -1));
+    vec2 vx21 = (coords.x == tTextureSize-1 || coords.y == tTextureSize-1) ? coords : vec2(coords + vec2(1, 1));
+
+    vec2 vy20 = (coords.x == tTextureSize-1 || coords.y == 0)              ? coords : vec2(coords + vec2(1, -1));
+    vec2 vy21 = (coords.x == 0 || coords.y == tTextureSize-1)              ? coords : vec2(coords + vec2(-1, 1));
+
+
+    vec3 x10 = vec3(vx10.x, tTextureSize*get_height(vx10), vx10.y);
+    vec3 x11 = vec3(vx11.x, tTextureSize*get_height(vx11), vx11.y);
+
+    vec3 y10 = vec3(vy10.x, tTextureSize*get_height(vy10), vy10.y);
+    vec3 y11 = vec3(vy11.x, tTextureSize*get_height(vy11), vy11.y);
+
+    vec3 x20 = vec3(vx20.x, tTextureSize*get_height(vx20), vx20.y);
+    vec3 x21 = vec3(vx21.x, tTextureSize*get_height(vx21), vx21.y);
+
+    vec3 y20 = vec3(vy20.x, tTextureSize*get_height(vy20), vy20.y);
+    vec3 y21 = vec3(vy21.x, tTextureSize*get_height(vy21), vy21.y);
+
+    vec3 x1 = x10 - x11;
+    vec3 y1 = y10 - y11;
+    vec3 x2 = x20 - x21;
+    vec3 y2 = y20 - y21;
+
+    vec3 N0 = cross(x1, y1);
+    vec3 N1 = cross(x2, y2);
+
+    return -normalize(N0+N1);
+}
+
 void main()
 {
     vec2 coords = gl_GlobalInvocationID.xy;
 
     vec4 albedoHeight = vec4(get_color(coords).rgb, get_height(coords));
-    vec3 normal = get_normal(coords);
+    vec3 normal = _get_normal(coords);
 
     imageStore(albedoHeightSampler, ivec2(coords), albedoHeight);
     imageStore(normalSampler, ivec2(coords), vec4(normal, 0));

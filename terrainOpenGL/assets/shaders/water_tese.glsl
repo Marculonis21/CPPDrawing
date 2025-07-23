@@ -13,8 +13,6 @@ uniform sampler2D albedoHeightSampler;
 uniform sampler2D waterTextureSampler;
 /* uniform sampler2D normalSampler; */
 
-
-
 void main()
 {
     float u = gl_TessCoord.x;
@@ -44,13 +42,9 @@ void main()
     vec4 waterTexture = texture(waterTextureSampler, UV);
     float waterHeight = waterTexture.w;
 
-    if(waterHeight < 0.001)
+    if(waterHeight < 0.0001)
     {
-        waterHeight = -0.001;
-    }
-    else
-    {
-        waterHeight*=1.001;
+        waterHeight = -0.0001;
     }
 
     POS = _pos.xyz + vec3(0,1,0)*(terrainHeight+waterHeight)*1;

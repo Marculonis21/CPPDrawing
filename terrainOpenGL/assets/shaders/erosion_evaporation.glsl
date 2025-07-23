@@ -13,7 +13,7 @@ void main()
 
     vec4 waterTexture = imageLoad(waterTextureSampler, ivec2(coords));
 
-    waterTexture.w = max(0, waterTexture.w * (1 - evaporationConst*timeStep));
+    //waterTexture.w = max(0, waterTexture.w * (1 - evaporationConst*timeStep));
 
     imageStore(waterTextureSampler, ivec2(coords), waterTexture);
 }

@@ -29,14 +29,13 @@ float l_max(float val) {
 
 float local_tilt(vec2 coords) {
     vec3 tNormal = imageLoad(normalSampler, ivec2(coords)).rgb;
-    return acos(dot(tNormal, vec3(0,1,0))); // local tilt
+    //return acos(dot(tNormal, vec3(0,1,0))); // local tilt
+    return dot(tNormal, vec3(0,1,0)); // local tilt
 }
 
 void main()
 {
     vec2 coords = gl_GlobalInvocationID.xy;
-
-    // if(waterTexture.w < 0.001) return;
 
     // load in all textures
 
@@ -49,6 +48,7 @@ void main()
     vec2 wVel = waterTexture.xy;
     float wHeightOld = waterTexture.z;
     float wHeight = waterTexture.w;
+    if(wHeight < 0.0001) return;
 
     float sedAmount = sedimentTexture.w;
     float hardnesCoef = sedimentTexture.x;
@@ -57,14 +57,16 @@ void main()
 
     float alpha = local_tilt(coords);
 
-    float transportCap = K_C * sin(max(ALPHA_MIN, alpha)) * length(wVel) * l_max(wHeightOld); 
+    //float transportCap = K_C * sin(max(ALPHA_MIN, alpha)) * length(wVel) * l_max(wHeightOld); 
+    float transportCap = K_C * alpha * length(wVel) * l_max(wHeightOld); 
 
     // solve dissolve/deposit
     float sedAmountOld = sedAmount;
 
     if(transportCap > sedAmount) {
         float diff = (transportCap - sedAmount);
-        float dissolvedSoil = K_S*hardnesCoef*diff;
+        float dissolvedSoil = K_S*hardnesCoef*diff*timeStep;
+        //float dissolvedSoil = K_S*diff*timeStep;
 
         tHeight = tHeight - dissolvedSoil;
         wHeight = wHeight + dissolvedSoil;
@@ -72,7 +74,8 @@ void main()
     }
     else {
         float diff = (sedAmount - transportCap);
-        float depositedSoil = clamp(K_D*diff, 0.0, wHeight); // ensures positive water height
+        //float depositedSoil = clamp(K_D*diff, 0.0, wHeight)*timeStep; // ensures positive water height
+        float depositedSoil = K_D*diff*timeStep; // ensures positive water height
 
         tHeight = tHeight + depositedSoil;
         wHeight = wHeight - depositedSoil;

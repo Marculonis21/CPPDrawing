@@ -7,17 +7,15 @@ in vec3 POS;
 /* flat in vec3 COLOR; */
 out vec4 color;
 
-// Values that stay constant for the whole mesh.
-uniform sampler2D albedoHeightSampler;
-/* uniform sampler2D normalSampler; */
-uniform sampler2D waterTextureSampler;
-uniform sampler2D sedimentSampler;
-/* uniform sampler2D waterFlowSampler; */
+layout(binding = 0) uniform sampler2D albedoHeightSampler;
+layout(binding = 2) uniform sampler2D waterTextureSampler;
+layout(binding = 3) uniform sampler2D waterFlowSampler;
+layout(binding = 4) uniform sampler2D sedimentSampler;
 
 uniform vec3 cameraPos;
 uniform vec3 sunPosition;
 
-const float sizeOfMesh = 10.0;
+const float sizeOfMesh = 8.0;
 const float HEIGHTMULT = 1.0;
 
 float get_height(vec2 uv)
@@ -139,9 +137,14 @@ void main(){
     vec3 normal = get_normal(POS.xz/sizeOfMesh);
     color *= max(dot(normal, normalize(sunPosition - pos)), 0.75);
 
-    /* float sed = texture(sedimentSampler, UV).w*10; */
-    /* color = sed > 0.01 ? vec4(1,0,0, 1) : vec4(0,1,0,1); */
-    /* color = vec4(sed,sed,sed,1); */
+    //color = vec4(texture(waterFlowSampler, UV).rgb*5, 1);
+    //vec2 waterVel = texture(waterTextureSampler, UV).xy;
+
+    // color = vec4(vec3(length(waterVel)), 1);
+
+    //float sed = texture(sedimentSampler, UV).w*10; 
+    //color = sed > 0.01 ? vec4(1,0,0, 1) : vec4(0,1,0,1);
+    //color = vec4(sed,sed,sed,1);
     /* color = vec4(NORMAL,1); */
 
     /* color.a = clamp(1-dot(-camDir,NORMAL),0,1); */

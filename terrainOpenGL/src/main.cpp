@@ -121,9 +121,9 @@ int main() {
     glPatchParameteri(GL_PATCH_VERTICES, 4);
 
     // create meshes
-    Mesh terrainMesh(10, 1, true);
+    Mesh terrainMesh(8, 1, true);
     /* Mesh seaLevelMesh(100, 0.1, false); */
-    Mesh waterMesh(10, 1, true);
+    Mesh waterMesh(8, 1, true);
 
     // perlin and textures parameters
     float sandLevel = 0.1;
@@ -133,11 +133,11 @@ int main() {
     float perlinFrequency = 800;
     float perlinOctaves = 8;
 
-    const int textureSize = 512;
-    const int waterTextureSize = 512;
+    const int textureSize = 2048;
+    const int waterTextureSize = 2048;
     const float tScalingF = (float)textureSize/waterTextureSize;
 
-    const float erosionTimeStep = 0.00001;
+    const float erosionTimeStep = 0.005;
 
     Texture2D albedoHeightTexture(textureSize, textureSize, 0, GL_RGBA32F);
     Texture2D normalTexture(textureSize, textureSize, 1, GL_RGBA32F);
@@ -266,6 +266,9 @@ int main() {
         if (reloadTerrain) {
             noiseGenerator.useShader(textureSize / 32, textureSize / 32, 1);
             noiseGenerator.set_int("albedoHeightSampler", 0);
+            noiseGenerator.set_int("waterTextureSampler", 2);
+            noiseGenerator.set_int("waterFlowSampler", 3);
+            noiseGenerator.set_int("sedimentSampler", 4);
             noiseGenerator.set_int("octaves", int(perlinOctaves));
             noiseGenerator.set_float("sFreq", perlinFrequency);
 
@@ -294,6 +297,7 @@ int main() {
             /* https://harald.ist.org/paste/erosion.pdf */
             // erosion process
             erosionFlow.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
+            erosionFlow.set_int("tTextureSize", textureSize);
             erosionFlow.set_int("wTextureSize", waterTextureSize);
             erosionFlow.set_int("albedoHeightSampler", 0);
             erosionFlow.set_int("waterTextureSampler", 2);
@@ -320,10 +324,10 @@ int main() {
             erosionDeposition.set_float("timeStep", erosionTimeStep);
 
             erosionDeposition.set_float("K_C", 1.0);
-            erosionDeposition.set_float("ALPHA_MIN", 0.1);
-            erosionDeposition.set_float("K_DMAX", 4.0);
-            erosionDeposition.set_float("K_S", 0.01);
-            erosionDeposition.set_float("K_D", 0.001);
+            erosionDeposition.set_float("ALPHA_MIN", 10);
+            erosionDeposition.set_float("K_DMAX", 1.0);
+            erosionDeposition.set_float("K_S", 0.05);
+            erosionDeposition.set_float("K_D", 0.01);
             erosionDeposition.set_float("K_H", 0.01);
             erosionDeposition.set_float("K_H_MIN", 0.1);
             erosionDeposition.wait();
@@ -340,7 +344,7 @@ int main() {
             erosionEvaporation.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
             erosionEvaporation.set_int("waterTextureSampler", 2);
             erosionEvaporation.set_float("timeStep", erosionTimeStep);
-            erosionEvaporation.set_float("evaporationConst", 1);
+            erosionEvaporation.set_float("evaporationConst", 0.1);
             erosionEvaporation.wait();
         }
 
@@ -349,9 +353,11 @@ int main() {
 
         mainShader.set_int("tTextureSize", textureSize);
         mainShader.set_mat4("MVP", MVP);
-        mainShader.set_int("albedoHeightTexture", 0);
+        mainShader.set_int("albedoHeightSampler", 0);
         mainShader.set_int("normalSampler", 1);
         mainShader.set_int("waterTextureSampler", 2);
+        mainShader.set_int("waterFlowSampler", 3);
+        mainShader.set_int("sedimentSampler", 4);
 
         mainShader.set_vec3("cameraPos", position);
         mainShader.set_vec3("sunPosition", glm::vec3(_sun[0], _sun[1], _sun[2]));
@@ -371,8 +377,8 @@ int main() {
         waterDrawShader.set_vec3("sunPosition", glm::vec3(_sun[0], _sun[1], _sun[2]));
         waterDrawShader.set_int("albedoHeightSampler", 0);
         waterDrawShader.set_int("waterTextureSampler", 2);
+        waterDrawShader.set_int("waterFlowSampler", 3);
         waterDrawShader.set_int("sedimentSampler", 4);
-        /* waterDrawShader.set_int("waterFlowSampler", 3); */
 
         waterMesh.activate();
         glDrawElements(GL_PATCHES, waterMesh.indexCount, GL_UNSIGNED_INT, 0);
