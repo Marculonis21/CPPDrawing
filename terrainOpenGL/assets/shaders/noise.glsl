@@ -112,19 +112,20 @@ float pnoise(vec2 P, vec2 rep)
 
 float get_noise(vec2 coords) {
     float sum = 0;
-
     float ampSum = 0;
+
     for (int i = 0; i < octaves; i++)
     {
-        float amp = pow(0.5, i);
+        float amp = pow(0.5, float(i));
+        float freq = sFreq * pow(0.5, float(i));
+
+        sum += amp * cnoise(coords / freq);
         ampSum += amp;
-        float freq = sFreq / (i + 1);
-        float value = amp * ((cnoise(coords / freq) + 1.0) / 2.0);
-        sum += value;
     }
 
-    sum /= ampSum;
-    sum = pow(sum, 2)*2;
+    //sum = pow(sum, 2);
+    sum = sum / ampSum + 1;
+    sum = max(sum, 0);
 
     return sum;
 }
@@ -132,12 +133,13 @@ float get_noise(vec2 coords) {
 float get_height(vec2 coords)
 {
     // random choosen div
-    float warp_x = get_noise(vec2(coords.x / 2.0, coords.y/1.5));
-    float warp_y = get_noise(coords);
+    //float warp_x = get_noise(vec2(coords.x / 2.0, coords.y/1.5));
+    //float warp_y = get_noise(coords);
 
-    vec2 warp = vec2(warp_x, warp_y);
+    //vec2 warp = vec2(warp_x, warp_y);
 
-    return get_noise(coords + warp*100.0);
+    //return get_noise(coords + warp*100.0);
+    return get_noise(coords);
 }
 
 float hash(vec2 uv)
