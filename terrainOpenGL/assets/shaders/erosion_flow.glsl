@@ -55,8 +55,8 @@ void main()
     float a_R = (G * dh_R) / L_PIPE;
     float a_D = (G * dh_D) / L_PIPE;
 
-    //float A_PIPE = tHeight+wHeight * 100;
-    float A_PIPE = 60;
+    float A_PIPE = (wHeight+tHeight)*30;
+    //float A_PIPE = 50;
 
     // no slip - no water can flow out of the grid
     flow.r = coords.x == 0              ? 0 : max(0, flow.r + timeStep*A_PIPE*a_L);

@@ -124,7 +124,7 @@ float get_noise(vec2 coords) {
     }
 
     sum /= ampSum;
-    sum = pow(sum, 4) * 10;
+    sum = pow(sum, 2)*2;
 
     return sum;
 }
@@ -137,7 +137,7 @@ float get_height(vec2 coords)
 
     vec2 warp = vec2(warp_x, warp_y);
 
-    return get_noise(coords + warp*25.0);
+    return get_noise(coords + warp*100.0);
 }
 
 float hash(vec2 uv)

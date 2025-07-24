@@ -11,8 +11,6 @@ out vec4 color;
 
 // Values that stay constant for the whole mesh.
 layout(binding = 0) uniform sampler2D albedoHeightSampler;
-layout(binding = 2) uniform sampler2D waterTextureSampler;
-layout(binding = 3) uniform sampler2D waterFlowSampler;
 layout(binding = 4) uniform sampler2D sedimentSampler;
 
 uniform vec3 sunPosition;
@@ -54,41 +52,25 @@ vec4 get_shadows(vec4 color, vec3 startPos, vec3 sunPos)
     return color;
 }
 
-float l_max(float val) {
-    const float K_DMAX = 4.0;
-    return (val >= K_DMAX) ? 1.0 : (1.0 - (K_DMAX - val)/K_DMAX);
-}
-
 void main(){
 
     vec3 _color = COLOR;
     color = vec4(_color, 1);
 
-    //const float SIZE_MULTIPLIER = 8.0; // number of mesh quads
-
     color *= max(dot(NORMAL, normalize(sunPosition - POS)), 0.1);
 
     color = vec4(color.rgb, 1);
     //color = vec4(NORMAL, 1);
+    
+    //float alpha =  dot(NORMAL, vec3(0,1,0)); 
+    //if (alpha > 0.4) {
+    //    color = vec4(0,1,0,1);
+    //}
+    //else {
+    //    color = vec4(1,0,0,1);
+    //}
 
-    float alpha = dot(NORMAL, vec3(0,1,0)); // local tilt
-    vec4 waterTexture = texture(waterTextureSampler, UV);
-    vec2 wVel = waterTexture.xy;
-    float wHeightOld = waterTexture.z;
-    float transportCap = 1 * alpha * length(wVel) * l_max(wHeightOld); 
-    // color = vec4(vec3(transportCap), 1);
-
-    float sedAmount = texture(sedimentSampler, UV).w;
-
-    // if(transportCap > sedAmount) {
-    //     color = vec4(0,1,0,1);
-    // }
-    // else {
-    //     color = vec4(1,0,0,1);
-    // }
-
-    // color = vec4(0,1-sedAmount, 0, 1);
-    float diff = (sedAmount - transportCap);
-    float depositedSoil = clamp(0.01*diff, 0.0, waterTexture.w)*0.005; // ensures positive water height
-    color = vec4(depositedSoil*10, 0,0, 1);
+    //vec4 sedimentTexture = texture(sedimentSampler, UV);
+    //float hardness = sedimentTexture.x;
+    //color = vec4(hardness, 0,0,1);
 }

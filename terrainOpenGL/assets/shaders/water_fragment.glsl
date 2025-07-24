@@ -137,10 +137,9 @@ void main(){
     vec3 normal = get_normal(POS.xz/sizeOfMesh);
     color *= max(dot(normal, normalize(sunPosition - pos)), 0.75);
 
-    //color = vec4(texture(waterFlowSampler, UV).rgb*5, 1);
+    color = vec4(texture(waterFlowSampler, UV).rgb, 1);
     //vec2 waterVel = texture(waterTextureSampler, UV).xy;
-
-    // color = vec4(vec3(length(waterVel)), 1);
+    //color = vec4(waterVel, 0, 1);
 
     //float sed = texture(sedimentSampler, UV).w*10; 
     //color = sed > 0.01 ? vec4(1,0,0, 1) : vec4(0,1,0,1);

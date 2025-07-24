@@ -76,6 +76,8 @@ int main() {
     glDepthFunc(GL_LESS);
     glViewport(0, 0, screen_width, screen_height);
 
+    //glShadeModel(GL_SMOOTH);
+
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -121,7 +123,8 @@ int main() {
     glPatchParameteri(GL_PATCH_VERTICES, 4);
 
     // create meshes
-    Mesh terrainMesh(8, 1, true);
+    Mesh terrainMesh(32, 0.25, true);
+    //Mesh terrainMesh(8, 1, true);
     /* Mesh seaLevelMesh(100, 0.1, false); */
     Mesh waterMesh(8, 1, true);
 
@@ -324,7 +327,7 @@ int main() {
             erosionDeposition.set_float("timeStep", erosionTimeStep);
 
             erosionDeposition.set_float("K_C", 1.0);
-            erosionDeposition.set_float("ALPHA_MIN", 10);
+            erosionDeposition.set_float("ALPHA_MIN", 0.4);
             erosionDeposition.set_float("K_DMAX", 1.0);
             erosionDeposition.set_float("K_S", 0.05);
             erosionDeposition.set_float("K_D", 0.01);
