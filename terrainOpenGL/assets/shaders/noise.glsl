@@ -124,7 +124,7 @@ float get_noise(vec2 coords) {
     }
 
     //sum = pow(sum, 2);
-    sum = sum / ampSum + 1;
+    //sum = sum / ampSum + 1;
     sum = max(sum, 0);
 
     return sum;

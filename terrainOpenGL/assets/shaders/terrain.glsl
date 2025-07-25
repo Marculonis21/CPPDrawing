@@ -1,5 +1,4 @@
 #version 450 core
-
 layout(local_size_x = 32, local_size_y = 32, local_size_z = 1) in;
 
 layout(rgba32f, binding = 0) uniform image2D albedoHeightSampler;
@@ -13,10 +12,9 @@ uniform float grassLevel;
 
 uniform vec3 sunPosition;
 
-const vec3 sandColor  = vec3(1.0, 0.98, 0.83);
-const vec3 grassColor = vec3(0.44, 0.75, 0.28);
-const vec3 rockColor  = vec3(0.33,0.35,0.36);
-
+const vec3 sandColor = vec3(226/255.0, 202/255.0, 118/255.0);
+const vec3 grassColor = vec3(60/255.0, 65/255.0, 3/255.0);
+const vec3 rockColor = vec3(130/255.0, 131/255.0, 133/255.0);
 
 float get_height(vec2 coords)
 {
@@ -65,8 +63,13 @@ float hash(vec2 uv)
 /*     return color; */
 /* } */
 
-vec3 get_color(vec2 coords)
+vec3 get_color(vec2 coords, vec3 normal)
 {
+    float slope = 1 - normal.y;
+
+    float grassW = 1 - clamp((slope - 0.5)/ 0.5, 0.0, 1.0);
+    return grassColor * grassW + rockColor * (1-grassW);
+
     vec3 color = vec3(0);
     float height = get_height(coords);
 
@@ -88,8 +91,6 @@ vec3 get_color(vec2 coords)
       }
     }
 
-    vec3 sunPos = vec3(sunPosition.x, sunPosition.y, sunPosition.z);
-    // color = get_shadows(color, vec3(uv.x, height, uv.y), sunPos);
     return color;
 }
 
@@ -150,8 +151,8 @@ void main()
 {
     vec2 coords = gl_GlobalInvocationID.xy;
 
-    vec4 albedoHeight = vec4(get_color(coords).rgb, get_height(coords));
     vec3 normal = _get_normal(coords);
+    vec4 albedoHeight = vec4(get_color(coords, normal).rgb, get_height(coords));
 
     imageStore(albedoHeightSampler, ivec2(coords), albedoHeight);
     imageStore(normalSampler, ivec2(coords), vec4(normal, 0));

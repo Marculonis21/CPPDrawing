@@ -56,12 +56,39 @@ float get_height(vec2 uv)
 
 #define M_PI 3.1415926535897932384626433832795
 
-float NDF_GGX(vec3 N, vec3 H, float roughness) {
-    float NH2 = dot(N,H)*dot(N,H);
-    float rougness2 = roughness*roughness;
-    float bracket = NH2 * (rougness2 - 1) + 1;
+float GGX_Distribution(vec3 N, vec3 H, float a)
+{
+    float a2     = a*a;
+    float NdotH  = max(dot(N, H), 0.0);
+    float NdotH2 = NdotH*NdotH;
+	
+    float nom    = a2;
+    float denom  = (NdotH2 * (a2 - 1.0) + 1.0);
+    denom        = M_PI * denom * denom;
+	
+    return nom / denom;
+}
 
-    return rougness2/(M_PI * bracket * bracket);
+float GeometrySchlickGGX(float NdotV, float a)
+{
+    float nom   = NdotV;
+    float denom = NdotV * (1.0 - a) + a;
+	
+    return nom / denom;
+}
+  
+float GeometrySmith(vec3 N, vec3 V, vec3 L, float a)
+{
+    float NdotV = max(dot(N, V), 0.0);
+    float NdotL = max(dot(N, L), 0.0);
+    float ggx1 = GeometrySchlickGGX(NdotV, a);
+    float ggx2 = GeometrySchlickGGX(NdotL, a);
+	
+    return ggx1 * ggx2;
+}
+
+vec3 FresnelSchlick(float cosT, vec3 F0) {
+    return F0 + (1.0 - F0) * pow(1.0 - cosT, 5);
 }
 
 void main(){
@@ -73,18 +100,46 @@ void main(){
     //albedo *= max(dot(NORMAL, normalize(sunDirection - POS)), 0.1);
 
     float metallic = 0.0;
-    float rougness = 0.8;
+    float roughness = 0.98;
+    float ao = 1.0;
 
-    vec3 N = NORMAL;
+    vec3 N = normalize(NORMAL);
     vec3 V = normalize(cameraPos - _pos);
     vec3 L = normalize(sunDirection);
     vec3 H = normalize(V+L);
-    vec3 F0 = mix(vec3(0.04), albedo, metallic);
-    float NDF = NDF_GGX(N, H, rougness);
+    //vec3 F0 = mix(vec3(0.04), albedo, metallic);
 
-    color = vec4(albedo, 1);
-    color = vec4(vec3(NDF), 1);
+    vec3 lightColor = vec3(1, 0.949, 0.906);
+
+    float NDF = GGX_Distribution(N, H, roughness);
+    float G = GeometrySmith(N, V, L, roughness);
+    //color = vec4(vec3(G), 1);
+    //return;
+
+    const vec3 IOR_SAND = vec3(1.5);
+    vec3 F0 = abs((1.0 - IOR_SAND)/(1.0 + IOR_SAND));
+    F0 = vec3(F0*F0);
+    F0 = mix(F0, albedo, metallic);
+
+    vec3 F = FresnelSchlick(dot(H, V), F0);
+    vec3 kS = F;
+    vec3 kD = vec3(1.0) - kS;
+
+    vec3 numerator = NDF*G*F;
+    float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0);
+    vec3 specular = numerator / max(denominator, 0.001);
+
+    vec3 diffuse = kD * albedo / M_PI;
+
+    vec3 lighting = (diffuse + specular) * max(dot(N, L), 0.0) * lightColor;
+    vec3 ambient = vec3(0.03) * albedo * ao;
     
+    vec3 _color = ambient + lighting;
+    _color = _color / (_color + vec3(1.0));
+    _color = pow(_color, vec3(1.0/2.2));
+    color = vec4(_color, 1);
+
+
     //float alpha =  dot(NORMAL, vec3(0,1,0)); 
     //if (alpha > 0.4) {
     //    color = vec4(0,1,0,1);

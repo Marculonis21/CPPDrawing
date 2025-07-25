@@ -174,7 +174,7 @@ int main() {
     int nbFrames = 0;
 
     float _sun[3];
-    glm::vec3 sunPosition(-50, 100, -50);
+    glm::vec3 sunPosition(1, 1, 1);
     _sun[0] = sunPosition.x;
     _sun[1] = sunPosition.y;
     _sun[2] = sunPosition.z;
