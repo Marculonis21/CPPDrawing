@@ -39,7 +39,7 @@ const uint screen_height = 1024;
 int num_frames{0};
 float last_time{0.0f};
 
-#define VSYNCON 1
+#define VSYNCON 0
 
 int main() {
 
@@ -127,6 +127,7 @@ int main() {
     //Mesh terrainMesh(8, 1, true);
     /* Mesh seaLevelMesh(100, 0.1, false); */
     Mesh waterMesh(8, 1, true);
+    //Mesh waterMesh(32, 0.25, true);
 
     // perlin and textures parameters
     float sandLevel = 0.1;
@@ -140,7 +141,7 @@ int main() {
     const int waterTextureSize = 2048;
     const float tScalingF = (float)textureSize/waterTextureSize;
 
-    const float erosionTimeStep = 0.005;
+    const float erosionTimeStep = 0.0025;
 
     Texture2D albedoHeightTexture(textureSize, textureSize, 0, GL_RGBA32F);
     Texture2D normalTexture(textureSize, textureSize, 1, GL_RGBA32F);
@@ -363,7 +364,7 @@ int main() {
         mainShader.set_int("sedimentSampler", 4);
 
         mainShader.set_vec3("cameraPos", position);
-        mainShader.set_vec3("sunPosition", glm::vec3(_sun[0], _sun[1], _sun[2]));
+        mainShader.set_vec3("sunDirection", glm::vec3(_sun[0], _sun[1], _sun[2]));
         mainShader.set_float("waterLevel", waterLevel);
         mainShader.set_float("sandLevel", sandLevel);
         mainShader.set_float("grassLevel", grassLevel);
@@ -377,14 +378,14 @@ int main() {
         /* waterDrawShader.set_int("tTextureSize", textureSize); */
         waterDrawShader.set_mat4("MVP", MVP);
         waterDrawShader.set_vec3("cameraPos", position);
-        waterDrawShader.set_vec3("sunPosition", glm::vec3(_sun[0], _sun[1], _sun[2]));
+        waterDrawShader.set_vec3("sunDirection", glm::vec3(_sun[0], _sun[1], _sun[2]));
         waterDrawShader.set_int("albedoHeightSampler", 0);
         waterDrawShader.set_int("waterTextureSampler", 2);
         waterDrawShader.set_int("waterFlowSampler", 3);
         waterDrawShader.set_int("sedimentSampler", 4);
 
-        waterMesh.activate();
-        glDrawElements(GL_PATCHES, waterMesh.indexCount, GL_UNSIGNED_INT, 0);
+        //waterMesh.activate();
+        //glDrawElements(GL_PATCHES, waterMesh.indexCount, GL_UNSIGNED_INT, 0);
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

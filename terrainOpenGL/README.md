@@ -12,6 +12,10 @@ playground similar to [From Dust](https://en.wikipedia.org/wiki/From_Dust).
 
 ![main](imgs/11.png)
 
+### Simulated Erosion & Starting with Realistic Materials (PBR)
+![pndf1](imgs/NDF_terrain_after.png)
+![pndf2](imgs/NDF_terrain_before.png)
+
 ### Simulated Erosion (normal maps) - latest update
 ![p1](imgs/erosion_normals1.png)
 ![p1](imgs/erosion_normals2.png)
