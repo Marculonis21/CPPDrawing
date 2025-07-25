@@ -26,6 +26,8 @@ to try to help resolve your issues if you need help).
 <p align="center">
   <img src="./terrainOpenGL/imgs/11.png" width=400/>
   <img src="./terrainOpenGL/imgs/erosion_normals1.png" width=400/>
+  <img src="./terrainOpenGL/imgs/NDF_terrain_after.png" width=400/>
+  <img src="./terrainOpenGL/imgs/NDF_terrain_before.png" width=400/>
 </p>
 
 #
