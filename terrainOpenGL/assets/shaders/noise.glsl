@@ -124,21 +124,14 @@ float get_noise(vec2 coords) {
     }
 
     //sum = pow(sum, 2);
-    //sum = sum / ampSum + 1;
-    sum = max(sum, 0);
+    sum = sum / ampSum + 1;
+    sum = max(sum, 0.5);
 
     return sum;
 }
 
 float get_height(vec2 coords)
 {
-    // random choosen div
-    //float warp_x = get_noise(vec2(coords.x / 2.0, coords.y/1.5));
-    //float warp_y = get_noise(coords);
-
-    //vec2 warp = vec2(warp_x, warp_y);
-
-    //return get_noise(coords + warp*100.0);
     return get_noise(coords);
 }
 

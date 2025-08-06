@@ -91,30 +91,31 @@ vec3 FresnelSchlick(float cosT, vec3 F0) {
     return F0 + (1.0 - F0) * pow(1.0 - cosT, 5);
 }
 
+uint pcg_hash(uint state)
+{
+    state = state * 747796405u + 2891336453u;
+    uint word = ((state >> ((state >> 28u) + 4u)) ^ state) * 277803737u;
+    return (word >> 22u) ^ word;
+}
+
 void main(){
 
-    vec3 _pos = POS/8;
-
+    vec3 pos = POS/8;
     vec3 albedo = COLOR;
-
-    //albedo *= max(dot(NORMAL, normalize(sunDirection - POS)), 0.1);
-
     float metallic = 0.0;
     float roughness = 0.98;
     float ao = 1.0;
 
     vec3 N = normalize(NORMAL);
-    vec3 V = normalize(cameraPos - _pos);
+    vec3 V = normalize(cameraPos - pos);
+
     vec3 L = normalize(sunDirection);
     vec3 H = normalize(V+L);
-    //vec3 F0 = mix(vec3(0.04), albedo, metallic);
 
     vec3 lightColor = vec3(1, 0.949, 0.906);
 
     float NDF = GGX_Distribution(N, H, roughness);
     float G = GeometrySmith(N, V, L, roughness);
-    //color = vec4(vec3(G), 1);
-    //return;
 
     const vec3 IOR_SAND = vec3(1.5);
     vec3 F0 = abs((1.0 - IOR_SAND)/(1.0 + IOR_SAND));
@@ -138,17 +139,4 @@ void main(){
     _color = _color / (_color + vec3(1.0));
     _color = pow(_color, vec3(1.0/2.2));
     color = vec4(_color, 1);
-
-
-    //float alpha =  dot(NORMAL, vec3(0,1,0)); 
-    //if (alpha > 0.4) {
-    //    color = vec4(0,1,0,1);
-    //}
-    //else {
-    //    color = vec4(1,0,0,1);
-    //}
-
-    //vec4 sedimentTexture = texture(sedimentSampler, UV);
-    //float hardness = sedimentTexture.x;
-    //color = vec4(hardness, 0,0,1);
 }

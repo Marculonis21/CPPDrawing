@@ -70,6 +70,7 @@ int main() {
 
     // Dark blue background
     glClearColor(0.1f, 0.1f, 0.1f, 0.0f);
+    /* glClearColor(0.5,0.7,1.0,1); */
 
     // Enable depth test
     glEnable(GL_DEPTH_TEST);
@@ -126,7 +127,7 @@ int main() {
     Mesh terrainMesh(32, 0.25, true);
     //Mesh terrainMesh(8, 1, true);
     /* Mesh seaLevelMesh(100, 0.1, false); */
-    Mesh waterMesh(8, 1, true);
+    Mesh waterMesh(32, 0.25, true);
     //Mesh waterMesh(32, 0.25, true);
 
     // perlin and textures parameters
@@ -348,7 +349,7 @@ int main() {
             erosionEvaporation.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
             erosionEvaporation.set_int("waterTextureSampler", 2);
             erosionEvaporation.set_float("timeStep", erosionTimeStep);
-            erosionEvaporation.set_float("evaporationConst", 0.1);
+            erosionEvaporation.set_float("evaporationConst", 0.01);
             erosionEvaporation.wait();
         }
 
@@ -384,8 +385,8 @@ int main() {
         waterDrawShader.set_int("waterFlowSampler", 3);
         waterDrawShader.set_int("sedimentSampler", 4);
 
-        //waterMesh.activate();
-        //glDrawElements(GL_PATCHES, waterMesh.indexCount, GL_UNSIGNED_INT, 0);
+        waterMesh.activate();
+        glDrawElements(GL_PATCHES, waterMesh.indexCount, GL_UNSIGNED_INT, 0);
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
