@@ -77,7 +77,7 @@ int main() {
 
     // Enable depth test
     glEnable(GL_DEPTH_TEST);
-    /* glDepthFunc(GL_LESS); */
+    glDepthFunc(GL_LESS);
     glViewport(0, 0, screen_width, screen_height);
 
     //glShadeModel(GL_SMOOTH);

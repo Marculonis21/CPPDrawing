@@ -10,7 +10,10 @@
 Playing around with noise maps. Really interested in trying to make terrain
 playground similar to [From Dust](https://en.wikipedia.org/wiki/From_Dust).
 
-![main](imgs/11.png)
+<!-- ![main](imgs/11.png) -->
+
+### Textured terrain -- PBR textures
+![textured](imgs/textured.png)
 
 ### Simulated Erosion & Starting with Realistic Materials (PBR)
 ![pndf1](imgs/NDF_terrain_after.png)
