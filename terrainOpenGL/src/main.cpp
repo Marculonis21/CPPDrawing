@@ -192,6 +192,105 @@ int main() {
     _sun[1] = sunPosition.y;
     _sun[2] = sunPosition.z;
 
+    // shader prep textures
+    albedoHeightTexture.Activate();
+    normalTexture.Activate();
+    waterTexture.Activate();
+    waterFlowTexture.Activate();
+    sedimentTexture.Activate();
+
+    rock_face_albedo.Activate();
+    rock_face_arm.Activate();
+    rock_face_normal.Activate();
+
+    terrain_albedo.Activate();
+    terrain_arm.Activate();
+    terrain_normal.Activate();
+
+    // shader prep
+    noiseGenerator.useShader(textureSize / 32, textureSize / 32, 1);
+    noiseGenerator.set_int("albedoHeightSampler", 0);
+    noiseGenerator.set_int("waterTextureSampler", 2);
+    noiseGenerator.set_int("waterFlowSampler", 3);
+    noiseGenerator.set_int("sedimentSampler", 4);
+
+    terrainShader.useShader(textureSize / 32, textureSize / 32, 1);
+    terrainShader.set_int("tTextureSize", textureSize);
+    terrainShader.set_int("albedoHeightSampler", 0);
+    terrainShader.set_int("normalSampler", 1);
+
+    erosionSource.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
+    erosionSource.set_int("waterTextureSampler", 2);
+    erosionSource.set_float("timeStep", erosionTimeStep);
+
+    erosionFlow.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
+    erosionFlow.set_int("tTextureSize", textureSize);
+    erosionFlow.set_int("wTextureSize", waterTextureSize);
+    erosionFlow.set_int("albedoHeightSampler", 0);
+    erosionFlow.set_int("waterTextureSampler", 2);
+    erosionFlow.set_int("waterFlowSampler", 3);
+    erosionFlow.set_float("timeStep", erosionTimeStep);
+
+    erosionFlowVelocityField.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
+    erosionFlowVelocityField.set_int("wTextureSize", waterTextureSize);
+    erosionFlowVelocityField.set_int("waterTextureSampler", 2);
+    erosionFlowVelocityField.set_int("waterFlowSampler", 3);
+    erosionFlowVelocityField.set_float("timeStep", erosionTimeStep);
+    erosionFlowVelocityField.wait();
+
+    erosionDeposition.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
+    erosionDeposition.set_int("tTextureSize", textureSize);
+    erosionDeposition.set_int("wTextureSize", waterTextureSize);
+    erosionDeposition.set_float("tScalingF", tScalingF);
+    erosionDeposition.set_int("albedoHeightSampler", 0);
+    erosionDeposition.set_int("normalSampler", 1);
+    erosionDeposition.set_int("waterTextureSampler", 2);
+    erosionDeposition.set_int("waterFlowSampler", 3);
+    erosionDeposition.set_int("sedimentSampler", 4);
+    erosionDeposition.set_float("timeStep", erosionTimeStep);
+    erosionDeposition.set_float("K_C", 1.0);
+    erosionDeposition.set_float("ALPHA_MIN", 0.4);
+    erosionDeposition.set_float("K_DMAX", 1.0);
+    erosionDeposition.set_float("K_S", 0.05);
+    erosionDeposition.set_float("K_D", 0.01);
+    erosionDeposition.set_float("K_H", 0.01);
+    erosionDeposition.set_float("K_H_MIN", 0.1);
+
+    erosionTransport.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
+    erosionTransport.set_int("tTextureSize", textureSize);
+    erosionTransport.set_int("wTextureSize", waterTextureSize);
+    erosionTransport.set_int("waterTextureSampler", 2);
+    erosionTransport.set_int("waterFlowSampler", 3);
+    erosionTransport.set_int("sedimentSampler", 4);
+    erosionTransport.set_float("timeStep", erosionTimeStep);
+
+    erosionEvaporation.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
+    erosionEvaporation.set_int("waterTextureSampler", 2);
+    erosionEvaporation.set_float("timeStep", erosionTimeStep);
+    erosionEvaporation.set_float("evaporationConst", 0.01);
+
+    mainShader.useShader();
+    mainShader.set_int("tTextureSize", textureSize);
+    mainShader.set_int("albedoHeightSampler", 0);
+    mainShader.set_int("normalSampler", 1);
+    mainShader.set_int("waterTextureSampler", 2);
+    mainShader.set_int("waterFlowSampler", 3);
+    mainShader.set_int("sedimentSampler", 4);
+    mainShader.set_int("rock_face_albedo_s", 5);
+    mainShader.set_int("rock_face_arm_s", 6);
+    mainShader.set_int("rock_face_normal_s", 7);
+    mainShader.set_int("terrain_albedo_s", 8);
+    mainShader.set_int("terrain_arm_s", 9);
+    mainShader.set_int("terrain_normal_s", 10);
+
+    waterDrawShader.useShader();
+    waterDrawShader.set_int("albedoHeightSampler", 0);
+    waterDrawShader.set_int("waterTextureSampler", 2);
+    waterDrawShader.set_int("waterFlowSampler", 3);
+    waterDrawShader.set_int("sedimentSampler", 4);
+
+
+
     while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
            glfwWindowShouldClose(window) == 0) {
         // FPS COUNTER
@@ -290,31 +389,20 @@ int main() {
 
         if (reloadTerrain) {
             noiseGenerator.useShader(textureSize / 32, textureSize / 32, 1);
-            noiseGenerator.set_int("albedoHeightSampler", 0);
-            noiseGenerator.set_int("waterTextureSampler", 2);
-            noiseGenerator.set_int("waterFlowSampler", 3);
-            noiseGenerator.set_int("sedimentSampler", 4);
             noiseGenerator.set_int("octaves", int(perlinOctaves));
             noiseGenerator.set_float("sFreq", perlinFrequency);
-
             noiseGenerator.wait();
         }
 
         terrainShader.useShader(textureSize / 32, textureSize / 32, 1);
-        terrainShader.set_int("tTextureSize", textureSize);
-        terrainShader.set_int("albedoHeightSampler", 0);
-        terrainShader.set_int("normalSampler", 1);
         terrainShader.set_float("waterLevel", waterLevel);
         terrainShader.set_float("sandLevel", sandLevel);
         terrainShader.set_float("grassLevel", grassLevel);
-        terrainShader.set_vec3("sunPosition",
-                               glm::vec3(_sun[0], _sun[1], _sun[2]));
+        terrainShader.set_vec3("sunPosition", glm::vec3(_sun[0], _sun[1], _sun[2]));
         terrainShader.wait();
 
         if (addWater) {
             erosionSource.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
-            erosionSource.set_int("waterTextureSampler", 2);
-            erosionSource.set_float("timeStep", erosionTimeStep);
             erosionSource.wait();
         }
         else {
@@ -322,77 +410,24 @@ int main() {
             /* https://harald.ist.org/paste/erosion.pdf */
             // erosion process
             erosionFlow.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
-            erosionFlow.set_int("tTextureSize", textureSize);
-            erosionFlow.set_int("wTextureSize", waterTextureSize);
-            erosionFlow.set_int("albedoHeightSampler", 0);
-            erosionFlow.set_int("waterTextureSampler", 2);
-            erosionFlow.set_int("waterFlowSampler", 3);
-            erosionFlow.set_float("timeStep", erosionTimeStep);
             erosionFlow.wait();
 
             erosionFlowVelocityField.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
-            erosionFlowVelocityField.set_int("wTextureSize", waterTextureSize);
-            erosionFlowVelocityField.set_int("waterTextureSampler", 2);
-            erosionFlowVelocityField.set_int("waterFlowSampler", 3);
-            erosionFlowVelocityField.set_float("timeStep", erosionTimeStep);
             erosionFlowVelocityField.wait();
 
             erosionDeposition.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
-            erosionDeposition.set_int("tTextureSize", textureSize);
-            erosionDeposition.set_int("wTextureSize", waterTextureSize);
-            erosionDeposition.set_float("tScalingF", tScalingF);
-            erosionDeposition.set_int("albedoHeightSampler", 0);
-            erosionDeposition.set_int("normalSampler", 1);
-            erosionDeposition.set_int("waterTextureSampler", 2);
-            erosionDeposition.set_int("waterFlowSampler", 3);
-            erosionDeposition.set_int("sedimentSampler", 4);
-            erosionDeposition.set_float("timeStep", erosionTimeStep);
-
-            erosionDeposition.set_float("K_C", 1.0);
-            erosionDeposition.set_float("ALPHA_MIN", 0.4);
-            erosionDeposition.set_float("K_DMAX", 1.0);
-            erosionDeposition.set_float("K_S", 0.05);
-            erosionDeposition.set_float("K_D", 0.01);
-            erosionDeposition.set_float("K_H", 0.01);
-            erosionDeposition.set_float("K_H_MIN", 0.1);
             erosionDeposition.wait();
 
             erosionTransport.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
-            erosionTransport.set_int("tTextureSize", textureSize);
-            erosionTransport.set_int("wTextureSize", waterTextureSize);
-            erosionTransport.set_int("waterTextureSampler", 2);
-            erosionTransport.set_int("waterFlowSampler", 3);
-            erosionTransport.set_int("sedimentSampler", 4);
-            erosionTransport.set_float("timeStep", erosionTimeStep);
             erosionTransport.wait();
 
             erosionEvaporation.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
-            erosionEvaporation.set_int("waterTextureSampler", 2);
-            erosionEvaporation.set_float("timeStep", erosionTimeStep);
-            erosionEvaporation.set_float("evaporationConst", 0.01);
             erosionEvaporation.wait();
         }
 
         // terrain generation
         mainShader.useShader();
-
-        mainShader.set_int("tTextureSize", textureSize);
         mainShader.set_mat4("MVP", MVP);
-        mainShader.set_int("albedoHeightSampler", 0);
-        mainShader.set_int("normalSampler", 1);
-        mainShader.set_int("waterTextureSampler", 2);
-        mainShader.set_int("waterFlowSampler", 3);
-        mainShader.set_int("sedimentSampler", 4);
-
-        mainShader.set_int("rock_face_albedo_s", 5);
-        mainShader.set_int("rock_face_arm_s", 6);
-        mainShader.set_int("rock_face_normal_s", 7);
-
-        mainShader.set_int("terrain_albedo_s", 8);
-        mainShader.set_int("terrain_arm_s", 9);
-        mainShader.set_int("terrain_normal_s", 10);
-
-
         mainShader.set_vec3("cameraPos", position);
         mainShader.set_vec3("sunDirection", glm::vec3(_sun[0], _sun[1], _sun[2]));
         mainShader.set_float("waterLevel", waterLevel);
@@ -405,14 +440,9 @@ int main() {
         glDrawElements(GL_PATCHES, terrainMesh.indexCount, GL_UNSIGNED_INT, 0);
 
         waterDrawShader.useShader();
-        /* waterDrawShader.set_int("tTextureSize", textureSize); */
         waterDrawShader.set_mat4("MVP", MVP);
         waterDrawShader.set_vec3("cameraPos", position);
         waterDrawShader.set_vec3("sunDirection", glm::vec3(_sun[0], _sun[1], _sun[2]));
-        waterDrawShader.set_int("albedoHeightSampler", 0);
-        waterDrawShader.set_int("waterTextureSampler", 2);
-        waterDrawShader.set_int("waterFlowSampler", 3);
-        waterDrawShader.set_int("sedimentSampler", 4);
 
         waterMesh.activate();
         glDrawElements(GL_PATCHES, waterMesh.indexCount, GL_UNSIGNED_INT, 0);
