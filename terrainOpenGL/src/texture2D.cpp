@@ -1,6 +1,11 @@
 #include "texture2D.hpp"
+#include <GL/gl.h>
+#include <cassert>
+#include <exception>
 #include <iostream>
+#include <string>
 #include <vector>
+#include "stb/stb_image.h"
 
 Texture2D::Texture2D(GLsizei width, GLsizei height, GLuint slot, GLenum format)
 {
@@ -28,10 +33,34 @@ Texture2D::Texture2D(GLsizei width, GLsizei height, GLuint slot, GLenum format)
     AddData(GL_RGBA, GL_UNSIGNED_BYTE, tData.data());
 }
 
+Texture2D::Texture2D(const std::string &path, GLuint slot, GLenum pixelFormat) {
+    int _width, _height, _nrChannels;
+    unsigned char *data = stbi_load(path.c_str(), &_width, &_height, &_nrChannels, 0);
+    std::cout << "Loading texture ... " + path << std::endl;
+    assert(data);
+
+    this->width = _width;
+    this->height = _height;
+    this->format = GL_RGBA32F;
+    this->bindSlot = slot;
+
+    glCreateTextures(GL_TEXTURE_2D, 1, &textureID);
+    glTextureParameteri(textureID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTextureParameteri(textureID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTextureParameteri(textureID, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTextureParameteri(textureID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    glTextureStorage2D(textureID, 1, format, width, height);
+    glBindImageTexture(slot, textureID, 0, GL_FALSE, 0, GL_READ_WRITE, GL_RGBA32F);
+
+    AddData(pixelFormat, GL_UNSIGNED_BYTE, data);
+}
+
 Texture2D::~Texture2D() noexcept
 {
     glDeleteTextures(1, &textureID);
 }
+
 
 void Texture2D::AddData(GLenum pixelFormat, GLenum type, void* pixels)
 {

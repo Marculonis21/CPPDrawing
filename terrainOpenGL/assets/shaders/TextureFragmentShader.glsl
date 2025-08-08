@@ -13,6 +13,14 @@ out vec4 color;
 layout(binding = 0) uniform sampler2D albedoHeightSampler;
 layout(binding = 4) uniform sampler2D sedimentSampler;
 
+layout(binding = 5) uniform sampler2D rock_face_albedo_s;
+layout(binding = 6) uniform sampler2D rock_face_arm_s;
+layout(binding = 7) uniform sampler2D rock_face_normal_s;
+
+layout(binding = 8) uniform sampler2D  terrain_albedo_s;
+layout(binding = 9) uniform sampler2D  terrain_arm_s;
+layout(binding = 10) uniform sampler2D terrain_normal_s;
+
 uniform vec3 cameraPos;
 uniform vec3 sunDirection;
 uniform float waterLevel;
@@ -26,7 +34,7 @@ float get_height(vec2 uv)
 //{
 //    //what about doing shadows the opposite way?? FROM SUN TO THE TERRAIN -
 //    //might be better for the occlusion
-//    
+//
 //    const float maxSteps = 200;
 //    const float minStep = 0.0025;
 //
@@ -58,32 +66,32 @@ float get_height(vec2 uv)
 
 float GGX_Distribution(vec3 N, vec3 H, float a)
 {
-    float a2     = a*a;
-    float NdotH  = max(dot(N, H), 0.0);
-    float NdotH2 = NdotH*NdotH;
-	
-    float nom    = a2;
-    float denom  = (NdotH2 * (a2 - 1.0) + 1.0);
-    denom        = M_PI * denom * denom;
-	
+    float a2 = a * a;
+    float NdotH = max(dot(N, H), 0.0);
+    float NdotH2 = NdotH * NdotH;
+
+    float nom = a2;
+    float denom = (NdotH2 * (a2 - 1.0) + 1.0);
+    denom = M_PI * denom * denom;
+
     return nom / denom;
 }
 
 float GeometrySchlickGGX(float NdotV, float a)
 {
-    float nom   = NdotV;
+    float nom = NdotV;
     float denom = NdotV * (1.0 - a) + a;
-	
+
     return nom / denom;
 }
-  
+
 float GeometrySmith(vec3 N, vec3 V, vec3 L, float a)
 {
     float NdotV = max(dot(N, V), 0.0);
     float NdotL = max(dot(N, L), 0.0);
     float ggx1 = GeometrySchlickGGX(NdotV, a);
     float ggx2 = GeometrySchlickGGX(NdotL, a);
-	
+
     return ggx1 * ggx2;
 }
 
@@ -98,19 +106,48 @@ uint pcg_hash(uint state)
     return (word >> 22u) ^ word;
 }
 
-void main(){
+float get_grassW(vec3 normal) {
+    float slope = 1 - normal.y;
 
-    vec3 pos = POS/8;
-    vec3 albedo = COLOR;
-    float metallic = 0.0;
-    float roughness = 0.98;
-    float ao = 1.0;
+    float grassW = 1 - clamp((slope - 0.5)/ 0.5, 0.0, 1.0);
+    return 1-grassW;
+}
 
-    vec3 N = normalize(NORMAL);
+void main() {
+
+    vec3 pos = POS / 8;
+    vec3 albedo;
+    vec3 normal;
+    float metallic;
+    float roughness;
+    float ao;
+
+    float UV_SCALE = 10;
+
+    vec3 rock_albedo     = texture(rock_face_albedo_s, UV*UV_SCALE*4).rgb;
+    float rock_ao        = texture(rock_face_arm_s   , UV*UV_SCALE*4).r;
+    float rock_roughness = texture(rock_face_arm_s   , UV*UV_SCALE*4).g;
+    float rock_metallic  = texture(rock_face_arm_s   , UV*UV_SCALE*4).b;
+    vec3 rock_normal     = texture(rock_face_normal_s, UV*UV_SCALE*4).rgb;
+                                                     
+    vec3 terrain_albedo     = texture(terrain_albedo_s, UV*UV_SCALE).rgb;
+    float terrain_ao        = texture(terrain_arm_s   , UV*UV_SCALE).r;
+    float terrain_roughness = texture(terrain_arm_s   , UV*UV_SCALE).g;
+    float terrain_metallic  = texture(terrain_arm_s   , UV*UV_SCALE).b;
+    vec3 terrain_normal     = texture(terrain_normal_s, UV*UV_SCALE).rgb;
+
+    float grassW = get_grassW(NORMAL);
+    albedo = mix(terrain_albedo, rock_albedo, grassW);
+    normal = mix(NORMAL+terrain_normal, NORMAL+rock_normal, grassW);
+    metallic = mix(terrain_metallic, rock_metallic, grassW);
+    roughness = mix(terrain_roughness, rock_roughness, grassW);
+    ao = mix(terrain_ao, rock_ao, grassW);
+
+    vec3 N = normalize(normal);
     vec3 V = normalize(cameraPos - pos);
 
     vec3 L = normalize(sunDirection);
-    vec3 H = normalize(V+L);
+    vec3 H = normalize(V + L);
 
     vec3 lightColor = vec3(1, 0.949, 0.906);
 
@@ -118,15 +155,15 @@ void main(){
     float G = GeometrySmith(N, V, L, roughness);
 
     const vec3 IOR_SAND = vec3(1.5);
-    vec3 F0 = abs((1.0 - IOR_SAND)/(1.0 + IOR_SAND));
-    F0 = vec3(F0*F0);
+    vec3 F0 = abs((1.0 - IOR_SAND) / (1.0 + IOR_SAND));
+    F0 = vec3(F0 * F0);
     F0 = mix(F0, albedo, metallic);
 
     vec3 F = FresnelSchlick(dot(H, V), F0);
     vec3 kS = F;
     vec3 kD = vec3(1.0) - kS;
 
-    vec3 numerator = NDF*G*F;
+    vec3 numerator = NDF * G * F;
     float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0);
     vec3 specular = numerator / max(denominator, 0.001);
 
@@ -134,9 +171,9 @@ void main(){
 
     vec3 lighting = (diffuse + specular) * max(dot(N, L), 0.0) * lightColor;
     vec3 ambient = vec3(0.03) * albedo * ao;
-    
+
     vec3 _color = ambient + lighting;
     _color = _color / (_color + vec3(1.0));
-    _color = pow(_color, vec3(1.0/2.2));
+    _color = pow(_color, vec3(1.0 / 2.2));
     color = vec4(_color, 1);
 }

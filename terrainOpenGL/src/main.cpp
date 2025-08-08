@@ -31,6 +31,9 @@
 #include "shader.hpp"
 #include "texture2D.hpp"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb/stb_image.h"
+
 extern glm::vec3 position;
 
 const uint screen_width = 1024;
@@ -151,6 +154,15 @@ int main() {
     Texture2D waterFlowTexture(waterTextureSize,waterTextureSize, 3, GL_RGBA32F);
     Texture2D sedimentTexture(waterTextureSize,waterTextureSize, 4, GL_RGBA32F);
 
+    // Load textures
+    Texture2D rock_face_albedo("assets/textures/rock_face_03_1k/rock_face_03_diff_1k.png", 5, GL_RGB);
+    Texture2D rock_face_arm("assets/textures/rock_face_03_1k/rock_face_03_arm_1k.png", 6, GL_RGB);
+    Texture2D rock_face_normal("assets/textures/rock_face_03_1k/rock_face_03_nor_gl_1k.png", 7, GL_RGB);
+
+    Texture2D terrain_albedo("assets/textures/rocky_terrain_02_1k/rocky_terrain_02_diff_1k.png", 8);
+    Texture2D terrain_arm("assets/textures/rocky_terrain_02_1k/rocky_terrain_02_arm_1k.png", 9, GL_RGB);
+    Texture2D terrain_normal("assets/textures/rocky_terrain_02_1k/rocky_terrain_02_nor_gl_1k.png", 10);
+
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO io = ImGui::GetIO();
@@ -268,6 +280,14 @@ int main() {
         waterFlowTexture.Activate();
         sedimentTexture.Activate();
 
+        rock_face_albedo.Activate();
+        rock_face_arm.Activate();
+        rock_face_normal.Activate();
+
+        terrain_albedo.Activate();
+        terrain_arm.Activate();
+        terrain_normal.Activate();
+
         if (reloadTerrain) {
             noiseGenerator.useShader(textureSize / 32, textureSize / 32, 1);
             noiseGenerator.set_int("albedoHeightSampler", 0);
@@ -363,6 +383,15 @@ int main() {
         mainShader.set_int("waterTextureSampler", 2);
         mainShader.set_int("waterFlowSampler", 3);
         mainShader.set_int("sedimentSampler", 4);
+
+        mainShader.set_int("rock_face_albedo_s", 5);
+        mainShader.set_int("rock_face_arm_s", 6);
+        mainShader.set_int("rock_face_normal_s", 7);
+
+        mainShader.set_int("terrain_albedo_s", 8);
+        mainShader.set_int("terrain_arm_s", 9);
+        mainShader.set_int("terrain_normal_s", 10);
+
 
         mainShader.set_vec3("cameraPos", position);
         mainShader.set_vec3("sunDirection", glm::vec3(_sun[0], _sun[1], _sun[2]));
