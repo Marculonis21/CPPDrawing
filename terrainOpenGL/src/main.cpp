@@ -77,7 +77,7 @@ int main() {
 
     // Enable depth test
     glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
+    /* glDepthFunc(GL_LESS); */
     glViewport(0, 0, screen_width, screen_height);
 
     //glShadeModel(GL_SMOOTH);
@@ -187,7 +187,7 @@ int main() {
     int nbFrames = 0;
 
     float _sun[3];
-    glm::vec3 sunPosition(1, 1, 1);
+    glm::vec3 sunPosition(1, 1, 8);
     _sun[0] = sunPosition.x;
     _sun[1] = sunPosition.y;
     _sun[2] = sunPosition.z;
@@ -429,7 +429,7 @@ int main() {
         mainShader.useShader();
         mainShader.set_mat4("MVP", MVP);
         mainShader.set_vec3("cameraPos", position);
-        mainShader.set_vec3("sunDirection", glm::vec3(_sun[0], _sun[1], _sun[2]));
+        mainShader.set_vec3("sunPosition", glm::vec3(_sun[0], _sun[1], _sun[2]));
         mainShader.set_float("waterLevel", waterLevel);
         mainShader.set_float("sandLevel", sandLevel);
         mainShader.set_float("grassLevel", grassLevel);
@@ -442,7 +442,7 @@ int main() {
         waterDrawShader.useShader();
         waterDrawShader.set_mat4("MVP", MVP);
         waterDrawShader.set_vec3("cameraPos", position);
-        waterDrawShader.set_vec3("sunDirection", glm::vec3(_sun[0], _sun[1], _sun[2]));
+        waterDrawShader.set_vec3("sunPosition", glm::vec3(_sun[0], _sun[1], _sun[2]));
 
         waterMesh.activate();
         glDrawElements(GL_PATCHES, waterMesh.indexCount, GL_UNSIGNED_INT, 0);

@@ -51,7 +51,7 @@ Texture2D::Texture2D(const std::string &path, GLuint slot, GLenum pixelFormat) {
     glTextureParameteri(textureID, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
     glTextureStorage2D(textureID, 1, format, width, height);
-    glBindImageTexture(slot, textureID, 0, GL_FALSE, 0, GL_READ_WRITE, GL_RGBA32F);
+    glBindImageTexture(slot, textureID, 0, GL_FALSE, 0, GL_READ_ONLY, GL_RGBA32F);
 
     AddData(pixelFormat, GL_UNSIGNED_BYTE, data);
 }
