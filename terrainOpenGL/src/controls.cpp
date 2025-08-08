@@ -28,8 +28,9 @@ float verticalAngle = -.8f;
 // Initial Field of View
 float initialFoV = 45.0f;
 
-float speed = 5.0f; // 3 units / second
-float mouseSpeed = 0.005f;
+const float base_speed = 1.0f; // 3 units / second
+const float mouseSpeed = 0.005f;
+float speed;
 
 
 void computeMatricesFromInputs(GLFWwindow* window, int screen_width, int screen_height ){
@@ -69,6 +70,15 @@ void computeMatricesFromInputs(GLFWwindow* window, int screen_width, int screen_
 	// Up vector
 	glm::vec3 up = glm::cross( right, direction );
 
+	speed = base_speed;
+	if (glfwGetKey( window, GLFW_KEY_LEFT_SHIFT ) == GLFW_PRESS){
+		speed = base_speed * 4;
+	}
+
+	if (glfwGetKey( window, GLFW_KEY_LEFT_CONTROL ) == GLFW_PRESS){
+		speed = base_speed * 0.25;
+	}
+
 	// Move forward
 	if (glfwGetKey( window, GLFW_KEY_W ) == GLFW_PRESS){
 		position += direction * deltaTime * speed;
@@ -97,7 +107,7 @@ void computeMatricesFromInputs(GLFWwindow* window, int screen_width, int screen_
 	float FoV = initialFoV;// - 5 * glfwGetMouseWheel(); // Now GLFW 3 requires setting up a callback for this. It's a bit too complicated for this beginner's tutorial, so it's disabled instead.
 
 	// Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
-	ProjectionMatrix = glm::perspective(glm::radians(FoV), float(screen_width) / float(screen_height), 0.1f, 1000.0f);
+	ProjectionMatrix = glm::perspective(glm::radians(FoV), float(screen_width) / float(screen_height), 0.01f, 100.0f);
 	// Camera matrix
 	ViewMatrix       = glm::lookAt(
 								position,           // Camera is here
