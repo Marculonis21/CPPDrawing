@@ -22,7 +22,7 @@ layout(binding = 9) uniform sampler2D  terrain_arm_s;
 layout(binding = 10) uniform sampler2D terrain_normal_s;
 
 uniform vec3 cameraPos;
-uniform vec3 sunDirection;
+uniform vec3 sunPosition;
 uniform float waterLevel;
 
 float get_height(vec2 uv)
@@ -124,21 +124,24 @@ void main() {
 
     float UV_SCALE = 10;
 
-    vec3 rock_albedo     = texture(rock_face_albedo_s, UV*UV_SCALE*4).rgb;
+    vec3 rock_albedo     = pow(texture(rock_face_albedo_s, UV*UV_SCALE*4).rgb, vec3(2.2));
     float rock_ao        = texture(rock_face_arm_s   , UV*UV_SCALE*4).r;
     float rock_roughness = texture(rock_face_arm_s   , UV*UV_SCALE*4).g;
     float rock_metallic  = texture(rock_face_arm_s   , UV*UV_SCALE*4).b;
-    vec3 rock_normal     = texture(rock_face_normal_s, UV*UV_SCALE*4).rgb;
+    vec3 rock_normal     = texture(rock_face_normal_s, UV*UV_SCALE*4).rbg; //switching rgb to rbg because I take y as up and normals usually take z as up (gl vs dx norms)
+    rock_normal = rock_normal * 2.0 - 1.0;
                                                      
-    vec3 terrain_albedo     = texture(terrain_albedo_s, UV*UV_SCALE).rgb;
+    vec3 terrain_albedo     = pow(texture(terrain_albedo_s, UV*UV_SCALE).rgb, vec3(2.2));
     float terrain_ao        = texture(terrain_arm_s   , UV*UV_SCALE).r;
     float terrain_roughness = texture(terrain_arm_s   , UV*UV_SCALE).g;
     float terrain_metallic  = texture(terrain_arm_s   , UV*UV_SCALE).b;
-    vec3 terrain_normal     = texture(terrain_normal_s, UV*UV_SCALE).rgb;
-
+    vec3 terrain_normal     = texture(terrain_normal_s, UV*UV_SCALE).rbg;
+    terrain_normal = terrain_normal * 2.0 - 1.0;
+    // for proper normals we need normal mapping (tangent space calc - todo later)
+        
     float grassW = get_grassW(NORMAL);
     albedo = mix(terrain_albedo, rock_albedo, grassW);
-    normal = mix(NORMAL+terrain_normal, NORMAL+rock_normal, grassW);
+    normal = normalize(mix(NORMAL+terrain_normal, NORMAL+rock_normal, grassW));
     metallic = mix(terrain_metallic, rock_metallic, grassW);
     roughness = mix(terrain_roughness, rock_roughness, grassW);
     ao = mix(terrain_ao, rock_ao, grassW);
@@ -146,10 +149,19 @@ void main() {
     vec3 N = normalize(normal);
     vec3 V = normalize(cameraPos - pos);
 
-    vec3 L = normalize(sunDirection);
+    vec3 L = normalize(sunPosition);
     vec3 H = normalize(V + L);
 
-    vec3 lightColor = vec3(1, 0.949, 0.906);
+    vec3 wi = normalize(sunPosition - pos);
+    float cosTheta    = max(dot(N, wi), 0.0);
+
+    vec3 lightColor = vec3(1, 0.949, 0.906)*5;
+
+    float distance    = length(sunPosition - pos);
+    float attenuation = 1;
+    //float attenuation = 1.0 / (distance * distance);
+
+    vec3 radiance = lightColor * attenuation * cosTheta;
 
     float NDF = GGX_Distribution(N, H, roughness);
     float G = GeometrySmith(N, V, L, roughness);
@@ -169,7 +181,7 @@ void main() {
 
     vec3 diffuse = kD * albedo / M_PI;
 
-    vec3 lighting = (diffuse + specular) * max(dot(N, L), 0.0) * lightColor;
+    vec3 lighting = (diffuse + specular) * max(dot(N, L), 0.0) * radiance;
     vec3 ambient = vec3(0.03) * albedo * ao;
 
     vec3 _color = ambient + lighting;
