@@ -33,7 +33,7 @@ const float mouseSpeed = 0.005f;
 float speed;
 
 
-void computeMatricesFromInputs(GLFWwindow* window, int screen_width, int screen_height ){
+void computeMatricesFromInputs(GLFWwindow* window, int screen_width, int screen_height){
 
 	// glfwGetTime is called only once, the first time this function is called
 	static double lastTime = glfwGetTime();

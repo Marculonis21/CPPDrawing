@@ -25,10 +25,10 @@ void main()
     float dist2 = length(vec4(cameraPos,1) - c3);
     float dist3 = length(vec4(cameraPos,1) - c4);
 
-    //int tes0 = int(mix(8.0, 2.0, clamp(dist0/15.0, 0.0, 1.0)));
-    //int tes1 = int(mix(8.0, 2.0, clamp(dist1/15.0, 0.0, 1.0)));
-    //int tes2 = int(mix(8.0, 2.0, clamp(dist2/15.0, 0.0, 1.0)));
-    //int tes3 = int(mix(8.0, 2.0, clamp(dist3/15.0, 0.0, 1.0)));
+    //int tes0 = int(mix(32.0, 2.0, clamp(dist0/10.0, 0.0, 1.0)));
+    //int tes1 = int(mix(32.0, 2.0, clamp(dist1/10.0, 0.0, 1.0)));
+    //int tes2 = int(mix(32.0, 2.0, clamp(dist2/10.0, 0.0, 1.0)));
+    //int tes3 = int(mix(32.0, 2.0, clamp(dist3/10.0, 0.0, 1.0)));
 
     int tes0 = 64;
     int tes1 = 64;

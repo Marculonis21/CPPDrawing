@@ -1,6 +1,7 @@
 #include "texture2D.hpp"
 #include <GL/gl.h>
 #include <cassert>
+#include <cmath>
 #include <exception>
 #include <iostream>
 #include <string>
@@ -44,16 +45,25 @@ Texture2D::Texture2D(const std::string &path, GLuint slot, GLenum pixelFormat) {
     this->format = GL_RGBA32F;
     this->bindSlot = slot;
 
+    GLuint levels = static_cast<GLuint>(std::floor(std::log2(std::max(width, height)))) + 1;
+    std::cout << levels << std::endl;
+
     glCreateTextures(GL_TEXTURE_2D, 1, &textureID);
-    glTextureParameteri(textureID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTextureStorage2D(textureID, levels, format, width, height);
+
+    glTextureParameteri(textureID, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTextureParameteri(textureID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTextureParameteri(textureID, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTextureParameteri(textureID, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-    glTextureStorage2D(textureID, 1, format, width, height);
+
     glBindImageTexture(slot, textureID, 0, GL_FALSE, 0, GL_READ_ONLY, GL_RGBA32F);
 
     AddData(pixelFormat, GL_UNSIGNED_BYTE, data);
+
+    glGenerateTextureMipmap(textureID);
+
+    stbi_image_free(data);
 }
 
 Texture2D::~Texture2D() noexcept

@@ -73,7 +73,6 @@ int main() {
 
     // Dark blue background
     glClearColor(0.1f, 0.1f, 0.1f, 0.0f);
-    /* glClearColor(0.5,0.7,1.0,1); */
 
     // Enable depth test
     glEnable(GL_DEPTH_TEST);
@@ -155,13 +154,13 @@ int main() {
     Texture2D sedimentTexture(waterTextureSize,waterTextureSize, 4, GL_RGBA32F);
 
     // Load textures
-    Texture2D rock_face_albedo("assets/textures/rock_face_03_1k/rock_face_03_diff_1k.png", 5, GL_RGB);
-    Texture2D rock_face_arm("assets/textures/rock_face_03_1k/rock_face_03_arm_1k.png", 6, GL_RGB);
-    Texture2D rock_face_normal("assets/textures/rock_face_03_1k/rock_face_03_nor_gl_1k.png", 7, GL_RGB);
+    Texture2D rock_face_albedo("assets/textures/rock_face_03_4k/rock_face_03_diff_4k.png", 5, GL_RGB);
+    Texture2D rock_face_arm("assets/textures/rock_face_03_4k/rock_face_03_arm_4k.png", 6, GL_RGB);
+    Texture2D rock_face_normal("assets/textures/rock_face_03_4k/rock_face_03_nor_gl_4k.png", 7, GL_RGB);
 
-    Texture2D terrain_albedo("assets/textures/rocky_terrain_02_1k/rocky_terrain_02_diff_1k.png", 8);
-    Texture2D terrain_arm("assets/textures/rocky_terrain_02_1k/rocky_terrain_02_arm_1k.png", 9, GL_RGB);
-    Texture2D terrain_normal("assets/textures/rocky_terrain_02_1k/rocky_terrain_02_nor_gl_1k.png", 10);
+    Texture2D terrain_albedo("assets/textures/aerial_grass_rock_4k/aerial_grass_rock_diff_4k.png", 8);
+    Texture2D terrain_arm("assets/textures/aerial_grass_rock_4k/aerial_grass_rock_arm_4k.png", 9);
+    Texture2D terrain_normal("assets/textures/aerial_grass_rock_4k/aerial_grass_rock_nor_gl_4k.png", 10);
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -191,6 +190,8 @@ int main() {
     _sun[0] = sunPosition.x;
     _sun[1] = sunPosition.y;
     _sun[2] = sunPosition.z;
+
+    float steep = 0.5;
 
     // shader prep textures
     albedoHeightTexture.Activate();
@@ -248,6 +249,7 @@ int main() {
     erosionDeposition.set_int("waterFlowSampler", 3);
     erosionDeposition.set_int("sedimentSampler", 4);
     erosionDeposition.set_float("timeStep", erosionTimeStep);
+
     erosionDeposition.set_float("K_C", 1.0);
     erosionDeposition.set_float("ALPHA_MIN", 0.4);
     erosionDeposition.set_float("K_DMAX", 1.0);
@@ -255,6 +257,7 @@ int main() {
     erosionDeposition.set_float("K_D", 0.01);
     erosionDeposition.set_float("K_H", 0.01);
     erosionDeposition.set_float("K_H_MIN", 0.1);
+
 
     erosionTransport.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
     erosionTransport.set_int("tTextureSize", textureSize);
@@ -291,10 +294,11 @@ int main() {
 
 
 
+    double currentTime;
     while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
            glfwWindowShouldClose(window) == 0) {
         // FPS COUNTER
-        double currentTime = glfwGetTime();
+        currentTime = glfwGetTime();
         nbFrames++;
         if (currentTime - lastTime >= 1.0) { // If last prinf() was more than 1
                                              // sec ago printf and reset timer
@@ -334,6 +338,9 @@ int main() {
         ImGui::DragFloat("##grass", &grassLevel, 0.01, 0);
 
         ImGui::DragFloat3("sunPosition:", _sun, 0.1, 0.0);
+
+        ImGui::Text("Steep");
+        ImGui::DragFloat("##steep", &steep, 0.01, 0, 1);
         ImGui::End();
 
         if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
@@ -433,6 +440,7 @@ int main() {
         mainShader.set_float("waterLevel", waterLevel);
         mainShader.set_float("sandLevel", sandLevel);
         mainShader.set_float("grassLevel", grassLevel);
+        mainShader.set_float("steep", steep);
 
         terrainMesh.activate();
 

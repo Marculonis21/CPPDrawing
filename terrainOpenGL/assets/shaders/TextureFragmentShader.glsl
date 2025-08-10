@@ -24,6 +24,7 @@ layout(binding = 10) uniform sampler2D terrain_normal_s;
 uniform vec3 cameraPos;
 uniform vec3 sunPosition;
 uniform float waterLevel;
+uniform float steep;
 
 float get_height(vec2 uv)
 {
@@ -109,7 +110,7 @@ uint pcg_hash(uint state)
 float get_grassW(vec3 normal) {
     float slope = 1 - normal.y;
 
-    float grassW = 1 - clamp((slope - 0.5)/ 0.5, 0.0, 1.0);
+    float grassW = 1 - clamp((slope - steep)/steep, 0.0, 1.0);
     return 1-grassW;
 }
 
@@ -122,13 +123,13 @@ void main() {
     float roughness;
     float ao;
 
-    float UV_SCALE = 10;
+    float UV_SCALE = 8;
 
-    vec3 rock_albedo     = pow(texture(rock_face_albedo_s, UV*UV_SCALE*4).rgb, vec3(2.2));
-    float rock_ao        = texture(rock_face_arm_s   , UV*UV_SCALE*4).r;
-    float rock_roughness = texture(rock_face_arm_s   , UV*UV_SCALE*4).g;
-    float rock_metallic  = texture(rock_face_arm_s   , UV*UV_SCALE*4).b;
-    vec3 rock_normal     = texture(rock_face_normal_s, UV*UV_SCALE*4).rbg; //switching rgb to rbg because I take y as up and normals usually take z as up (gl vs dx norms)
+    vec3 rock_albedo     = pow(texture(rock_face_albedo_s, UV*UV_SCALE).rgb, vec3(2.2));
+    float rock_ao        = texture(rock_face_arm_s   , UV*UV_SCALE).r;
+    float rock_roughness = texture(rock_face_arm_s   , UV*UV_SCALE).g;
+    float rock_metallic  = texture(rock_face_arm_s   , UV*UV_SCALE).b;
+    vec3 rock_normal     = texture(rock_face_normal_s, UV*UV_SCALE).rbg; //switching rgb to rbg because I take y as up and normals usually take z as up (gl vs dx norms)
     rock_normal = rock_normal * 2.0 - 1.0;
                                                      
     vec3 terrain_albedo     = pow(texture(terrain_albedo_s, UV*UV_SCALE).rgb, vec3(2.2));
@@ -138,7 +139,7 @@ void main() {
     vec3 terrain_normal     = texture(terrain_normal_s, UV*UV_SCALE).rbg;
     terrain_normal = terrain_normal * 2.0 - 1.0;
     // for proper normals we need normal mapping (tangent space calc - todo later)
-        
+
     float grassW = get_grassW(NORMAL);
     albedo = mix(terrain_albedo, rock_albedo, grassW);
     normal = normalize(mix(NORMAL+terrain_normal, NORMAL+rock_normal, grassW));

@@ -42,10 +42,10 @@ void main()
     vec4 waterTexture = texture(waterTextureSampler, UV);
     float waterHeight = waterTexture.w;
 
-    if(waterHeight < 0.0001)
-    {
-        waterHeight = -0.0001;
-    }
+    //if(waterHeight < 0.0001)
+    //{
+    //    waterHeight = -0.0001;
+    //}
 
     POS = _pos.xyz + vec3(0,1,0)*(terrainHeight+waterHeight)*1;
     gl_Position = MVP * vec4(POS, 1);

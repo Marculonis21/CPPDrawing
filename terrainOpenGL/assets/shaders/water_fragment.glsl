@@ -18,9 +18,12 @@ uniform vec3 sunPosition;
 const float sizeOfMesh = 8.0;
 const float HEIGHTMULT = 1.0;
 
-float get_height(vec2 uv)
-{
+float get_height(vec2 uv) {
     return texture(albedoHeightSampler, uv).w + texture(waterTextureSampler, uv).w;
+}
+
+float get_depth(vec2 uv) {
+    return texture(waterTextureSampler, uv).w;
 }
 
 vec3 get_terrain_color(vec2 uv)
@@ -131,13 +134,20 @@ void main(){
 
     /* color = get_reflection(POS, camReflect); */
 
-    float depth = get_depth(POS, normalize(POS-cameraPos));
-    depth = exp(depth*2);
-    color = vec4(0.2,0.2,0.5,depth/2);
-    vec3 normal = get_normal(POS.xz/sizeOfMesh);
-    color *= max(dot(normal, normalize(sunPosition - pos)), 0.75);
+    //float depth = get_depth(POS, normalize(POS-cameraPos));
+
+    //depth = exp(depth*2);
+    //color = vec4(0.2,0.2,0.5,depth/2);
+    //vec3 normal = get_normal(POS.xz/sizeOfMesh);
+    //color *= max(dot(normal, normalize(sunPosition - pos)), 0.75);
 
     color = vec4(texture(waterFlowSampler, UV).rgb, 1);
+    
+    float depth = get_depth(UV);
+    if (depth < 0.001) {
+        color = vec4(1,0,0,1);
+        color.a = min(depth*1000, 0);
+    }
     //vec2 waterVel = texture(waterTextureSampler, UV).xy;
     //color = vec4(waterVel, 0, 1);
 
