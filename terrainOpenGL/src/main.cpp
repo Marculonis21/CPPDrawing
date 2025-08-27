@@ -2,6 +2,8 @@
 #include <cmath>
 #include <glm/common.hpp>
 #include <glm/exponential.hpp>
+#include <glm/ext/matrix_clip_space.hpp>
+#include <glm/ext/matrix_transform.hpp>
 #include <glm/ext/scalar_constants.hpp>
 #include <glm/fwd.hpp>
 #include <glm/geometric.hpp>
@@ -9,6 +11,7 @@
 #include <random>
 #include <stdlib.h>
 #include <string>
+#include <sys/types.h>
 #include <tbb/tbb_stddef.h>
 #include <vector>
 
@@ -161,6 +164,31 @@ int main() {
     Texture2D terrain_albedo("assets/textures/aerial_grass_rock_4k/aerial_grass_rock_diff_4k.png", 8);
     Texture2D terrain_arm("assets/textures/aerial_grass_rock_4k/aerial_grass_rock_arm_4k.png", 9);
     Texture2D terrain_normal("assets/textures/aerial_grass_rock_4k/aerial_grass_rock_nor_gl_4k.png", 10);
+
+    // Shadow Maps
+    /* GLuint depthFBO; */
+    /* glGenFramebuffers(1, &depthFBO); */
+    /* glBindFramebuffer(GL_FRAMEBUFFER, depthFBO); */
+
+    /* const uint sWidth = 2048, sHeight = 2048; */
+    /* GLuint depthMap; */
+
+    /* glGenTextures(1, &depthMap); */
+    /* glBindTexture(GL_TEXTURE_2D, depthMap); */
+    /* glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, sWidth, sHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr); */
+    /* glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST); */
+    /* glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST); */
+    /* glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER); */
+    /* glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER); */
+
+    /* glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthMap, 0); */
+
+    /* glDrawBuffer(GL_NONE); */
+    /* if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) { */
+    /*     std::cout << "SHADOW FRAME BUFFER FAILURE" << std::endl; */
+    /*     return 1; */
+    /* } */
+
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -393,6 +421,12 @@ int main() {
         terrain_albedo.Activate();
         terrain_arm.Activate();
         terrain_normal.Activate();
+
+        // Compute the MVP matrix from the light's point of view
+        /* glm::mat4 depthProjectionMatrix = glm::ortho<float>(-10,10,-10,10,-10,20); */
+        /* glm::mat4 depthViewMatrix = glm::lookAt(sunPosition, glm::vec3(0,0,0), glm::vec3(0,1,0)); */
+        /* glm::mat4 depthModelMatrix = glm::mat4(1.0); */
+        /* glm::mat4 depthMVP = depthProjectionMatrix * depthViewMatrix * depthModelMatrix; */
 
         if (reloadTerrain) {
             noiseGenerator.useShader(textureSize / 32, textureSize / 32, 1);

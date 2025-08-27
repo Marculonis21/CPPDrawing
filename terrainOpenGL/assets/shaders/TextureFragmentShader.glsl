@@ -5,6 +5,9 @@ in float HEIGHT;
 in vec3 NORMAL;
 in vec3 POS;
 
+in vec3 TANGENT;
+in vec3 BITANGENT;
+
 // Ouput data
 in vec3 COLOR;
 out vec4 color;
@@ -116,6 +119,8 @@ float get_grassW(vec3 normal) {
 
 void main() {
 
+    mat3 TBN = mat3(TANGENT, BITANGENT, NORMAL);
+
     vec3 pos = POS / 8;
     vec3 albedo;
     vec3 normal;
@@ -138,11 +143,14 @@ void main() {
     float terrain_metallic  = texture(terrain_arm_s   , UV*UV_SCALE).b;
     vec3 terrain_normal     = texture(terrain_normal_s, UV*UV_SCALE).rbg;
     terrain_normal = terrain_normal * 2.0 - 1.0;
+
     // for proper normals we need normal mapping (tangent space calc - todo later)
+    vec3 rock_normal_ws = normalize(TBN * rock_normal);
+    vec3 terrain_normal_ws = normalize(TBN * terrain_normal);
 
     float grassW = get_grassW(NORMAL);
     albedo = mix(terrain_albedo, rock_albedo, grassW);
-    normal = normalize(mix(NORMAL+terrain_normal, NORMAL+rock_normal, grassW));
+    normal = normalize(mix(NORMAL+terrain_normal_ws, NORMAL+rock_normal_ws, grassW));
     metallic = mix(terrain_metallic, rock_metallic, grassW);
     roughness = mix(terrain_roughness, rock_roughness, grassW);
     ao = mix(terrain_ao, rock_ao, grassW);

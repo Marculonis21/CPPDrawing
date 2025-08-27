@@ -9,13 +9,28 @@ out float HEIGHT;
 out vec3 NORMAL;
 out vec3 COLOR;
 
+out vec3 TANGENT;
+out vec3 BITANGENT;
+
 uniform mat4 MVP;
 
 layout(binding = 0) uniform sampler2D albedoHeightSampler;
 layout(binding = 1) uniform sampler2D normalSampler;
 
-void main()
-{
+vec3 computeTangent(vec3 p0, vec3 p1, vec3 p2, vec2 uv0, vec2 uv1, vec2 uv2) {
+    vec3 edge1 = p1 - p0;
+    vec3 edge2 = p2 - p0;
+
+    vec2 deltaUV1 = uv1 - uv0;
+    vec2 deltaUV2 = uv2 - uv0;
+
+    float f = 1.0 / (deltaUV1.x * deltaUV2.y - deltaUV2.x * deltaUV1.y);
+
+    vec3 tangent = f * (deltaUV2.y * edge1 - deltaUV1.y * edge2);
+    return normalize(tangent);
+}
+
+void main() { 
     float u = gl_TessCoord.x;
     float v = gl_TessCoord.y;
 
@@ -41,11 +56,27 @@ void main()
     vec4 albedoHeight = texture(albedoHeightSampler, UV);
     vec4 normal = texture(normalSampler, UV);
 
-    NORMAL = normal.rgb;
+    NORMAL = normalize(normal.rgb);
 
     COLOR = albedoHeight.rgb;
     HEIGHT = albedoHeight.w;
 
     POS = _pos.xyz + vec3(0,1,0)*HEIGHT;
+
+
+    // Compute tangent and bitangent using triangle v0-v1-v2
+    vec3 p0 = pos0.xyz;
+    vec3 p1 = pos1.xyz;
+    vec3 p2 = pos2.xyz;
+
+    vec2 t0 = uv0;
+    vec2 t1 = uv1;
+    vec2 t2 = uv2;
+
+    vec3 T = computeTangent(p0, p1, p2, t0, t1, t2);
+
+    BITANGENT = normalize(cross(NORMAL, T)); // Construct bitangent
+    TANGENT = normalize(cross(BITANGENT, NORMAL));      // Orthonormalize tangent if needed
+                                          
     gl_Position = MVP * vec4(POS, 1);
 }

@@ -46,7 +46,6 @@ Texture2D::Texture2D(const std::string &path, GLuint slot, GLenum pixelFormat) {
     this->bindSlot = slot;
 
     GLuint levels = static_cast<GLuint>(std::floor(std::log2(std::max(width, height)))) + 1;
-    std::cout << levels << std::endl;
 
     glCreateTextures(GL_TEXTURE_2D, 1, &textureID);
     glTextureStorage2D(textureID, levels, format, width, height);
