@@ -208,7 +208,8 @@ void Compute::useShader(GLuint workGroup_X, GLuint workGroup_Y, GLuint workGroup
 
 void Compute::wait()
 {
-    glMemoryBarrier(GL_ALL_BARRIER_BITS);
+    /* glMemoryBarrier(GL_ALL_BARRIER_BITS); */
+    glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
 }
 
 Compute::~Compute()

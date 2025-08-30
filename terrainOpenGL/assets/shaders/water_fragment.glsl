@@ -141,13 +141,28 @@ void main(){
     //vec3 normal = get_normal(POS.xz/sizeOfMesh);
     //color *= max(dot(normal, normalize(sunPosition - pos)), 0.75);
 
-    color = vec4(texture(waterFlowSampler, UV).rgb, 1);
+    //vec2 vel = texture(waterTextureSampler, UV).xy;
+    //color = vec4(vel, 0, 1);
     
-    float depth = get_depth(UV);
-    if (depth < 0.001) {
-        color = vec4(1,0,0,1);
-        color.a = min(depth*1000, 0);
+
+    vec4 sedTexture = texture(sedimentSampler, UV);
+    const float sedAmount = sedTexture.y;
+    const float C = sedTexture.z;
+    if (C > sedAmount) {
+        color = vec4(0,1,0,1);
     }
+    else {
+        color = vec4(1,0,0,1);
+    }
+    //color = vec4(vec3(texture(sedimentSampler, UV).z)*1, 1);
+    //color = vec4(texture(sedimentSampler, UV).rgb, 1);
+    //color = vec4(texture(waterTextureSampler, UV).xy, 0, 1);
+    
+    //float depth = get_depth(UV);
+    //if (depth < 0.001) {
+    //    color = vec4(1,0,0,1);
+    //    color.a = min(depth*1000, 0);
+    //}
     //vec2 waterVel = texture(waterTextureSampler, UV).xy;
     //color = vec4(waterVel, 0, 1);
 

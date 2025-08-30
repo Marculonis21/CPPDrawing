@@ -29,8 +29,9 @@ float l_max(float val) {
 
 float local_tilt(vec2 coords) {
     vec3 tNormal = imageLoad(normalSampler, ivec2(coords)).rgb;
-    //return acos(dot(tNormal, vec3(0,1,0))); // local tilt
-    return dot(tNormal, vec3(0,1,0)); // local tilt
+
+    return acos(dot(tNormal, vec3(0,1,0))); // local tilt
+    //return dot(tNormal, vec3(0,1,0)); // local tilt
 }
 
 void main()
@@ -51,41 +52,51 @@ void main()
 
     if(wHeight <= 0) return;
 
-    float sedAmount = sedimentTexture.w;
-    float hardnesCoef = sedimentTexture.x;
+    float sedAmount = sedimentTexture.x;
+    // hardness might be not working well...
+    //float hardnesCoef = sedimentTexture.x;
 
     // find transport cap
 
     float alpha = local_tilt(coords);
 
+    //const float C = K_C * sin(max(ALPHA_MIN, alpha)) * length(wVel) * l_max(wHeightOld); 
+    const float C = K_C * sin(max(ALPHA_MIN, alpha)) * length(wVel) * l_max(wHeightOld); 
     //float transportCap = K_C * sin(max(ALPHA_MIN, alpha)) * length(wVel) * l_max(wHeightOld); 
-    float transportCap = K_C * max(alpha, ALPHA_MIN) * length(wVel) * l_max(wHeightOld); 
+    //float transportCap = K_C * max(ALPHA_MIN, alpha) * length(wVel); 
 
     // solve dissolve/deposit
-    float sedAmountOld = sedAmount;
+    //float sedAmountOld = sedAmount;
+    
 
-    if(transportCap > sedAmount) {
-        float diff = (transportCap - sedAmount);
-        float dissolvedSoil = K_S*hardnesCoef*diff*timeStep;
+    float dSoil = (C > sedAmount) ? (-K_S * (C - sedAmount)) : (K_D * (sedAmount - C));
+    // dSoil *= timeStep;
 
-        tHeight = tHeight - dissolvedSoil;
-        wHeight = wHeight + dissolvedSoil;
-        sedAmount = sedAmount + dissolvedSoil;
-    }
-    else {
-        float diff = (sedAmount - transportCap);
-        float depositedSoil = clamp(K_D*diff, 0.0, wHeight)*timeStep; // ensures positive water height
-        //float depositedSoil = max(K_D*diff*timeStep, 0.0); // ensures positive water height
+    tHeight = tHeight + dSoil;
+    wHeight = max(0.0f, wHeight - dSoil);
+    sedAmount = max(0.0f, sedAmount - dSoil);
 
-        tHeight = tHeight + depositedSoil;
-        wHeight = wHeight - depositedSoil;
-        sedAmount = sedAmount - depositedSoil;
-    }
+    //if(transportCap > sedAmount) {
+    //    float diff = (transportCap - sedAmount);
+    //    //float dissolvedSoil = K_S*hardnesCoef*diff*timeStep;
+    //    float dissolvedSoil = K_S*diff*timeStep;
+    //    tHeight = tHeight - dissolvedSoil;
+    //    wHeight = wHeight + dissolvedSoil;
+    //    sedAmount = sedAmount + dissolvedSoil;
+    //}
+    //else {
+    //    float diff = (sedAmount - transportCap);
+    //    float depositedSoil = clamp(K_D*diff, 0.0, wHeight)*timeStep; // ensures positive water height
+    //    //float depositedSoil = min(K_D*diff*timeStep, min(wHeight*timeStep, sedAmount*timeStep));
 
-    hardnesCoef = max(K_H_MIN, hardnesCoef - timeStep * K_H * K_S * (sedAmountOld - transportCap));
+    //    tHeight = tHeight + depositedSoil;
+    //    wHeight = wHeight - depositedSoil;
+    //    sedAmount = sedAmount - depositedSoil;
+    //}
 
-    // WARN: NOT DONE CHECK WHAT NEEDS TO BE UPDATED
+    //hardnesCoef = max(K_H_MIN, hardnesCoef - timeStep * K_H * K_S * (sedAmountOld - transportCap));
+
     imageStore(albedoHeightSampler, ivec2(coords), vec4(albedoHeight.rgb, tHeight));
     imageStore(waterTextureSampler, ivec2(coords), vec4(wVel.xy, wHeightOld, wHeight));
-    imageStore(sedimentSampler, ivec2(coords), vec4(hardnesCoef,0,0,sedAmount));
+    imageStore(sedimentSampler, ivec2(coords), vec4(sedimentTexture.x, sedAmount, C, 0));
 }

@@ -278,11 +278,12 @@ int main() {
     erosionDeposition.set_int("sedimentSampler", 4);
     erosionDeposition.set_float("timeStep", erosionTimeStep);
 
-    erosionDeposition.set_float("K_C", 1.0);
-    erosionDeposition.set_float("ALPHA_MIN", 0.4);
+    erosionDeposition.set_float("K_C", 0.005);
+    erosionDeposition.set_float("ALPHA_MIN", 0.01);
     erosionDeposition.set_float("K_DMAX", 1.0);
-    erosionDeposition.set_float("K_S", 0.05);
-    erosionDeposition.set_float("K_D", 0.01);
+    erosionDeposition.set_float("K_S", 0.001);
+    erosionDeposition.set_float("K_D", 0.1);
+
     erosionDeposition.set_float("K_H", 0.01);
     erosionDeposition.set_float("K_H_MIN", 0.1);
 
@@ -298,7 +299,7 @@ int main() {
     erosionEvaporation.useShader(waterTextureSize/ 32, waterTextureSize/ 32, 1);
     erosionEvaporation.set_int("waterTextureSampler", 2);
     erosionEvaporation.set_float("timeStep", erosionTimeStep);
-    erosionEvaporation.set_float("evaporationConst", 0.01);
+    erosionEvaporation.set_float("evaporationConst", 0.5);
 
     mainShader.useShader();
     mainShader.set_int("tTextureSize", textureSize);

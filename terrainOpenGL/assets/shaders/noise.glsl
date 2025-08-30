@@ -149,5 +149,5 @@ void main()
     imageStore(albedoHeightSampler, ivec2(coords), albedoHeight);
     imageStore(waterTextureSampler, ivec2(coords), vec4(0));
     imageStore(waterFlowSampler, ivec2(coords), vec4(0));
-    imageStore(sedimentSampler, ivec2(coords), vec4(1,0,0,0)); // hardness starts at 1
+    imageStore(sedimentSampler, ivec2(coords), vec4(0.0,0,0,0)); 
 }
