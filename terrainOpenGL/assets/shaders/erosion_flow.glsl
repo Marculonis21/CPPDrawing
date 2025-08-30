@@ -55,7 +55,7 @@ void main()
     float a_R = (G * dh_R) / L_PIPE;
     float a_D = (G * dh_D) / L_PIPE;
 
-    float A_PIPE = (wHeight+tHeight)*30;
+    float A_PIPE = (wHeight+tHeight)*50;
     //float A_PIPE = 50;
 
     // no slip - no water can flow out of the grid
@@ -68,7 +68,8 @@ void main()
     float fSum = flow.r+flow.g+flow.b+flow.a;
 
     // float K = min(1, (wHeight*1*1)/((fSum)*timeStep));
-    float K = min(1, (wHeight*L_CELL*L_CELL)/(fSum*timeStep));
+    // outflow dampening
+    float K = clamp((wHeight*L_CELL*L_CELL)/(fSum*timeStep), 0.0f, 0.995f);
 
     // imageStore(waterTextureSampler, ivec2(coords), vec4(0,0,0, wHeight));
     imageStore(waterFlowSampler, ivec2(coords), K*flow);
