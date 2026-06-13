@@ -63,6 +63,26 @@ struct gravitationalObject
     glm::vec4 a_ip1; 
 };
 
+struct AppState {
+    bool mouseDown=false;
+    glm::vec4 mousePos;
+};
+
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mod)
+{
+    auto state = static_cast<AppState*>(glfwGetWindowUserPointer(window));
+
+    state->mouseDown = (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS);
+        
+    std::cout << state->mouseDown << std::endl;
+}
+
+void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
+{
+    auto state = static_cast<AppState*>(glfwGetWindowUserPointer(window));
+    state->mousePos = glm::vec4{xpos, ypos, 0, 0};
+}
+
 int main()
 {
     glfwInit();
@@ -80,7 +100,8 @@ int main()
     }
  
     glfwMakeContextCurrent(window);
-    glfwSwapInterval(0);;
+    glfwSwapInterval(0);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
  
     if (glewInit())
     {
@@ -117,12 +138,16 @@ int main()
     glCreateBuffers(1, &objectSSbo);
     std::vector<gravitationalObject> objectVector;
 
-    const int objectNumber = 1000;
+    const int objectNumber = 10000 + 1;
     objectVector.resize(objectNumber);
     glNamedBufferData(objectSSbo,objectNumber*sizeof(gravitationalObject), NULL, GL_STATIC_DRAW);
     for (int i = 0; i < objectVector.size(); ++i) 
     {
-        objectVector[i].x_i = glm::vec4{glm::linearRand(screen_width/4.0f, 3*screen_width/4.0f), glm::linearRand(screen_width/4.0f, 3*screen_width/4.0f), 0, 0};;
+        // 3D
+        if (i == 0) continue;
+        objectVector[i].x_i = glm::vec4{glm::linearRand(screen_width/4.0f, 3*screen_width/4.0f), 
+                                        glm::linearRand(screen_width/4.0f, 3*screen_width/4.0f), 
+                                        glm::linearRand(screen_width/4.0f, 3*screen_width/4.0f), 0};;
     }
 
     glNamedBufferSubData(objectSSbo, 0, objectNumber*sizeof(gravitationalObject), &objectVector[0]);
@@ -146,6 +171,12 @@ int main()
 
     bool spacePressed = false;
 
+    AppState state;
+    glfwSetWindowUserPointer(window, &state);
+
+    glfwSetMouseButtonCallback(window, mouse_button_callback);
+    glfwSetCursorPosCallback(window, cursor_position_callback);
+
     std::string test;
     while (!glfwWindowShouldClose(window))
     {
@@ -164,12 +195,15 @@ int main()
         }
 
         // compute shader part
-
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 2, objectSSbo);
         accelShader.use_shader(objectNumber/8,objectNumber/8,1);
+        accelShader.set_float("attractorMass", 100000.0*state.mouseDown);
+        accelShader.set_vec4("attractorPos", state.mousePos);
         accelShader.wait();
 
         updateShader.use_shader(objectNumber,1,1);
+        updateShader.set_float("attractorMass", 100000.0*state.mouseDown);
+        updateShader.set_vec4("attractorPos", state.mousePos);
         updateShader.wait();
 
         // drawing part
@@ -180,6 +214,7 @@ int main()
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         glfwSwapBuffers(window);
+
         glfwPollEvents();
     }
  
